@@ -73,8 +73,8 @@ interface CartItem {
 // Translations
 const t = {
   sv: {
-    freeShipping: 'Gratis frakt',
-    over249: 'över 249 kr',
+    freeShipping: 'Fri frakt i hela Sverige',
+    over249: '',
     openPurchase: '30 dagars öppet köp',
     heroTitle: 'Vilda mönster,',
     heroTitle2: 'perfekt passform',
@@ -91,7 +91,7 @@ const t = {
     bundle: '3-pack',
     bundleDesc: '3 par för 99 kr',
     trustTitle: 'Varför Rock\'N Socks?',
-    freeShipping2: 'Gratis frakt över 249 kr',
+    freeShipping2: 'Fri frakt i hela Sverige',
     freeShippingText: 'Snabb leverans med PostNord, 2-4 vardagar',
     returns: '30 dagars retur',
     returnsText: 'Inga frågor, pengarna tillbaka',
@@ -101,8 +101,8 @@ const t = {
     secureText: 'Klarna, kort, Apple Pay & Google Pay',
     footerDesc: 'Vilda mönster för vilda själar.',
     contact: 'Kontakt',
-    email: 'info@rocknsocks.se',
-    phone: '+46 70 123 45 67',
+    email: 'info@auroraecom.se',
+    phone: '',
     address: 'Stockholm, Sverige',
     about: 'Om oss',
     aboutText: 'Vi på Rock\'N Socks letar världen över efter de mest unika och roliga mönstren. Vi tror att livet är för kort för tråkiga strumpor!',
@@ -129,8 +129,8 @@ const t = {
     shopAll: 'Visa alla',
   },
   en: {
-    freeShipping: 'Free shipping',
-    over249: 'over 249 kr',
+    freeShipping: 'Free shipping Sweden',
+    over249: '',
     openPurchase: '30 day open purchase',
     heroTitle: 'Wild patterns,',
     heroTitle2: 'perfect fit',
@@ -147,7 +147,7 @@ const t = {
     bundle: '3-pack',
     bundleDesc: '3 pairs for 99 kr',
     trustTitle: 'Why Rock\'N Socks?',
-    freeShipping2: 'Free shipping over 249 kr',
+    freeShipping2: 'Free shipping Sweden',
     freeShippingText: 'Fast delivery with PostNord, 2-4 business days',
     returns: '30 day returns',
     returnsText: 'No questions, money back',
@@ -157,8 +157,8 @@ const t = {
     secureText: 'Klarna, card, Apple Pay & Google Pay',
     footerDesc: 'Wild patterns for wild souls.',
     contact: 'Contact',
-    email: 'info@rocknsocks.se',
-    phone: '+46 70 123 45 67',
+    email: 'info@auroraecom.se',
+    phone: '',
     address: 'Stockholm, Sweden',
     about: 'About us',
     aboutText: 'At Rock\'N Socks we search the world for the most unique and fun patterns. We believe life is too short for boring socks!',
@@ -537,19 +537,29 @@ function MainContent() {
   
   return (
     <div className="min-h-screen bg-white">
-      {/* Announcement Bar */}
-      <div className="bg-gradient-to-r from-slate-900 via-pink-600 to-slate-900 py-3">
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-8 text-white text-sm font-medium">
-          <span className="flex items-center gap-2">
-            <Truck className="w-4 h-4" /> {txt.freeShipping} {txt.over249}
-          </span>
-          <span className="hidden md:inline text-slate-300">|</span>
-          <span className="hidden md:flex items-center gap-2">
-            <RotateCcw className="w-4 h-4" /> {txt.openPurchase}
-          </span>
-          <div className="absolute right-4">
-            <LanguageSwitcher />
-          </div>
+      {/* Announcement Bar - Marquee */}
+      <div className="bg-gradient-to-r from-slate-900 via-pink-600 to-slate-900 py-3 overflow-hidden relative">
+        {/* Sliding marquee */}
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[1, 2, 3].map((i) => (
+            <span key={i} className="mx-8 flex items-center gap-8 text-white text-sm font-medium">
+              <span className="flex items-center gap-2">
+                <Truck className="w-4 h-4" /> {txt.freeShipping}
+              </span>
+              <span className="text-slate-300">•</span>
+              <span className="flex items-center gap-2">
+                <RotateCcw className="w-4 h-4" /> {txt.openPurchase}
+              </span>
+              <span className="text-slate-300">•</span>
+              <span className="flex items-center gap-2">
+                <Shield className="w-4 h-4" /> {txt.secure}
+              </span>
+            </span>
+          ))}
+        </div>
+        {/* Language switcher overlay */}
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden md:block">
+          <LanguageSwitcher />
         </div>
       </div>
       
@@ -737,9 +747,6 @@ function MainContent() {
               <div className="space-y-3 text-slate-400">
                 <a href={`mailto:${txt.email}`} className="flex items-center gap-2 hover:text-white transition-colors">
                   <Mail className="w-4 h-4" /> {txt.email}
-                </a>
-                <a href={`tel:${txt.phone}`} className="flex items-center gap-2 hover:text-white transition-colors">
-                  <Phone className="w-4 h-4" /> {txt.phone}
                 </a>
                 <p className="flex items-center gap-2">
                   <MapPin className="w-4 h-4" /> {txt.address}
