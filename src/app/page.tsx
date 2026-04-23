@@ -568,9 +568,7 @@ function MainContent() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl flex items-center justify-center shadow-lg shadow-pink-500/30">
-                <span className="text-2xl">🧦</span>
-              </div>
+              <img src="/logo.svg" alt="Rock'N Socks" className="w-12 h-12" />
               <div>
                 <span className="text-2xl font-black text-slate-900 tracking-tight">Rock'N</span>
                 <span className="text-2xl font-black text-pink-500"> Socks</span>
@@ -733,9 +731,7 @@ function MainContent() {
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl flex items-center justify-center">
-                  <span className="text-2xl">🧦</span>
-                </div>
+                <img src="/logo.svg" alt="Rock'N Socks" className="w-12 h-12" />
                 <div>
                   <span className="text-xl font-black text-white">Rock'N</span>
                   <span className="text-xl font-black text-pink-400"> Socks</span>

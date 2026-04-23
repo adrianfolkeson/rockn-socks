@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Outer glow -->
+  <defs>
+    <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EC4899"/>
+      <stop offset="100%" style="stop-color:#F43F5E"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Heart shape -->
+  <path d="M50 88 C20 60, 5 40, 15 25 C25 10, 45 15, 50 30 C55 15, 75 10, 85 25 C95 40, 80 60, 50 88Z" 
+        fill="url(#heartGrad)" filter="url(#glow)"/>
+  
+  <!-- Shine -->
+  <ellipse cx="35" cy="35" rx="8" ry="5" fill="white" opacity="0.3" transform="rotate(-30 35 35)"/>
+</svg>

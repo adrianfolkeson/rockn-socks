@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <linearGradient id="pinkRose" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EC4899"/>
+      <stop offset="100%" stop-color="#BE185D"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#EC4899" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Main heart -->
+  <path d="M60 105 C25 70, 5 50, 18 30 C30 12, 55 20, 60 38 C65 20, 90 12, 102 30 C115 50, 95 70, 60 105Z" 
+        fill="url(#pinkRose)" filter="url(#shadow)"/>
+  
+  <!-- Shine highlight -->
+  <ellipse cx="40" cy="40" rx="12" ry="8" fill="url(#shine)" transform="rotate(-35 40 40)"/>
+  
+  <!-- Small sparkle -->
+  <circle cx="85" cy="35" r="4" fill="white" opacity="0.5"/>
+  <circle cx="30" cy="50" r="3" fill="white" opacity="0.3"/>
+</svg>
