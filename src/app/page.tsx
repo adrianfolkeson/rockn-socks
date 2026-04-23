@@ -604,18 +604,13 @@ function MainContent() {
       </header>
       
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-pink-50/30 to-rose-50/30 py-20 lg:py-32">
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-20 left-10 text-9xl animate-bounce">🧸</div>
-          <div className="absolute bottom-20 right-10 text-9xl animate-bounce" style={{animationDelay: '0.5s'}}>🦁</div>
-          <div className="absolute top-1/2 right-1/4 text-7xl animate-bounce" style={{animationDelay: '1s'}}>📺</div>
-        </div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-pink-50/30 to-rose-50/30 py-16 lg:py-24">
         
         <div className="relative max-w-7xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-700 px-4 py-2 rounded-full text-sm font-bold mb-6">
-                <Sparkles className="w-4 h-4" /> Nyheter varje vecka!
+                <Sparkles className="w-4 h-4" /> 60+ mönster för alla stilar!
               </div>
               <h1 className="text-5xl lg:text-7xl font-black text-slate-900 tracking-tight leading-[1.1] mb-6">
                 {txt.heroTitle}<br/>
@@ -623,8 +618,11 @@ function MainContent() {
                   {txt.heroTitle2}
                 </span>
               </h1>
-              <p className="text-xl text-slate-600 mb-8 max-w-lg leading-relaxed">
+              <p className="text-xl text-slate-600 mb-4 max-w-lg leading-relaxed">
                 {txt.heroSubtitle}
+              </p>
+              <p className="text-lg text-pink-600 font-bold mb-8">
+                ❤️ 5% av vinsten går till Rocka Sockorna
               </p>
               <div className="flex flex-wrap gap-4">
                 <a href="#products" className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-pink-500/30 hover:shadow-pink-500/50 transition-all duration-300">
@@ -633,7 +631,11 @@ function MainContent() {
               </div>
             </div>
             <div className="relative">
-              <div className="text-[200px] lg:text-[280px] text-center">🧦</div>
+              <img 
+                src="/gruppbild.png" 
+                alt="Rocka Sockorna gruppbild" 
+                className="w-full max-w-lg mx-auto rounded-3xl shadow-2xl"
+              />
             </div>
           </div>
         </div>
