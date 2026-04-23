@@ -1,26 +1,38 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
   <defs>
-    <linearGradient id="pinkRose" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#EC4899"/>
-      <stop offset="100%" stop-color="#BE185D"/>
-    </linearGradient>
-    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EF4444"/>
+      <stop offset="50%" stop-color="#DC2626"/>
+      <stop offset="100%" stop-color="#B91C1C"/>
     </linearGradient>
     <filter id="shadow">
-      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#EC4899" flood-opacity="0.3"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#7F1D1D" flood-opacity="0.4"/>
+    </filter>
+    <filter id="innerShadow">
+      <feOffset dx="0" dy="2"/>
+      <feGaussianBlur stdDeviation="2" result="offset-blur"/>
+      <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
+      <feFlood flood-color="#000" flood-opacity="0.2" result="color"/>
+      <feComposite operator="in" in="color" in2="inverse" result="shadow"/>
+      <feComposite operator="over" in="shadow" in2="SourceGraphic"/>
     </filter>
   </defs>
   
-  <!-- Main heart -->
-  <path d="M60 105 C25 70, 5 50, 18 30 C30 12, 55 20, 60 38 C65 20, 90 12, 102 30 C115 50, 95 70, 60 105Z" 
-        fill="url(#pinkRose)" filter="url(#shadow)"/>
+  <!-- Weird heart shape - asymmetrical -->
+  <path d="M60 110 C15 65, -5 45, 12 22 C28 0, 55 8, 60 30 C65 8, 92 0, 108 22 C125 45, 105 65, 60 110Z" 
+        fill="url(#redGrad)" filter="url(#shadow)"/>
   
-  <!-- Shine highlight -->
-  <ellipse cx="40" cy="40" rx="12" ry="8" fill="url(#shine)" transform="rotate(-35 40 40)"/>
+  <!-- Inner highlight -->
+  <path d="M60 95 C25 60, 8 45, 20 28 C32 12, 52 18, 56 32 C50 25, 40 20, 32 28 C24 36, 30 50, 55 80 C50 70, 45 58, 48 48 C52 35, 60 30, 60 30 C60 30, 68 35, 72 48 C75 58, 70 70, 65 80 C90 50, 96 36, 88 28 C80 20, 70 25, 64 32 C68 18, 88 12, 100 28 C112 45, 95 60, 60 95Z" 
+        fill="white" opacity="0.15"/>
   
-  <!-- Small sparkle -->
-  <circle cx="85" cy="35" r="4" fill="white" opacity="0.5"/>
-  <circle cx="30" cy="50" r="3" fill="white" opacity="0.3"/>
+  <!-- Text on heart -->
+  <text x="60" y="68" font-family="Arial Black, sans-serif" font-size="14" font-weight="900" 
+        fill="white" text-anchor="middle" filter="url(#innerShadow)">Rock'N</text>
+  <text x="60" y="82" font-family="Arial Black, sans-serif" font-size="10" font-weight="bold" 
+        fill="white" text-anchor="middle" opacity="0.9">Socks</text>
+  
+  <!-- Sparkle -->
+  <circle cx="92" cy="28" r="4" fill="white" opacity="0.6"/>
+  <circle cx="28" cy="40" r="3" fill="white" opacity="0.4"/>
 </svg>
