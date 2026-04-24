@@ -72,7 +72,7 @@ const products: Product[] = [
 const returnFAQs = [
   { q: 'Hur returnerar jag?', a: 'Kontakta oss via e-post så hjälper vi dig. Du har 30 dagars öppet köp.' },
   { q: 'Hur lång tid tar en retur?', a: '5-10 vardagar från att vi mottagit returen.' },
-  { q: 'Måste jag betala för returfrakt?', a: 'Nej! Vi står för returfrakten.' },
+  { q: 'Måste jag betala för returfrakt?', a: 'Strumpor omfattas av begränsad returrätt av hygieniska skäl och kan endast returneras om de är oanvända samt har kvar originalförpackning och obruten försegling. Vid reklamation (t.ex. fabriksfel eller felaktig leverans) står vi för returfrakten. Support@strumpmix.se' },
   { q: 'Kan jag byta storlek?', a: 'Av hygieniska skäl tar vi tyvärr inte emot returer eller byten av strumpor vid storleksfel. Vi rekommenderar att du noggrant kontrollerar storleksguiden innan köp.' },
 ]
 
