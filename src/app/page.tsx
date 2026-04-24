@@ -1279,25 +1279,6 @@ function MainContent() {
   
   return (
     <div className="min-h-screen bg-white">
-      {/* Announcement Bar */}
-      <div className="bg-gradient-to-r from-slate-900 via-pink-600 to-slate-900 py-2.5 sm:py-3 overflow-hidden relative">
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[1, 2, 3].map((i) => (
-            <span key={i} className="mx-6 sm:mx-8 flex items-center gap-4 sm:gap-6 sm:gap-8 text-white text-xs sm:text-sm font-medium">
-              <span className="flex items-center gap-1.5 sm:gap-2">
-                <Truck className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> {txt.freeShipping}
-              </span>
-              <span className="text-pink-300">•</span>
-              <span className="hidden xs:flex items-center gap-1.5 sm:gap-2">
-                <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> {txt.secure}
-              </span>
-            </span>
-          ))}
-        </div>
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 hidden md:block">
-          <LanguageSwitcher isDark />
-        </div>
-      </div>
       
       {/* Header */}
       <header className={`sticky top-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg shadow-slate-200/50' : 'bg-white'}`}>
@@ -1318,14 +1299,18 @@ function MainContent() {
             </a>
             
             {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-8">
+            <nav className="hidden md:flex items-center gap-6">
               <a href="#" className="font-semibold text-slate-900 hover:text-pink-600 transition-colors">Hem</a>
               <a href="#products" className="font-semibold text-slate-700 hover:text-pink-600 transition-colors">Shoppa</a>
               <a href="#about" className="font-semibold text-slate-700 hover:text-pink-600 transition-colors">Om oss</a>
             </nav>
             
             {/* Icons */}
-            <div className="flex items-center gap-1 sm:gap-2">
+            <div className="flex items-center gap-2 sm:gap-3">
+              {/* Language Switcher - Desktop */}
+              <div className="hidden lg:block">
+                <LanguageSwitcher />
+              </div>
               {/* Desktop icons */}
               <div className="hidden sm:flex items-center gap-1">
                 <button 
