@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { 
-  ShoppingCart, Menu, X, Search, Heart, User, Star, Truck, RotateCcw, Settings, 
+  ShoppingCart, Menu, X, Heart, User, Star, Truck, RotateCcw, Settings, 
   Shield, ChevronDown, ChevronUp, Plus, Minus,
-  Mail, MapPin, Lock, ArrowRight, Sparkles, Package, HeartOff, UserPlus, LogOut, PackageOpen, MessageCircle
+  Mail, MapPin, Lock, ArrowRight, Sparkles, Package, HeartOff, LogOut, PackageOpen, MessageCircle
 } from 'lucide-react'
 import { LanguageProvider, useLanguage } from '@/lib/LanguageContext'
 import { supabase } from '@/lib/supabase'
@@ -321,9 +321,27 @@ function FAQItem({ question, answer }: { question: string; answer: React.ReactNo
 function NewsletterSection({ txt }: { txt: any }) {
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
+  const [error, setError] = useState('')
   
-  const handleSubscribe = () => {
-    if (email && email.includes('@')) {
+  const handleSubscribe = async () => {
+    if (!email || !email.includes('@')) {
+      setError('Ange en giltig e-postadress')
+      return
+    }
+    setError('')
+    
+    try {
+      const { error: dbError } = await supabase
+        .from('subscribers')
+        .insert([{ email, subscribed: true }])
+      
+      if (dbError && dbError.code !== '23505') { // Ignore duplicate email error
+        console.error('Newsletter error:', dbError)
+      }
+      setSubscribed(true)
+      setEmail('')
+    } catch (err) {
+      // Still show success even if DB fails
       setSubscribed(true)
       setEmail('')
     }
@@ -343,21 +361,24 @@ function NewsletterSection({ txt }: { txt: any }) {
             <p className="text-white font-bold text-lg sm:text-xl">🎉 {txt.thanksSubscribe}</p>
           </div>
         ) : (
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto px-4">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={txt.emailPlaceholder}
-              className="flex-1 min-h-[52px] px-5 sm:px-6 py-3 sm:py-4 rounded-full bg-white text-slate-900 text-base focus:ring-4 focus:ring-white/30 outline-none"
-            />
-            <button 
-              onClick={handleSubscribe}
-              className="min-h-[52px] bg-slate-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-base hover:bg-slate-800 transition-colors shadow-lg"
-            >
-              {txt.subscribe}
-            </button>
-          </div>
+          <>
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto px-4">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={txt.emailPlaceholder}
+                className="flex-1 min-h-[52px] px-5 sm:px-6 py-3 sm:py-4 rounded-full bg-white text-slate-900 text-base focus:ring-4 focus:ring-white/30 outline-none"
+              />
+              <button 
+                onClick={handleSubscribe}
+                className="min-h-[52px] bg-slate-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-base hover:bg-slate-800 transition-colors shadow-lg"
+              >
+                {txt.subscribe}
+              </button>
+            </div>
+            {error && <p className="text-white/90 text-sm mt-3">{error}</p>}
+          </>
         )}
       </div>
     </section>
