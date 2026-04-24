@@ -1344,9 +1344,6 @@ function MainContent() {
               {/* Desktop icons */}
               <div className="hidden sm:flex items-center gap-1">
                 <button 
-                  onClick={() => {
-                    // Search functionality - can expand later
-                  }}
                   onClick={() => setShowSearch(!showSearch)}
                   className="p-3 hover:bg-slate-100 rounded-full transition-colors"
                 >
