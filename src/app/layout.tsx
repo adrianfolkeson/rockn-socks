@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Rock\'N Socks | Vilda mönster för alla stilar',
+  title: 'Strumpmix | Vilda mönster för alla stilar',
   description: 'Unika strumpor för alla stilar. Från dinosaurier till Harry Potter – hitta din favorit! Gratis frakt över 249 kr.',
   icons: {
     icon: '/favicon.svg',

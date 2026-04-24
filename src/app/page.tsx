@@ -102,7 +102,7 @@ const t = {
     sale: 'REA',
     reviews: 'recensioner',
     bundle: '3-pack',
-    trustTitle: 'Varför Rock\'N Socks?',
+    trustTitle: 'Varför Strumpmix?',
     freeShipping2: 'Fri frakt i hela Sverige',
     freeShippingText: 'Snabb leverans med PostNord, 2-4 vardagar',
     returns: '30 dagars retur',
@@ -116,7 +116,7 @@ const t = {
     email: 'info@auroraecom.se',
     address: 'Stockholm, Sverige',
     about: 'Om oss',
-    aboutText: 'Vi på Rock\'N Socks letar världen över efter de mest unika och roliga mönstren.',
+    aboutText: 'Vi på Strumpmix letar världen över efter de mest unika och roliga mönstren.',
     legal: 'Legal',
     terms: 'Köpvillkor',
     privacy: 'Integritetspolicy',
@@ -159,7 +159,7 @@ const t = {
     sale: 'SALE',
     reviews: 'reviews',
     bundle: '3-pack',
-    trustTitle: 'Why Rock\'N Socks?',
+    trustTitle: 'Why Strumpmix?',
     freeShipping2: 'Free shipping Sweden',
     freeShippingText: 'Fast delivery with PostNord, 2-4 business days',
     returns: '30 day returns',
@@ -173,7 +173,7 @@ const t = {
     email: 'info@auroraecom.se',
     address: 'Stockholm, Sweden',
     about: 'About us',
-    aboutText: 'At Rock\'N Socks we search the world for the most unique and fun patterns.',
+    aboutText: 'At Strumpmix we search the world for the most unique and fun patterns.',
     legal: 'Legal',
     terms: 'Terms',
     privacy: 'Privacy',
@@ -585,7 +585,7 @@ function MobileMenu({ isOpen, onClose, txt }: { isOpen: boolean; onClose: () => 
       <div className={`fixed left-0 top-0 h-full w-80 max-w-[85vw] bg-white z-50 shadow-2xl transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="p-6">
           <div className="flex items-center justify-between mb-8">
-            <img src="/logo.svg" alt="Rock'N Socks" className="h-10" />
+            <img src="/logo.svg" alt="Strumpmix" className="h-10" />
             <button onClick={onClose} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100">
               <X className="w-5 h-5" />
             </button>
@@ -711,7 +711,7 @@ function MainContent() {
             
             {/* Logo */}
             <div className="flex items-center gap-2">
-              <img src="/logo.svg" alt="Rock'N Socks" className="h-10" />
+              <img src="/logo.svg" alt="Strumpmix" className="h-10" />
             </div>
             
             {/* Desktop Nav */}
@@ -808,7 +808,7 @@ function MainContent() {
                       Visste du att den 21 mars är det internationella Rocksockdagen? En dag då vi uppmärksammar och stödjer personer med Downs syndrom och andra funktionsnedsättningar över hela världen.
                     </p>
                     <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                      Rock'N Socks föddes ur en enkel idé: att kombinera moderiktiga strumpor med ett viktigt budskap. Varje par strumpor du köper bidrar direkt till att stödja organisationer som arbetar för ett mer inkluderande samhälle.
+                      Strumpmix föddes ur en enkel idé: att kombinera moderiktiga strumpor med ett viktigt budskap. Varje par strumpor du köper bidrar direkt till att stödja organisationer som arbetar för ett mer inkluderande samhälle.
                     </p>
                   </>
                 ) : (
@@ -818,7 +818,7 @@ function MainContent() {
                       Visste du att den 21 mars är det internationella Rocksockdagen? En dag då vi uppmärksammar och stödjer personer med Downs syndrom och andra funktionsnedsättningar över hela världen.
                     </p>
                     <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                      Rock'N Socks föddes ur en enkel idé: att kombinera moderiktiga strumpor med ett viktigt budskap. Varje par strumpor du köper bidrar direkt till att stödja organisationer som arbetar för ett mer inkluderande samhälle.
+                      Strumpmix föddes ur en enkel idé: att kombinera moderiktiga strumpor med ett viktigt budskap. Varje par strumpor du köper bidrar direkt till att stödja organisationer som arbetar för ett mer inkluderande samhälle.
                     </p>
                     <p className="text-lg text-slate-300 leading-relaxed mb-4">
                       Vi tror att alla förtjänar att känna sig inkluderade och sedda. Genom att 'rocka' udda och vilda strumpor visar vi att vi står upp för mångfald och acceptans. Det handlar inte om hur vi ser ut – det handlar om vilka vi är på insidan.
@@ -975,7 +975,7 @@ function MainContent() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div>
-              <img src="/logo.svg" alt="Rock'N Socks" className="h-10 mb-6" />
+              <img src="/logo.svg" alt="Strumpmix" className="h-10 mb-6" />
               <p className="text-slate-400 leading-relaxed mb-4">{txt.footerDesc}</p>
               <a 
                 href="https://instagram.com/rocknsocks" 
