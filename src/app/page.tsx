@@ -799,13 +799,16 @@ function MainContent() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="bg-slate-800/50 rounded-2xl p-8">
               <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                <strong className="text-white">På Rock'N Socks bryr vi oss om mer än bara strumpor.</strong> Vi startade det här för att vi tror att alla förtjänar att känna sig inkluderade och uppskattade för vilka de är.
+                <strong className="text-white">Vi tror på att göra gott – på riktigt.</strong> På Rock'N Socks startade vi inte bara ett företag. Vi startade en rörelse. En rörelse där varje par strumpor du köper hjälper oss att stödja personer med Downs syndrom och deras familjer.
               </p>
               <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                Den <strong className="text-white">21 mars</strong> är det <strong className="text-pink-400">Internationella Downs Syndrom-dagen</strong> – och för oss är det mer än bara en dag. Det är en påminnelse om varför vi gör det vi gör.
+                Den <strong className="text-white">21 mars</strong> firar vi <strong className="text-pink-400">Internationella Downs Syndrom-dagen</strong> – men för oss är det här arbetet något vi bär med oss varje dag. Vi vill vara med och skapa en värld där alla känner sig välkomna, sedda och älskade för vilka de är.
+              </p>
+              <p className="text-lg text-slate-300 leading-relaxed mb-4">
+                Det finns en liten enhörning inom oss alla. För personer med Downs syndrom är enhörningen en symbol för styrka, mod och att vara annorlunda på ett vackert sätt. Därför har vi valt att ge <strong className="text-pink-400">5% av vår vinst</strong> till organisationer som arbetar för inkludering och mångfald.
               </p>
               <p className="text-lg text-slate-300 leading-relaxed">
-                Tillsammans med <strong className="text-white">Röda Enhörningen-rörelsen</strong> vill vi vara med och göra skillnad. Varje par strumpor du köper bidrar till att fler människor får känna sig sedda och älskade precis som de är. ❤️
+                <strong className="text-white">När du köper strumpor från oss</strong> är du inte bara en kund – du är en del av något större. Du är med och gör skillnad. Tack för att du finns. Tack för att du bryr dig. ❤️
               </p>
             </div>
             <div className="relative">
