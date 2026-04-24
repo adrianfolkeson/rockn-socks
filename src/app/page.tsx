@@ -1290,9 +1290,8 @@ function MainContent() {
               </span>
               <span className="text-pink-300">•</span>
               <span className="flex items-center gap-2">
-                <RotateCcw className="w-4 h-4" /> {txt.openPurchase}
+                <Shield className="w-4 h-4" /> {txt.secure}
               </span>
-              <span className="text-pink-300">•</span>
               <span className="flex items-center gap-2">
                 <Shield className="w-4 h-4" /> {txt.secure}
               </span>
