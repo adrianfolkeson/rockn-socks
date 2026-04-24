@@ -634,9 +634,9 @@ function CartDrawer({ isOpen, onClose, cart, onUpdateQuantity, onRemove, txt }: 
 }
 
 // Login Modal - Mobile optimized
-function LoginModal({ isOpen, onClose, onLogin, isSignUp, setIsSignUp, email, setEmail, password, setPassword, error, txt }: { 
+function LoginModal({ isOpen, onClose, onLogin, isSignUp, setIsSignUp, email, setEmail, password, setPassword, error, txt, isLoading }: { 
   isOpen: boolean; onClose: () => void; onLogin: () => void; isSignUp: boolean; setIsSignUp: (v: boolean) => void; 
-  email: string; setEmail: (v: string) => void; password: string; setPassword: (v: string) => void; error: string; txt: any 
+  email: string; setEmail: (v: string) => void; password: string; setPassword: (v: string) => void; error: string; txt: any; isLoading?: boolean 
 }) {
   if (!isOpen) return null
   
@@ -669,9 +669,14 @@ function LoginModal({ isOpen, onClose, onLogin, isSignUp, setIsSignUp, email, se
           {error && <p className="text-red-500 text-sm text-center">{error}</p>}
           <button 
             onClick={onLogin} 
-            className="w-full bg-pink-500 hover:bg-pink-600 text-white py-3.5 rounded-xl font-bold text-base shadow-lg transition-colors touch-manipulation min-h-[48px]"
+            disabled={isLoading}
+            className="w-full bg-pink-500 hover:bg-pink-600 disabled:bg-pink-300 text-white py-3.5 rounded-xl font-bold text-base shadow-lg transition-colors touch-manipulation min-h-[48px] flex items-center justify-center gap-2"
           >
-            {isSignUp ? txt.signup : txt.login}
+            {isLoading ? (
+              <span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            ) : (
+              isSignUp ? txt.signup : txt.login
+            )}
           </button>
           <p className="text-center text-sm text-slate-500 py-2">
             {isSignUp ? 'Har du redan ett konto?' : 'Inget konto?'}
@@ -1115,19 +1120,34 @@ function MainContent() {
   const [loginPassword, setLoginPassword] = useState('')
   const [loginError, setLoginError] = useState('')
   const [isSignUp, setIsSignUp] = useState(false)
+  const [isAuthLoading, setIsAuthLoading] = useState(false)
   
-  useEffect(() => {
-    loadUser()
-  }, [])
-  
-  const loadUser = async () => {
-    const { data: { session } } = await supabase.auth.getSession()
-    if (session?.user) {
-      setUser(session.user)
-      await loadUserData(session.user.id)
+  // Load user data
+  const loadUserData = async (userId: string) => {
+    try {
+      const { data: favData } = await supabase
+        .from('wishlists')
+        .select('product_id')
+        .eq('user_id', userId)
+      if (favData) setFavorites(favData.map(f => f.product_id))
+    } catch (e) {
+      // Ignore errors
     }
+  }
+  
+  // Load user on mount
+  useEffect(() => {
+    const initAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session?.user) {
+        setUser(session.user)
+        await loadUserData(session.user.id)
+      }
+    }
+    initAuth()
     
-    supabase.auth.onAuthStateChange(async (event, session) => {
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session?.user) {
         setUser(session.user)
         await loadUserData(session.user.id)
@@ -1137,22 +1157,9 @@ function MainContent() {
         setOrders([])
       }
     })
-  }
-  
-  const loadUserData = async (userId: string) => {
-    const { data: favData } = await supabase
-      .from('wishlists')
-      .select('product_id')
-      .eq('user_id', userId)
-    if (favData) setFavorites(favData.map(f => f.product_id))
     
-    const { data: orderData } = await supabase
-      .from('orders')
-      .select('*')
-      .eq('id', userId)
-      .order('created_at', { ascending: false })
-    if (orderData) setOrders(orderData)
-  }
+    return () => subscription.unsubscribe()
+  }, [])
   
   const handleLogin = async () => {
     setLoginError('')
@@ -1161,31 +1168,36 @@ function MainContent() {
       return
     }
     
-    if (isSignUp) {
-      const { error } = await supabase.auth.signUp({
-        email: loginEmail,
-        password: loginPassword,
-      })
-      if (error) {
-        setLoginError(error.message)
-      } else {
+    setIsAuthLoading(true)
+    
+    try {
+      if (isSignUp) {
+        const { error } = await supabase.auth.signUp({
+          email: loginEmail,
+          password: loginPassword,
+        })
+        if (error) throw error
         setShowLoginModal(false)
         setLoginEmail('')
         setLoginPassword('')
-      }
-    } else {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: loginEmail,
-        password: loginPassword,
-      })
-      if (error) {
-        setLoginError('Fel e-post eller lösenord')
       } else {
-        setShowLoginModal(false)
-        setLoginEmail('')
-        setLoginPassword('')
+        const { error } = await supabase.auth.signInWithPassword({
+          email: loginEmail,
+          password: loginPassword,
+        })
+        if (error) {
+          setLoginError('Fel e-post eller lösenord')
+        } else {
+          setShowLoginModal(false)
+          setLoginEmail('')
+          setLoginPassword('')
+        }
       }
+    } catch (err: any) {
+      setLoginError(err.message || 'Ett fel uppstod')
     }
+    
+    setIsAuthLoading(false)
   }
   
   const handleLogout = async () => {
@@ -1373,6 +1385,7 @@ function MainContent() {
         setPassword={setLoginPassword}
         error={loginError}
         txt={txt}
+        isLoading={isAuthLoading}
       />
       
       {/* Profile Modal */}
