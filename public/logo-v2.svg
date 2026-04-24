@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
+  <defs>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ec4899"/>
+      <stop offset="100%" style="stop-color:#a855f7"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Abstract sock - minimalist circles -->
+  <g transform="translate(5, 12)">
+    <!-- Main sock shape - circles -->
+    <circle cx="25" cy="20" r="16" fill="url(#grad2)"/>
+    <circle cx="50" cy="38" r="18" fill="url(#grad2)" opacity="0.8"/>
+    <circle cx="65" cy="55" r="12" fill="url(#grad2)" opacity="0.6"/>
+  </g>
+  
+  <!-- Text - bold -->
+  <text x="95" y="55" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="34" fill="#1e1e1e" letter-spacing="-1.5">
+    Strumpmix
+  </text>
+  
+  <!-- Small accent dots (retro) -->
+  <circle cx="95" cy="70" r="3" fill="#ec4899"/>
+  <circle cx="108" cy="70" r="3" fill="#a855f7"/>
+</svg>
