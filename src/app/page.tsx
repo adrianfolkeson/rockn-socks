@@ -601,6 +601,28 @@ function MainContent() {
         </div>
       </header>
       
+      {/* About Us Section */}
+      <section className="py-16 lg:py-20 bg-gradient-to-b from-white to-pink-50/30">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl lg:text-4xl font-black text-slate-900 mb-6">
+            Välkommen till <span className="bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent">Rock'N Socks</span>
+          </h2>
+          <p className="text-lg text-slate-600 leading-relaxed mb-6 max-w-2xl mx-auto">
+            Vi älskar strumpor som gör dig glad! På Rock'N Socks hittar du unika och modiga mönster för alla stilar – från dinosaurier till Harry Potter. Vi tror att livet är för kort för tråkiga strumpor!
+          </p>
+          <p className="text-pink-600 font-semibold mb-8">
+            ❤️ 5% av vinsten går till Rocka Sockorna
+          </p>
+          <a 
+            href="#about" 
+            className="inline-flex items-center gap-2 text-pink-600 hover:text-pink-700 font-semibold transition-colors"
+            onClick={(e) => { e.preventDefault(); document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }); }}
+          >
+            Läs mer om oss <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
+      </section>
+      
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-pink-50/30 to-rose-50/30 py-16 lg:py-24">
         
