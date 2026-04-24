@@ -296,7 +296,7 @@ function NewsletterSection({ txt }: { txt: any }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={txt.emailPlaceholder}
-              className="flex-1 px-6 py-4 rounded-full text-slate-900 focus:ring-4 focus:ring-white/30 outline-none"
+              className="flex-1 px-6 py-4 rounded-full bg-white text-slate-900 focus:ring-4 focus:ring-white/30 outline-none"
             />
             <button 
               onClick={handleSubscribe}
