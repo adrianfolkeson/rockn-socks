@@ -1314,7 +1314,14 @@ function MainContent() {
               {/* Desktop icons */}
               <div className="hidden sm:flex items-center gap-1">
                 <button 
-                  onClick={() => toggleFavorite(0)}
+                  onClick={() => {
+                    if (isLoggedIn) {
+                      setProfileSection('favorites')
+                      setShowProfileModal(true)
+                    } else {
+                      setShowLoginModal(true)
+                    }
+                  }}
                   className="relative p-3 hover:bg-slate-100 rounded-full transition-colors"
                 >
                   <Heart className="w-5 h-5 text-slate-600" />
@@ -1413,6 +1420,11 @@ function MainContent() {
               </div>
             </div>
             <div className="relative order-1 lg:order-2">
+              <img 
+                src="/logo.svg?v=3" 
+                alt="Strumpmix" 
+                className="w-full max-w-xs sm:max-w-sm mx-auto mb-6 drop-shadow-lg"
+              />
               <img 
                 src="/gruppbild.png" 
                 alt="Rocka Sockorna gruppbild" 
@@ -1669,7 +1681,7 @@ function MainContent() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-12">
             <div className="col-span-2 md:col-span-1">
-              <img src="/logo.svg?v=2" alt="Strumpmix" className="h-8 sm:h-10 mb-4 sm:mb-6" />
+              <img src="/logo-white.svg" alt="Strumpmix" className="h-8 sm:h-10 mb-4 sm:mb-6" />
               <p className="text-slate-400 text-sm leading-relaxed mb-4">{txt.footerDesc}</p>
               <a 
                 href="https://instagram.com/rocknsocks" 
