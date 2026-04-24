@@ -660,7 +660,7 @@ function MainContent() {
                 Vi älskar strumpor som gör dig glad! På Rock'N Socks hittar du unika och modiga mönster för alla stilar. Våra strumpor är mer än bara ett plagg – de är ett sätt att uttrycka dig själv och visa vem du är.
               </p>
               <p className="text-lg text-slate-300 leading-relaxed">
-                Den <strong className="text-white">21 mars</strong> är det <strong className="text-pink-400">Världsdagen för Downs syndrom</strong>. Tillsammans med Röda Enhörningen-rörelsen vill vi uppmärksamma vikten av inkludering och mångfald. Vi tror att alla förtjänar att känna sig sedda och uppskattade för vilka de är.
+                Den <strong className="text-white">21 mars</strong> är det <strong className="text-pink-400">Internationella Downs Syndrom-dagen</strong>. Tillsammans med Röda Enhörningen-rörelsen vill vi uppmärksamma vikten av inkludering och mångfald. Vi tror att alla förtjänar att känna sig sedda och uppskattade för vilka de är.
               </p>
             </div>
             <div className="relative">
