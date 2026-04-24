@@ -129,7 +129,7 @@ const mockTickets: SupportTicket[] = []
 const t = {
   sv: {
     freeShipping: 'Fri frakt i hela Sverige',
-    openPurchase: '30 dagars öppet köp',
+    openPurchase: '',
     secure: 'Säker betalning',
     heroTitle: 'Vilda mönster,',
     heroTitle2: 'perfekt passform',
@@ -683,9 +683,34 @@ function ComplaintModal({ isOpen, onClose, setShowComplaintModal, setComplaintSe
 }
 
 // Profile Dropdown
-function ProfileDropdown({ isOpen, onClose, showSettings, setShowSettings, setActiveSection, favorites, orders, returns, tickets, onLogout, notificationsEnabled, setNotificationsEnabled }: { isOpen: boolean; onClose: () => void; showSettings: boolean; setShowSettings: (v: boolean) => void; setActiveSection: (s: string) => void; favorites: number[]; orders: Order[]; returns: Return[]; tickets: SupportTicket[]; onLogout: () => void; notificationsEnabled: boolean; setNotificationsEnabled: (v: boolean) => void }) {
+function ProfileDropdown({ isOpen, onClose, showSettings, setShowSettings, setActiveSection, favorites, orders, returns, tickets, onLogout, notificationsEnabled, setNotificationsEnabled, isLoggedIn, onLogin }: { isOpen: boolean; onClose: () => void; showSettings: boolean; setShowSettings: (v: boolean) => void; setActiveSection: (s: string) => void; favorites: number[]; orders: Order[]; returns: Return[]; tickets: SupportTicket[]; onLogout: () => void; notificationsEnabled: boolean; setNotificationsEnabled: (v: boolean) => void; isLoggedIn: boolean; onLogin: () => void }) {
   if (!isOpen) return null
   
+  // Not logged in - show login button
+  if (!isLoggedIn) {
+    return (
+      <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-50">
+        <div className="p-4 bg-gradient-to-r from-pink-500 to-rose-500">
+          <p className="text-white font-semibold">Hej!</p>
+          <p className="text-white/80 text-sm">Logga in för att se din profil</p>
+        </div>
+        
+        <div className="p-4">
+          <button 
+            onClick={() => { onLogin(); onClose(); }}
+            className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-3 rounded-xl font-bold hover:opacity-90 transition-opacity"
+          >
+            Logga in
+          </button>
+          <p className="text-center text-slate-500 text-sm mt-3">
+            Har du inget konto? <button className="text-pink-600 font-semibold">Skapa konto</button>
+          </p>
+        </div>
+      </div>
+    )
+  }
+  
+  // Logged in - show full menu
   return (
     <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-50">
       <div className="p-4 bg-gradient-to-r from-pink-500 to-rose-500">
@@ -1331,6 +1356,8 @@ function MainContent() {
                   onLogout={handleLogout}
                   notificationsEnabled={notificationsEnabled}
                   setNotificationsEnabled={setNotificationsEnabled}
+                  isLoggedIn={isLoggedIn}
+                  onLogin={() => setIsLoggedIn(true)}
                 />
               </div>
               <button 
