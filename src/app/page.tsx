@@ -768,7 +768,69 @@ function ProfileDropdown({ isOpen, onClose, showSettings, setShowSettings, setAc
 }
 
 // Profile Modal - Simple view
-function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favorites, orders, onLogout }: { isOpen: boolean; onClose: () => void; activeSection: string; setActiveSection: (s: string) => void; favorites: number[]; orders: Order[]; onLogout: () => void }) {
+function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favorites, orders, onLogout, user }: { isOpen: boolean; onClose: () => void; activeSection: string; setActiveSection: (s: string) => void; favorites: number[]; orders: Order[]; onLogout: () => void; user: any }) {
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [passwordSuccess, setPasswordSuccess] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const [supportSubject, setSupportSubject] = useState('')
+  const [supportMessage, setSupportMessage] = useState('')
+  const [supportSuccess, setSupportSuccess] = useState(false)
+  const [deleteConfirm, setDeleteConfirm] = useState('')
+  const [returnOrderId, setReturnOrderId] = useState('')
+  const [returnReason, setReturnReason] = useState('')
+  const [returnSuccess, setReturnSuccess] = useState(false)
+  
+  const handlePasswordChange = async () => {
+    setPasswordError('')
+    setPasswordSuccess('')
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
+    if (error) {
+      setPasswordError(error.message)
+    } else {
+      setPasswordSuccess('Lösenord ändrat!')
+      setCurrentPassword('')
+      setNewPassword('')
+      setTimeout(() => setPasswordSuccess(''), 3000)
+    }
+  }
+  
+  const handleSupportSubmit = async () => {
+    if (!user) return
+    await supabase.from('support_tickets').insert([{
+      user_id: user.id,
+      subject: supportSubject,
+      message: supportMessage
+    }])
+    setSupportSuccess(true)
+    setSupportSubject('')
+    setSupportMessage('')
+    setTimeout(() => setSupportSuccess(false), 3000)
+  }
+  
+  const handleDeleteAccount = async () => {
+    if (deleteConfirm !== 'RADERA') return
+    // Delete user data from tables first
+    await supabase.from('wishlists').delete().eq('user_id', user.id)
+    await supabase.from('profiles').delete().eq('id', user.id)
+    // Then delete auth user
+    await supabase.auth.admin?.deleteUser(user.id)
+    onLogout()
+  }
+  
+  const handleReturnRequest = async () => {
+    if (!user || !returnOrderId || !returnReason) return
+    await supabase.from('returns').insert([{
+      user_id: user.id,
+      order_id: returnOrderId,
+      reason: returnReason
+    }])
+    setReturnSuccess(true)
+    setReturnOrderId('')
+    setReturnReason('')
+    setTimeout(() => setReturnSuccess(false), 3000)
+  }
+  
   if (!isOpen) return null
   
   return (
@@ -797,28 +859,94 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
           {/* Favorites */}
           {activeSection === 'favorites' && (
             <div>
-              <p className="text-slate-600 mb-4">Du har {favorites.length} favoriter</p>
-              <button onClick={onLogout} className="text-sm text-slate-500 underline">Logga ut</button>
+              <h3 className="font-bold mb-4">Favoriter ({favorites.length})</h3>
+              {favorites.length === 0 && <p className="text-slate-500">Inga favoriter ännu</p>}
             </div>
           )}
           
           {/* Orders */}
           {activeSection === 'orders' && (
             <div>
-              <p className="text-slate-600 mb-4">Du har {orders.length} beställningar</p>
-              <button onClick={onLogout} className="text-sm text-slate-500 underline">Logga ut</button>
+              <h3 className="font-bold mb-4">Beställningar ({orders.length})</h3>
+              {orders.length === 0 && <p className="text-slate-500">Inga beställningar ännu</p>}
+              {orders.slice(0, 5).map(order => (
+                <div key={order.id} className="border-b border-slate-200 py-3">
+                  <p className="font-semibold">{order.total} kr</p>
+                  <p className="text-sm text-slate-500">{new Date(order.created_at).toLocaleDateString('sv-SE')}</p>
+                  <p className="text-sm">{statusMap[order.status] || order.status}</p>
+                </div>
+              ))}
             </div>
           )}
           
           {/* Settings */}
           {activeSection === 'settings' && (
             <div>
-              <div className="space-y-3">
-                <button className="w-full text-left py-2 text-slate-700 hover:text-slate-900">Byta lösenord</button>
-                <button className="w-full text-left py-2 text-slate-700 hover:text-slate-900">Support</button>
-                <button className="w-full text-left py-2 text-slate-700 hover:text-slate-900">Avsluta konto</button>
-              </div>
+              <h3 className="font-bold mb-4">Inställningar</h3>
+              <button onClick={() => setActiveSection('password')} className="w-full text-left py-2 text-slate-700 hover:text-slate-900 border-b border-slate-200">Byta lösenord</button>
+              <button onClick={() => setActiveSection('support')} className="w-full text-left py-2 text-slate-700 hover:text-slate-900 border-b border-slate-200">Support</button>
+              <button onClick={() => setActiveSection('returns')} className="w-full text-left py-2 text-slate-700 hover:text-slate-900 border-b border-slate-200">Returer</button>
+              <button onClick={() => setActiveSection('delete')} className="w-full text-left py-2 text-red-500 hover:text-red-600 border-b border-slate-200">Avsluta konto</button>
               <button onClick={onLogout} className="mt-6 text-slate-500 underline">Logga ut</button>
+            </div>
+          )}
+          
+          {/* Password Change */}
+          {activeSection === 'password' && (
+            <div>
+              <button onClick={() => setActiveSection('settings')} className="text-pink-500 mb-4">← Tillbaka</button>
+              <h3 className="font-bold mb-4">Byta lösenord</h3>
+              <div className="space-y-3">
+                <input type="password" placeholder="Nytt lösenord" value={newPassword} onChange={e => setNewPassword(e.target.value)} className="w-full p-3 border rounded" />
+                <button onClick={handlePasswordChange} className="w-full bg-pink-500 text-white py-3 rounded font-bold">Spara</button>
+                {passwordSuccess && <p className="text-green-500">{passwordSuccess}</p>}
+                {passwordError && <p className="text-red-500">{passwordError}</p>}
+              </div>
+            </div>
+          )}
+          
+          {/* Support */}
+          {activeSection === 'support' && (
+            <div>
+              <button onClick={() => setActiveSection('settings')} className="text-pink-500 mb-4">← Tillbaka</button>
+              <h3 className="font-bold mb-4">Support</h3>
+              {supportSuccess ? (
+                <p className="text-green-500">Skickat! Vi återkommer snart.</p>
+              ) : (
+                <div className="space-y-3">
+                  <input type="text" placeholder="Ämne" value={supportSubject} onChange={e => setSupportSubject(e.target.value)} className="w-full p-3 border rounded" />
+                  <textarea placeholder="Meddelande" value={supportMessage} onChange={e => setSupportMessage(e.target.value)} className="w-full p-3 border rounded h-24" />
+                  <button onClick={handleSupportSubmit} className="w-full bg-pink-500 text-white py-3 rounded font-bold">Skicka</button>
+                </div>
+              )}
+            </div>
+          )}
+          
+          {/* Returns */}
+          {activeSection === 'returns' && (
+            <div>
+              <button onClick={() => setActiveSection('settings')} className="text-pink-500 mb-4">← Tillbaka</button>
+              <h3 className="font-bold mb-4">Retur</h3>
+              {returnSuccess ? (
+                <p className="text-green-500">Retur begärd! Vi återkommer snart.</p>
+              ) : (
+                <div className="space-y-3">
+                  <input type="text" placeholder="Order ID" value={returnOrderId} onChange={e => setReturnOrderId(e.target.value)} className="w-full p-3 border rounded" />
+                  <textarea placeholder="Orsak" value={returnReason} onChange={e => setReturnReason(e.target.value)} className="w-full p-3 border rounded h-24" />
+                  <button onClick={handleReturnRequest} className="w-full bg-pink-500 text-white py-3 rounded font-bold">Skicka returbegäran</button>
+                </div>
+              )}
+            </div>
+          )}
+          
+          {/* Delete Account */}
+          {activeSection === 'delete' && (
+            <div>
+              <button onClick={() => setActiveSection('settings')} className="text-pink-500 mb-4">← Tillbaka</button>
+              <h3 className="font-bold mb-4 text-red-500">Avsluta konto</h3>
+              <p className="text-slate-600 mb-4">Detta raderar all din data permanent.</p>
+              <input type="text" placeholder="Skriv RADERA för att bekräfta" value={deleteConfirm} onChange={e => setDeleteConfirm(e.target.value)} className="w-full p-3 border border-red-300 rounded mb-3" />
+              <button onClick={handleDeleteAccount} disabled={deleteConfirm !== 'RADERA'} className="w-full bg-red-500 text-white py-3 rounded font-bold disabled:opacity-50">Avsluta konto</button>
             </div>
           )}
           
@@ -1192,6 +1320,7 @@ function MainContent() {
         favorites={favorites}
         orders={orders}
         onLogout={handleLogout}
+        user={user}
       />
       
       {/* Hero Section */}
