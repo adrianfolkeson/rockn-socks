@@ -7,6 +7,7 @@ import {
   Mail, MapPin, Lock, ArrowRight, Sparkles, Package
 } from 'lucide-react'
 import { LanguageProvider, useLanguage } from '@/lib/LanguageContext'
+import { supabase } from '@/lib/supabase'
 
 // Product types
 interface ProductVariant {
@@ -598,6 +599,53 @@ function CartDrawer({ isOpen, onClose, cart, onUpdateQuantity, onRemove, txt }: 
   )
 }
 
+// Login Modal
+function LoginModal({ isOpen, onClose, onLogin, isSignUp, setIsSignUp, email, setEmail, password, setPassword, error }: { isOpen: boolean; onClose: () => void; onLogin: () => void; isSignUp: boolean; setIsSignUp: (v: boolean) => void; email: string; setEmail: (v: string) => void; password: string; setPassword: (v: string) => void; error: string }) {
+  if (!isOpen) return null
+  
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm">
+        <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+          <X className="w-5 h-5" />
+        </button>
+        <h3 className="text-xl font-bold text-slate-900 mb-6">{isSignUp ? 'Skapa konto' : 'Logga in'}</h3>
+        <div className="space-y-4">
+          <div>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="E-post"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200"
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Lösenord"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200"
+            />
+          </div>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <button onClick={onLogin} className="w-full bg-pink-500 text-white py-3 rounded-xl font-bold">
+            {isSignUp ? 'Skapa konto' : 'Logga in'}
+          </button>
+          <p className="text-center text-sm text-slate-500">
+            {isSignUp ? 'Har du redan ett konto?' : 'Inget konto?'}
+            <button onClick={() => setIsSignUp(!isSignUp)} className="text-pink-500 font-semibold ml-1">
+              {isSignUp ? 'Logga in' : 'Skapa konto'}
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // Complaint Modal
 function ComplaintModal({ isOpen, onClose, setShowComplaintModal, setComplaintSent, setComplaintOrder, setComplaintName, setComplaintReason }: { isOpen: boolean; onClose: () => void; setShowComplaintModal: (v: boolean) => void; setComplaintSent: (v: boolean) => void; setComplaintOrder: (v: string) => void; setComplaintName: (v: string) => void; setComplaintReason: (v: string) => void }) {
   const [complaintOrder, setComplaintOrderLocal] = useState('')
@@ -683,102 +731,54 @@ function ComplaintModal({ isOpen, onClose, setShowComplaintModal, setComplaintSe
 }
 
 // Profile Dropdown
-function ProfileDropdown({ isOpen, onClose, showSettings, setShowSettings, setActiveSection, favorites, orders, returns, tickets, onLogout, notificationsEnabled, setNotificationsEnabled, isLoggedIn, onLogin }: { isOpen: boolean; onClose: () => void; showSettings: boolean; setShowSettings: (v: boolean) => void; setActiveSection: (s: string) => void; favorites: number[]; orders: Order[]; returns: Return[]; tickets: SupportTicket[]; onLogout: () => void; notificationsEnabled: boolean; setNotificationsEnabled: (v: boolean) => void; isLoggedIn: boolean; onLogin: () => void }) {
+function ProfileDropdown({ isOpen, onClose, showSettings, setShowSettings, setActiveSection, favorites, orders, tickets, onLogout, notificationsEnabled, setNotificationsEnabled, isLoggedIn, onOpenLogin }: { isOpen: boolean; onClose: () => void; showSettings: boolean; setShowSettings: (v: boolean) => void; setActiveSection: (s: string) => void; favorites: number[]; orders: Order[]; tickets: SupportTicket[]; onLogout: () => void; notificationsEnabled: boolean; setNotificationsEnabled: (v: boolean) => void; isLoggedIn: boolean; onOpenLogin: () => void }) {
   if (!isOpen) return null
   
   // Not logged in - show login button
   if (!isLoggedIn) {
     return (
-      <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-50">
-        <div className="p-4 bg-gradient-to-r from-pink-500 to-rose-500">
-          <p className="text-white font-semibold">Hej!</p>
-          <p className="text-white/80 text-sm">Logga in för att se din profil</p>
-        </div>
-        
-        <div className="p-4">
-          <button 
-            onClick={() => { onLogin(); onClose(); }}
-            className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-3 rounded-xl font-bold hover:opacity-90 transition-opacity"
-          >
-            Logga in
-          </button>
-          <p className="text-center text-slate-500 text-sm mt-3">
-            Har du inget konto? <button className="text-pink-600 font-semibold">Skapa konto</button>
-          </p>
-        </div>
+      <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-lg border border-slate-200 p-4 z-50">
+        <button 
+          onClick={() => { onOpenLogin(); onClose(); }}
+          className="w-full bg-pink-500 text-white py-3 rounded-xl font-bold"
+        >
+          Logga in
+        </button>
       </div>
     )
   }
   
-  // Logged in - show full menu
+  // Logged in - show simple menu
   return (
-    <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-50">
-      <div className="p-4 bg-gradient-to-r from-pink-500 to-rose-500">
-        <p className="text-white font-semibold">Välkommen!</p>
-        <p className="text-white/80 text-sm">Hantera din profil</p>
-      </div>
-      
-      <div className="py-2">
-        <button onClick={() => { setActiveSection('favorites'); onClose(); }} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors">
-          <Heart className="w-5 h-5 text-pink-500" />
-          <span className="text-slate-700">Mina favoriter</span>
-          {favorites.length > 0 && <span className="ml-auto bg-pink-500 text-white text-xs px-2 py-0.5 rounded-full">{favorites.length}</span>}
-        </button>
-        
-        <button onClick={() => { setActiveSection('orders'); onClose(); }} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors">
-          <Star className="w-5 h-5 text-pink-500" />
-          <span className="text-slate-700">Mina beställningar</span>
-          {orders.length > 0 && <span className="ml-auto bg-pink-500 text-white text-xs px-2 py-0.5 rounded-full">{orders.length}</span>}
-        </button>
-        
-        <button onClick={() => { setActiveSection('returns'); onClose(); }} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors">
-          <RotateCcw className="w-5 h-5 text-pink-500" />
-          <span className="text-slate-700">Mina returer</span>
-        </button>
-        
-        <div className="border-t border-slate-200 my-2"></div>
-        
-        <button 
-          onClick={() => setShowSettings(!showSettings)}
-          className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors"
-        >
-          <div className="flex items-center gap-3">
-            <Settings className="w-5 h-5 text-pink-500" />
-            <span className="text-slate-700">Inställningar</span>
-          </div>
-          <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showSettings ? 'rotate-180' : ''}`} />
-        </button>
-        
-        {showSettings && (
-          <div className="bg-slate-50 py-2">
-            <button onClick={() => { setActiveSection('password'); onClose(); }} className="w-full flex items-center gap-3 px-8 py-2 hover:bg-slate-100 transition-colors text-sm">
-              <Lock className="w-4 h-4 text-slate-500" />
-              <span className="text-slate-600">Byta lösenord</span>
-            </button>
-            <button onClick={() => { setActiveSection('support'); onClose(); }} className="w-full flex items-center gap-3 px-8 py-2 hover:bg-slate-100 transition-colors text-sm">
-              <Mail className="w-4 h-4 text-slate-500" />
-              <span className="text-slate-600">Supportärenden</span>
-              {tickets.filter(t => t.status === 'öppna').length > 0 && <span className="ml-auto bg-pink-500 text-white text-xs px-2 py-0.5 rounded-full">{tickets.filter(t => t.status === 'öppna').length}</span>}
-            </button>
-            <button onClick={() => { setActiveSection('delete'); onClose(); }} className="w-full flex items-center gap-3 px-8 py-2 hover:bg-slate-100 transition-colors text-sm text-red-500">
-              <X className="w-4 h-4" />
-              <span>Avsluta konto</span>
-            </button>
-            <div className="flex items-center justify-between px-8 py-2">
-              <span className="text-slate-600 text-sm">Prenumerera notis</span>
-              <button 
-                onClick={() => setNotificationsEnabled(!notificationsEnabled)}
-                className={`w-12 h-6 rounded-full transition-colors ${notificationsEnabled ? 'bg-pink-500' : 'bg-slate-300'}`}
-              >
-                <div className={`w-5 h-5 bg-white rounded-full shadow transition-transform ${notificationsEnabled ? 'translate-x-6' : 'translate-x-0.5'}`} />
-              </button>
-            </div>
-            <button onClick={onLogout} className="w-full flex items-center gap-3 px-8 py-2 hover:bg-slate-100 transition-colors text-sm text-red-500 border-t border-slate-200 mt-2">
-              <span>Logga ut</span>
-            </button>
-          </div>
-        )}
-      </div>
+    <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50">
+      <button onClick={() => { setActiveSection('favorites'); onClose(); }} className="w-full text-left px-4 py-2 text-slate-700 hover:bg-slate-50">
+        Favoriter
+      </button>
+      <button onClick={() => { setActiveSection('orders'); onClose(); }} className="w-full text-left px-4 py-2 text-slate-700 hover:bg-slate-50">
+        Beställningar
+      </button>
+      <div className="border-t border-slate-200 my-1"></div>
+      <button onClick={() => setShowSettings(!showSettings)} className="w-full text-left px-4 py-2 text-slate-700 hover:bg-slate-50 flex justify-between">
+        <span>Inställningar</span>
+        <span>{showSettings ? '▲' : '▼'}</span>
+      </button>
+      {showSettings && (
+        <div className="pl-4 py-1">
+          <button onClick={() => { setActiveSection('password'); onClose(); }} className="w-full text-left px-4 py-2 text-slate-600 hover:bg-slate-50 text-sm">
+            Byta lösenord
+          </button>
+          <button onClick={() => { setActiveSection('support'); onClose(); }} className="w-full text-left px-4 py-2 text-slate-600 hover:bg-slate-50 text-sm">
+            Support
+          </button>
+          <button onClick={() => { setActiveSection('delete'); onClose(); }} className="w-full text-left px-4 py-2 text-slate-600 hover:bg-slate-50 text-sm">
+            Avsluta konto
+          </button>
+        </div>
+      )}
+      <div className="border-t border-slate-200 my-1"></div>
+      <button onClick={onLogout} className="w-full text-left px-4 py-2 text-slate-500 hover:bg-slate-50">
+        Logga ut
+      </button>
     </div>
   )
 }
@@ -921,9 +921,113 @@ function MainContent() {
   // Profile state
   const [showProfileModal, setShowProfileModal] = useState(false)
   const [profileSection, setProfileSection] = useState('favorites')
-  const [favorites, setFavorites] = useState<number[]>([1, 4, 8, 11])
+  const [favorites, setFavorites] = useState<number[]>([])
+  const [orders, setOrders] = useState<Order[]>([])
+  const [tickets, setTickets] = useState<SupportTicket[]>([])
   const [notificationsEnabled, setNotificationsEnabled] = useState(true)
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const [user, setUser] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  
+  // Login state
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [loginEmail, setLoginEmail] = useState('')
+  const [loginPassword, setLoginPassword] = useState('')
+  const [loginError, setLoginError] = useState('')
+  const [isSignUp, setIsSignUp] = useState(false)
+  
+  // Load user and data on mount
+  useEffect(() => {
+    loadUser()
+  }, [])
+  
+  const loadUser = async () => {
+    setIsLoading(true)
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session?.user) {
+      setUser(session.user)
+      await loadUserData(session.user.id)
+    }
+    setIsLoading(false)
+    
+    // Listen for auth changes
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        setUser(session.user)
+        await loadUserData(session.user.id)
+      } else {
+        setUser(null)
+        setFavorites([])
+        setOrders([])
+        setTickets([])
+      }
+    })
+  }
+  
+  const loadUserData = async (userId: string) => {
+    // Load favorites
+    const { data: favData } = await supabase
+      .from('favorites')
+      .select('product_id')
+      .eq('user_id', userId)
+    if (favData) setFavorites(favData.map(f => f.product_id))
+    
+    // Load orders
+    const { data: orderData } = await supabase
+      .from('orders')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+    if (orderData) setOrders(orderData)
+    
+    // Load tickets
+    const { data: ticketData } = await supabase
+      .from('support_tickets')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+    if (ticketData) setTickets(ticketData)
+  }
+  
+  const handleLogin = async () => {
+    setLoginError('')
+    if (!loginEmail || !loginPassword) {
+      setLoginError('Fyll i alla fält')
+      return
+    }
+    
+    if (isSignUp) {
+      const { error } = await supabase.auth.signUp({
+        email: loginEmail,
+        password: loginPassword,
+      })
+      if (error) {
+        setLoginError(error.message)
+      } else {
+        setShowLoginModal(false)
+        setLoginEmail('')
+        setLoginPassword('')
+      }
+    } else {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: loginEmail,
+        password: loginPassword,
+      })
+      if (error) {
+        setLoginError('Fel e-post eller lösenord')
+      } else {
+        setShowLoginModal(false)
+        setLoginEmail('')
+        setLoginPassword('')
+      }
+    }
+  }
+  
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    setShowProfileModal(false)
+  }
+  
+  const isLoggedIn = !!user
   
   const { language } = useLanguage()
   
@@ -1055,7 +1159,7 @@ function MainContent() {
               </button>
               <div className="relative">
                 <button 
-                  onClick={() => { setShowProfileModal(true); setShowProfileMenu(false); }}
+                  onClick={() => { if (isLoggedIn) { setShowProfileMenu(!showProfileMenu); } else { setShowLoginModal(true); } }}
                   className="hidden sm:flex p-3 hover:bg-slate-100 rounded-full transition-colors"
                 >
                   <User className="w-5 h-5 text-slate-600" />
@@ -1067,14 +1171,13 @@ function MainContent() {
                   setShowSettings={setShowSettings}
                   setActiveSection={(s) => { setProfileSection(s); setShowProfileModal(true); setShowProfileMenu(false); }}
                   favorites={favorites}
-                  orders={mockOrders}
-                  returns={mockReturns}
-                  tickets={mockTickets}
+                  orders={orders}
+                  tickets={tickets}
                   onLogout={handleLogout}
                   notificationsEnabled={notificationsEnabled}
                   setNotificationsEnabled={setNotificationsEnabled}
                   isLoggedIn={isLoggedIn}
-                  onLogin={() => setIsLoggedIn(true)}
+                  onOpenLogin={() => setShowLoginModal(true)}
                 />
               </div>
               <button 
@@ -1093,14 +1196,28 @@ function MainContent() {
         </div>
       </header>
       
+      {/* Login Modal */}
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLogin={handleLogin}
+        isSignUp={isSignUp}
+        setIsSignUp={setIsSignUp}
+        email={loginEmail}
+        setEmail={setLoginEmail}
+        password={loginPassword}
+        setPassword={setLoginPassword}
+        error={loginError}
+      />
+      
       {/* Profile Modal */}
       <ProfileModal 
-        isOpen={showProfileModal} 
+        isOpen={showProfileModal && isLoggedIn} 
         onClose={() => setShowProfileModal(false)} 
         activeSection={profileSection}
         setActiveSection={setProfileSection}
         favorites={favorites}
-        orders={mockOrders}
+        orders={orders}
         returns={mockReturns}
         onLogout={handleLogout}
       />
