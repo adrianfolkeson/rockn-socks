@@ -1088,14 +1088,11 @@ function MainContent() {
     setFavorites(prev => prev.includes(productId) ? prev : [...prev, productId])
   }
   
-  const removeFromFavorites = (productId: number) => {
+  const removeFromFavorites = async (productId: number) => {
+    if (user) {
+      await supabase.from('favorites').delete().eq('user_id', user.id).eq('product_id', productId)
+    }
     setFavorites(prev => prev.filter(id => id !== productId))
-  }
-  
-  const handleLogout = () => {
-    setIsLoggedIn(false)
-    setFavorites([])
-    setProfileSection('favorites')
   }
   
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
