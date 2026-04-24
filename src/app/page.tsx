@@ -1058,10 +1058,6 @@ function MainContent() {
     setCart(prev => prev.filter(item => !(item.product.id === productId && item.selectedSize === size && item.isBundle === isBundle)))
   }
   
-  const addToFavorites = (productId: number) => {
-    setFavorites(prev => prev.includes(productId) ? prev : [...prev, productId])
-  }
-  
   const addToFavorites = async (productId: number) => {
     if (user && !favorites.includes(productId)) {
       await supabase.from('wishlists').insert({ user_id: user.id, product_id: productId })
