@@ -641,31 +641,36 @@ function MainContent() {
       
       {/* About Us Section */}
       <section className="py-16 lg:py-24 bg-slate-900 text-white">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 bg-pink-500/20 text-pink-400 px-4 py-2 rounded-full text-sm font-bold mb-6">
-            <span>🌈</span> Rocka Sockorna Dagen
-          </div>
-          <h2 className="text-3xl lg:text-5xl font-black mb-6">
-            Välkommen till <span className="bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">Rock'N Socks</span>
-          </h2>
-          <p className="text-lg text-slate-300 leading-relaxed mb-6 max-w-2xl mx-auto">
-            Vi älskar strumpor som gör dig glad! På Rock'N Socks hittar du unika och modiga mönster för alla stilar. Våra strumpor är mer än bara ett plagg – de är ett sätt att uttrycka dig själv och visa vem du är.
-          </p>
-          <p className="text-xl text-pink-400 font-bold mb-8">
-            ❤️ 5% av vinsten går till Rocka Sockorna
-          </p>
-          <div className="bg-slate-800/50 rounded-2xl p-6 mb-8 max-w-2xl mx-auto">
-            <p className="text-slate-300 leading-relaxed">
-              Den <strong className="text-white">21 mars</strong> är det <strong className="text-pink-400">World Down Syndrome Day</strong>. Tillsammans med Röda Enhörningen-rörelsen och <strong className="text-white">DSI</strong> vill vi uppmärksamma vikten av inkludering och mångfald. Vi tror att alla förtjänar att känna sig sedda och uppskattade för vilka de är.
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 bg-pink-500/20 text-pink-400 px-4 py-2 rounded-full text-sm font-bold mb-6">
+              Rocka Sockorna Dagen
+            </div>
+            <h2 className="text-3xl lg:text-5xl font-black mb-6">
+              Välkommen till <span className="bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">Rock'N Socks</span>
+            </h2>
+            <p className="text-xl text-pink-400 font-bold">
+              ❤️ 5% av vinsten går till Rocka Sockorna
             </p>
           </div>
-          <a 
-            href="#about" 
-            className="inline-flex items-center gap-2 text-pink-400 hover:text-pink-300 font-semibold transition-colors"
-            onClick={(e) => { e.preventDefault(); document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }); }}
-          >
-            Läs mer om vårt engagemang <ArrowRight className="w-4 h-4" />
-          </a>
+          
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="bg-slate-800/50 rounded-2xl p-8">
+              <p className="text-lg text-slate-300 leading-relaxed mb-4">
+                Vi älskar strumpor som gör dig glad! På Rock'N Socks hittar du unika och modiga mönster för alla stilar. Våra strumpor är mer än bara ett plagg – de är ett sätt att uttrycka dig själv och visa vem du är.
+              </p>
+              <p className="text-lg text-slate-300 leading-relaxed">
+                Den <strong className="text-white">21 mars</strong> är det <strong className="text-pink-400">Världsdagen för Downs syndrom</strong>. Tillsammans med Röda Enhörningen-rörelsen vill vi uppmärksamma vikten av inkludering och mångfald. Vi tror att alla förtjänar att känna sig sedda och uppskattade för vilka de är.
+              </p>
+            </div>
+            <div className="relative">
+              <img 
+                src="/gruppbild.png" 
+                alt="Rocka Sockorna" 
+                className="w-full rounded-2xl shadow-2xl"
+              />
+            </div>
+          </div>
         </div>
       </section>
       
