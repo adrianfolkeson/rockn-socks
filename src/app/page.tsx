@@ -634,9 +634,9 @@ function CartDrawer({ isOpen, onClose, cart, onUpdateQuantity, onRemove, txt }: 
 }
 
 // Login Modal - Mobile optimized
-function LoginModal({ isOpen, onClose, onLogin, isSignUp, setIsSignUp, email, setEmail, password, setPassword, error }: { 
+function LoginModal({ isOpen, onClose, onLogin, isSignUp, setIsSignUp, email, setEmail, password, setPassword, error, txt }: { 
   isOpen: boolean; onClose: () => void; onLogin: () => void; isSignUp: boolean; setIsSignUp: (v: boolean) => void; 
-  email: string; setEmail: (v: string) => void; password: string; setPassword: (v: string) => void; error: string 
+  email: string; setEmail: (v: string) => void; password: string; setPassword: (v: string) => void; error: string; txt: any 
 }) {
   if (!isOpen) return null
   
@@ -1372,6 +1372,7 @@ function MainContent() {
         password={loginPassword}
         setPassword={setLoginPassword}
         error={loginError}
+        txt={txt}
       />
       
       {/* Profile Modal */}
