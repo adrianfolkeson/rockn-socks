@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { 
   ShoppingCart, Menu, X, Heart, User, Star, Truck, RotateCcw, Settings, 
-  Shield, ChevronDown, ChevronUp, Plus, Minus,
+  Shield, ChevronDown, ChevronUp, Plus, Minus, Search,
   Mail, MapPin, Lock, ArrowRight, Sparkles, Package, HeartOff, LogOut, PackageOpen, MessageCircle
 } from 'lucide-react'
 import { LanguageProvider, useLanguage } from '@/lib/LanguageContext'
@@ -1339,6 +1339,14 @@ function MainContent() {
               <div className="hidden sm:flex items-center gap-1">
                 <button 
                   onClick={() => {
+                    // Search functionality - can expand later
+                  }}
+                  className="p-3 hover:bg-slate-100 rounded-full transition-colors"
+                >
+                  <Search className="w-5 h-5 text-slate-600" />
+                </button>
+                <button 
+                  onClick={() => {
                     if (isLoggedIn) {
                       setProfileSection('favorites')
                       setShowProfileModal(true)
@@ -1444,11 +1452,6 @@ function MainContent() {
               </div>
             </div>
             <div className="relative order-1 lg:order-2">
-              <img 
-                src="/logo.svg?v=3" 
-                alt="Strumpmix" 
-                className="w-full max-w-xs sm:max-w-sm mx-auto mb-6 drop-shadow-lg"
-              />
               <img 
                 src="/gruppbild.png" 
                 alt="Rocka Sockorna gruppbild" 
