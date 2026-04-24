@@ -665,7 +665,7 @@ function MainContent() {
             </div>
             <div className="relative">
               <img 
-                src="/gruppbild.png" 
+                src="/downbild.png" 
                 alt="Rocka Sockorna" 
                 className="w-full rounded-2xl shadow-2xl"
               />
