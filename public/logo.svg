@@ -1,41 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 80">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 100">
   <defs>
-    <linearGradient id="pinkFlow" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="pinkPurple" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#EC4899"/>
-      <stop offset="40%" stop-color="#F43F5E"/>
-      <stop offset="100%" stop-color="#C026D3"/>
+      <stop offset="50%" stop-color="#F43F5E"/>
+      <stop offset="100%" stop-color="#A855F7"/>
     </linearGradient>
-    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="130%">
-      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#EC4899" flood-opacity="0.4"/>
+    <filter id="glow">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#EC4899" flood-opacity="0.5"/>
     </filter>
   </defs>
   
-  <!-- Modern sock shape - flowing and clean -->
-  <path d="M35 15 
-           L35 50 
-           Q35 68 55 68 
-           L85 68 
-           Q105 68 105 50 
-           L105 30 
-           Q105 12 85 12 
-           L55 12 
-           L55 15 
-           Q55 8 48 8 
-           L48 8 
-           Q35 8 35 15 Z" 
-        fill="url(#pinkFlow)" filter="url(#softShadow)"/>
+  <!-- Weird heart shape - like a whale/bird flying -->
+  <path d="M70 95 C25 60, -5 40, 10 18 C25 0, 55 8, 70 28 C85 8, 115 0, 130 18 C145 40, 115 60, 70 95Z" 
+        fill="url(#pinkPurple)" filter="url(#glow)"/>
   
-  <!-- Clean white cuff -->
-  <path d="M32 12 L32 22 Q32 26 36 26 L104 26 Q108 26 108 22 L108 12 Q108 8 104 8 L36 8 Q32 8 32 12 Z" 
-        fill="white"/>
+  <!-- Inner highlight - wing/swimming feel -->
+  <ellipse cx="40" cy="32" rx="14" ry="8" fill="white" opacity="0.25" transform="rotate(-20 40 32)"/>
   
-  <!-- Minimal pattern - 3 neat dots -->
-  <circle cx="50" cy="38" r="5" fill="white" opacity="0.9"/>
-  <circle cx="70" cy="38" r="5" fill="white" opacity="0.9"/>
-  <circle cx="90" cy="38" r="5" fill="white" opacity="0.9"/>
-  <circle cx="60" cy="55" r="5" fill="white" opacity="0.9"/>
-  <circle cx="80" cy="55" r="5" fill="white" opacity="0.9"/>
+  <!-- Text faded into heart -->
+  <text x="70" y="50" font-family="Arial Black, sans-serif" font-size="11" font-weight="900" 
+        fill="white" text-anchor="middle" opacity="0.9" letter-spacing="0.5">Rock'N</text>
+  <text x="70" y="65" font-family="Arial, sans-serif" font-size="9" font-weight="bold" 
+        fill="white" text-anchor="middle" opacity="0.75">Socks</text>
   
-  <!-- Subtle shine -->
-  <ellipse cx="45" cy="30" rx="8" ry="5" fill="white" opacity="0.25" transform="rotate(-15 45 30)"/>
+  <!-- Sparkles -->
+  <circle cx="110" cy="20" r="4" fill="white" opacity="0.6"/>
+  <circle cx="30" cy="35" r="3" fill="white" opacity="0.4"/>
+  <circle cx="100" cy="50" r="2" fill="white" opacity="0.3"/>
 </svg>
