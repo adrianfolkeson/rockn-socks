@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { 
-  ShoppingCart, Menu, X, Search, Heart, User, Star, Truck, RotateCcw, 
+  ShoppingCart, Menu, X, Search, Heart, User, Star, Truck, RotateCcw, Settings, 
   Shield, ChevronDown, ChevronUp, Plus, Minus,
   Mail, MapPin, Lock, ArrowRight, Sparkles, Package
 } from 'lucide-react'
@@ -641,6 +641,70 @@ function ComplaintModal({ isOpen, onClose, setShowComplaintModal, setComplaintSe
   )
 }
 
+// Profile Dropdown
+function ProfileDropdown({ isOpen, onClose, showSettings, setShowSettings }: { isOpen: boolean; onClose: () => void; showSettings: boolean; setShowSettings: (v: boolean) => void }) {
+  if (!isOpen) return null
+  
+  return (
+    <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-50">
+      <div className="p-4 bg-gradient-to-r from-pink-500 to-rose-500">
+        <p className="text-white font-semibold">Välkommen!</p>
+        <p className="text-white/80 text-sm">Logga in för att se din profil</p>
+      </div>
+      
+      <div className="py-2">
+        <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors">
+          <Heart className="w-5 h-5 text-pink-500" />
+          <span className="text-slate-700">Mina favoriter</span>
+        </button>
+        
+        <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors">
+          <Star className="w-5 h-5 text-pink-500" />
+          <span className="text-slate-700">Mina beställningar</span>
+        </button>
+        
+        <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors">
+          <RotateCcw className="w-5 h-5 text-pink-500" />
+          <span className="text-slate-700">Mina returer</span>
+        </button>
+        
+        <div className="border-t border-slate-200 my-2"></div>
+        
+        <button 
+          onClick={() => setShowSettings(!showSettings)}
+          className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <Settings className="w-5 h-5 text-pink-500" />
+            <span className="text-slate-700">Inställningar</span>
+          </div>
+          <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showSettings ? 'rotate-180' : ''}`} />
+        </button>
+        
+        {showSettings && (
+          <div className="bg-slate-50 py-2">
+            <button className="w-full flex items-center gap-3 px-8 py-2 hover:bg-slate-100 transition-colors text-sm">
+              <span className="text-slate-600">Byta lösenord</span>
+            </button>
+            <button className="w-full flex items-center gap-3 px-8 py-2 hover:bg-slate-100 transition-colors text-sm">
+              <span className="text-slate-600">Supportärenden</span>
+            </button>
+            <button className="w-full flex items-center gap-3 px-8 py-2 hover:bg-slate-100 transition-colors text-sm">
+              <span className="text-slate-600">Avsluta konto</span>
+            </button>
+            <button className="w-full flex items-center gap-3 px-8 py-2 hover:bg-slate-100 transition-colors text-sm">
+              <span className="text-slate-600">Prenumerera notis</span>
+            </button>
+            <button className="w-full flex items-center gap-3 px-8 py-2 hover:bg-slate-100 transition-colors text-sm text-red-500">
+              <span>Logga ut</span>
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 // Category Card
 function CategoryCard({ category, isActive, onClick }: { category: typeof categories[0]; isActive: boolean; onClick: () => void }) {
   return (
@@ -702,6 +766,8 @@ function MainContent() {
   const [complaintOrder, setComplaintOrder] = useState('')
   const [complaintName, setComplaintName] = useState('')
   const [complaintReason, setComplaintReason] = useState('')
+  const [showProfileMenu, setShowProfileMenu] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
   const [complaintSent, setComplaintSent] = useState(false)
   const { language } = useLanguage()
   
@@ -818,9 +884,20 @@ function MainContent() {
               <button className="hidden sm:flex p-3 hover:bg-slate-100 rounded-full transition-colors">
                 <Heart className="w-5 h-5 text-slate-600" />
               </button>
-              <button className="hidden sm:flex p-3 hover:bg-slate-100 rounded-full transition-colors">
-                <User className="w-5 h-5 text-slate-600" />
-              </button>
+              <div className="relative">
+                <button 
+                  onClick={() => setShowProfileMenu(!showProfileMenu)}
+                  className="hidden sm:flex p-3 hover:bg-slate-100 rounded-full transition-colors"
+                >
+                  <User className="w-5 h-5 text-slate-600" />
+                </button>
+                <ProfileDropdown 
+                  isOpen={showProfileMenu} 
+                  onClose={() => setShowProfileMenu(false)} 
+                  showSettings={showSettings}
+                  setShowSettings={setShowSettings}
+                />
+              </div>
               <button 
                 onClick={() => setIsCartOpen(true)} 
                 className="relative p-3 hover:bg-slate-100 rounded-full transition-colors"
