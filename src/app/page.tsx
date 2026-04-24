@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import { LanguageProvider, useLanguage } from '@/lib/LanguageContext'
 import { supabase } from '@/lib/supabase'
+import { Logo, LogoWhite } from '@/components/Logo'
 
 // Product types
 interface ProductVariant {
@@ -1080,7 +1081,7 @@ function MobileMenu({ isOpen, onClose, txt }: { isOpen: boolean; onClose: () => 
       <div className={`fixed left-0 top-0 bottom-0 h-full w-[85vw] max-w-[320px] bg-white z-50 shadow-2xl transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col h-full p-6">
           <div className="flex items-center justify-between mb-8">
-            <img src="/logo.svg?v=2" alt="Strumpmix" className="h-9" />
+            <Logo className="h-9" />
             <button 
               onClick={onClose} 
               className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors touch-manipulation"
@@ -1324,7 +1325,7 @@ function MainContent() {
               
               {/* Logo - Left aligned */}
               <a href="#" className="flex items-center">
-                <img src="/logo.svg?v=4" alt="Strumpmix" className="h-9 sm:h-11" />
+                <Logo className="h-9 sm:h-11" />
               </a>
             </div>
             
@@ -1731,7 +1732,7 @@ function MainContent() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-12">
             <div className="col-span-2 md:col-span-1">
-              <img src="/logo-white.svg" alt="Strumpmix" className="h-8 sm:h-10 mb-4 sm:mb-6" />
+              <LogoWhite className="h-8 sm:h-10 mb-4 sm:mb-6" />
               <p className="text-slate-400 text-sm leading-relaxed mb-4">{txt.footerDesc}</p>
               <a 
                 href="https://instagram.com/rocknsocks" 
