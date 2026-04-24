@@ -800,6 +800,8 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
     }
   }
   
+  if (!isOpen) return null
+  
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
       <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl overflow-hidden flex flex-col">
