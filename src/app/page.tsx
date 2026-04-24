@@ -243,7 +243,7 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 // FAQ Accordion
-function FAQItem({ question, answer }: { question: string; answer: string }) {
+function FAQItem({ question, answer }: { question: string; answer: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false)
   
   return (
