@@ -786,21 +786,6 @@ function ProfileDropdown({ isOpen, onClose, showSettings, setShowSettings, setAc
 // Profile Modal - Simple view
 function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favorites, orders, returns, onLogout }: { isOpen: boolean; onClose: () => void; activeSection: string; setActiveSection: (s: string) => void; favorites: number[]; orders: Order[]; returns: Return[]; onLogout: () => void }) {
   if (!isOpen) return null
-    switch(status) {
-      case 'levererad': return 'bg-green-100 text-green-700'
-      case 'skickad': return 'bg-blue-100 text-blue-700'
-      case 'behandlas': return 'bg-yellow-100 text-yellow-700'
-      case 'retur': return 'bg-orange-100 text-orange-700'
-      case 'godkänd': return 'bg-green-100 text-green-700'
-      case 'avslutad': return 'bg-slate-100 text-slate-700'
-      case 'begärd': return 'bg-yellow-100 text-yellow-700'
-      case 'öppna': return 'bg-pink-100 text-pink-700'
-      case 'stängd': return 'bg-slate-100 text-slate-700'
-      default: return 'bg-slate-100 text-slate-700'
-    }
-  }
-  
-  if (!isOpen) return null
   
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
