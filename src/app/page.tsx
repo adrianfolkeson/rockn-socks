@@ -558,17 +558,22 @@ function CartDrawer({ isOpen, onClose, cart, onUpdateQuantity, onRemove, txt }: 
 }
 
 // Complaint Modal
-function ComplaintModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+function ComplaintModal({ isOpen, onClose, setShowComplaintModal, setComplaintSent, setComplaintOrder, setComplaintName, setComplaintReason }: { isOpen: boolean; onClose: () => void; setShowComplaintModal: (v: boolean) => void; setComplaintSent: (v: boolean) => void; setComplaintOrder: (v: string) => void; setComplaintName: (v: string) => void; setComplaintReason: (v: string) => void }) {
+  const [complaintOrder, setComplaintOrderLocal] = useState('')
+  const [complaintName, setComplaintNameLocal] = useState('')
+  const [complaintReason, setComplaintReasonLocal] = useState('')
+  const [complaintSent, setComplaintSentLocal] = useState(false)
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // In production, send to backend
-    setComplaintSent(true)
+    setComplaintSentLocal(true)
     setTimeout(() => {
       setShowComplaintModal(false)
-      setComplaintSent(false)
-      setComplaintOrder('')
-      setComplaintName('')
-      setComplaintReason('')
+      setComplaintSentLocal(false)
+      setComplaintOrderLocal('')
+      setComplaintNameLocal('')
+      setComplaintReasonLocal('')
     }, 2000)
   }
   
@@ -595,7 +600,7 @@ function ComplaintModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
               <input
                 type="text"
                 value={complaintOrder}
-                onChange={(e) => setComplaintOrder(e.target.value)}
+                onChange={(e) => setComplaintOrderLocal(e.target.value)}
                 required
                 placeholder="t.ex. #12345"
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
@@ -606,7 +611,7 @@ function ComplaintModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
               <input
                 type="text"
                 value={complaintName}
-                onChange={(e) => setComplaintName(e.target.value)}
+                onChange={(e) => setComplaintNameLocal(e.target.value)}
                 required
                 placeholder="Ditt fullständiga namn"
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
@@ -616,7 +621,7 @@ function ComplaintModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
               <label className="block text-sm font-semibold text-slate-700 mb-2">Orsak till reklamation</label>
               <textarea
                 value={complaintReason}
-                onChange={(e) => setComplaintReason(e.target.value)}
+                onChange={(e) => setComplaintReasonLocal(e.target.value)}
                 required
                 rows={4}
                 placeholder="Beskriv problemet..."
@@ -1062,7 +1067,7 @@ function MainContent() {
       </section>
       
       {/* Complaint Modal */}
-      <ComplaintModal isOpen={showComplaintModal} onClose={() => setShowComplaintModal(false)} />
+      <ComplaintModal isOpen={showComplaintModal} onClose={() => setShowComplaintModal(false)} setShowComplaintModal={setShowComplaintModal} setComplaintSent={setComplaintSent} setComplaintOrder={setComplaintOrder} setComplaintName={setComplaintName} setComplaintReason={setComplaintReason} />
       
       {/* Newsletter Section */}
       <NewsletterSection txt={txt} />
