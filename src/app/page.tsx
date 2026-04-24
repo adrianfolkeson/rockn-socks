@@ -784,68 +784,80 @@ function MainContent() {
       
       {/* About Us Section */}
       <section id="about" className="py-16 lg:py-24 bg-slate-900 text-white scroll-mt-20">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl lg:text-5xl font-black mb-2">
-              VI ROCKAR FÖR ALLA
-            </h2>
-            <p className="text-lg text-pink-400 font-semibold">
-              ❤️ 5% av vinsten går till Rocka Sockorna
-            </p>
-          </div>
-          
-          <div className="bg-slate-800/50 rounded-2xl p-8 mb-8">
-            <p className="text-lg text-slate-300 leading-relaxed mb-4">
-              <strong className="text-white">Vår historia</strong>
-            </p>
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="text-center lg:text-left mb-8">
+                <h2 className="text-3xl lg:text-5xl font-black mb-2">
+                  VI ROCKAR FÖR ALLA
+                </h2>
+                <p className="text-lg text-pink-400 font-semibold">
+                  ❤️ 5% av vinsten går till Rocka Sockorna
+                </p>
+              </div>
+              
+              <div className="bg-slate-800/50 rounded-2xl p-8">
+                <p className="text-lg text-slate-300 leading-relaxed mb-4">
+                  <strong className="text-white">Vår historia</strong>
+                </p>
+                
+                {/* Short version - always shown */}
+                {!showFullAbout ? (
+                  <>
+                    <p className="text-lg text-slate-300 leading-relaxed mb-4">
+                      Visste du att den 21 mars är det internationella Rocksockdagen? En dag då vi uppmärksammar och stödjer personer med Downs syndrom och andra funktionsnedsättningar över hela världen.
+                    </p>
+                    <p className="text-lg text-slate-300 leading-relaxed mb-4">
+                      Rock'N Socks föddes ur en enkel idé: att kombinera moderiktiga strumpor med ett viktigt budskap. Varje par strumpor du köper bidrar direkt till att stödja organisationer som arbetar för ett mer inkluderande samhälle.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    {/* Full version */}
+                    <p className="text-lg text-slate-300 leading-relaxed mb-4">
+                      Visste du att den 21 mars är det internationella Rocksockdagen? En dag då vi uppmärksammar och stödjer personer med Downs syndrom och andra funktionsnedsättningar över hela världen.
+                    </p>
+                    <p className="text-lg text-slate-300 leading-relaxed mb-4">
+                      Rock'N Socks föddes ur en enkel idé: att kombinera moderiktiga strumpor med ett viktigt budskap. Varje par strumpor du köper bidrar direkt till att stödja organisationer som arbetar för ett mer inkluderande samhälle.
+                    </p>
+                    <p className="text-lg text-slate-300 leading-relaxed mb-4">
+                      Vi tror att alla förtjänar att känna sig inkluderade och sedda. Genom att 'rocka' udda och vilda strumpor visar vi att vi står upp för mångfald och acceptans. Det handlar inte om hur vi ser ut – det handlar om vilka vi är på insidan.
+                    </p>
+                    <p className="text-lg text-slate-300 leading-relaxed mb-4 italic">
+                      "Våra strumpor är mer än bara ett plagg. De är ett statement. En möjlighet att visa ditt stöd och sprida glädje. Så nästa gång du ser någon med ett par udda strumpor – fråga dem varför. De kanske är en del av Rörelsen."
+                    </p>
+                    <p className="text-lg text-slate-300 leading-relaxed">
+                      <strong className="text-pink-400">21 mars</strong> – World Down Syndrome Day
+                    </p>
+                  </>
+                )}
+              </div>
+              
+              <div className="text-center lg:text-left mt-6">
+                <button 
+                  onClick={() => setShowFullAbout(!showFullAbout)}
+                  className="inline-flex items-center gap-2 text-white hover:text-pink-400 font-semibold transition-colors"
+                >
+                  {showFullAbout ? (
+                    <>
+                      Visa mindre <ChevronUp className="w-5 h-5" />
+                    </>
+                  ) : (
+                    <>
+                      Läs mer <ChevronDown className="w-5 h-5" />
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
             
-            {/* Short version - always shown */}
-            {!showFullAbout ? (
-              <>
-                <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                  Visste du att den 21 mars är det internationella Rocksockdagen? En dag då vi uppmärksammar och stödjer personer med Downs syndrom och andra funktionsnedsättningar över hela världen.
-                </p>
-                <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                  Rock'N Socks föddes ur en enkel idé: att kombinera moderiktiga strumpor med ett viktigt budskap. Varje par strumpor du köper bidrar direkt till att stödja organisationer som arbetar för ett mer inkluderande samhälle.
-                </p>
-              </>
-            ) : (
-              <>
-                {/* Full version */}
-                <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                  Visste du att den 21 mars är det internationella Rocksockdagen? En dag då vi uppmärksammar och stödjer personer med Downs syndrom och andra funktionsnedsättningar över hela världen.
-                </p>
-                <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                  Rock'N Socks föddes ur en enkel idé: att kombinera moderiktiga strumpor med ett viktigt budskap. Varje par strumpor du köper bidrar direkt till att stödja organisationer som arbetar för ett mer inkluderande samhälle.
-                </p>
-                <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                  Vi tror att alla förtjänar att känna sig inkluderade och sedda. Genom att 'rocka' udda och vilda strumpor visar vi att vi står upp för mångfald och acceptans. Det handlar inte om hur vi ser ut – det handlar om vilka vi är på insidan.
-                </p>
-                <p className="text-lg text-slate-300 leading-relaxed mb-4 italic">
-                  "Våra strumpor är mer än bara ett plagg. De är ett statement. En möjlighet att visa ditt stöd och sprida glädje. Så nästa gång du ser någon med ett par udda strumpor – fråga dem varför. De kanske är en del av Rörelsen."
-                </p>
-                <p className="text-lg text-slate-300 leading-relaxed">
-                  <strong className="text-pink-400">21 mars</strong> – World Down Syndrome Day
-                </p>
-              </>
-            )}
-          </div>
-          
-          <div className="text-center">
-            <button 
-              onClick={() => setShowFullAbout(!showFullAbout)}
-              className="inline-flex items-center gap-2 text-white hover:text-pink-400 font-semibold transition-colors"
-            >
-              {showFullAbout ? (
-                <>
-                  Visa mindre <ChevronUp className="w-5 h-5" />
-                </>
-              ) : (
-                <>
-                  Läs mer <ChevronDown className="w-5 h-5" />
-                </>
-              )}
-            </button>
+            <div className="relative">
+              <img 
+                src="/downbild.png" 
+                alt="Rocka Sockorna" 
+                className="w-full rounded-2xl shadow-2xl"
+              />
+            </div>
           </div>
         </div>
       </section>
