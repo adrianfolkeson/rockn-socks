@@ -73,7 +73,7 @@ const returnFAQs = [
   { q: 'Hur returnerar jag?', a: 'Kontakta oss via e-post så hjälper vi dig. Du har 30 dagars öppet köp.' },
   { q: 'Hur lång tid tar en retur?', a: '5-10 vardagar från att vi mottagit returen.' },
   { q: 'Måste jag betala för returfrakt?', a: 'Nej! Vi står för returfrakten.' },
-  { q: 'Kan jag byta storlek?', a: 'Ja, kontakta oss så fixar vi det.' },
+  { q: 'Kan jag byta storlek?', a: 'Av hygieniska skäl tar vi tyvärr inte emot returer eller byten av strumpor vid storleksfel. Vi rekommenderar att du noggrant kontrollerar storleksguiden innan köp.' },
 ]
 
 // Cart type
