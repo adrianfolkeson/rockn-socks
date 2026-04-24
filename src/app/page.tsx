@@ -170,7 +170,7 @@ const t = {
     settings: 'Inställningar',
     changePassword: 'Byta lösenord',
     support: 'Support',
-    returns: 'Returer',
+    returnsLink: 'Returer',
     deleteAccount: 'Avsluta konto',
     back: 'Tillbaka',
     save: 'Spara',
@@ -242,7 +242,7 @@ const t = {
     settings: 'Settings',
     changePassword: 'Change password',
     support: 'Support',
-    returns: 'Returns',
+    returnsLink: 'Returns',
     deleteAccount: 'Delete account',
     back: 'Back',
     save: 'Save',
@@ -882,7 +882,7 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
                   className="w-full flex items-center gap-3 py-4 text-slate-700 hover:bg-slate-50 rounded-xl px-4 transition-colors touch-manipulation min-h-[52px]"
                 >
                   <RotateCcw className="w-5 h-5 text-slate-400" />
-                  <span className="font-medium">{txt.returns}</span>
+                  <span className="font-medium">{txt.returnsLink}</span>
                 </button>
                 <button 
                   onClick={() => setActiveSection('delete')} 
@@ -966,7 +966,7 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
             {/* Returns */}
             {activeSection === 'returns' && (
               <div>
-                <h3 className="font-bold text-lg mb-4">{txt.returns}</h3>
+                <h3 className="font-bold text-lg mb-4">{txt.returnsLink}</h3>
                 {returnSuccess ? (
                   <div className="text-center py-8">
                     <div className="text-5xl mb-3">✅</div>
