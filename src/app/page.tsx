@@ -1660,11 +1660,23 @@ function MainContent() {
                 <p className="text-slate-600">Vi återkommer inom kort.</p>
               </div>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setComplaintSent(true); setTimeout(() => setShowComplaintModal(false), 2000) }} className="space-y-4">
+              <form onSubmit={(e) => { 
+                e.preventDefault()
+                setComplaintSent(true)
+                setTimeout(() => {
+                  setShowComplaintModal(false)
+                  setComplaintSent(false)
+                  setComplaintOrder('')
+                  setComplaintName('')
+                  setComplaintReason('')
+                }, 2000)
+              }} className="space-y-4">
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Ordernummer</label>
                   <input
                     type="text"
+                    value={complaintOrder}
+                    onChange={(e) => setComplaintOrder(e.target.value)}
                     placeholder="t.ex. #12345"
                     className="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-base min-h-[48px]"
                   />
@@ -1673,6 +1685,8 @@ function MainContent() {
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Fullständiga namn</label>
                   <input
                     type="text"
+                    value={complaintName}
+                    onChange={(e) => setComplaintName(e.target.value)}
                     placeholder="Ditt fullständiga namn"
                     className="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-base min-h-[48px]"
                   />
@@ -1681,6 +1695,8 @@ function MainContent() {
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Orsak</label>
                   <textarea
                     rows={4}
+                    value={complaintReason}
+                    onChange={(e) => setComplaintReason(e.target.value)}
                     placeholder="Beskriv problemet..."
                     className="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-base resize-none"
                   />
