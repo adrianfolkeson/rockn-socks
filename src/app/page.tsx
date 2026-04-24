@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { 
   ShoppingCart, Menu, X, Search, Heart, Star, Truck, RotateCcw, 
-  Shield, Globe, ChevronDown, Plus, Minus,
-  Mail, Phone, MapPin, Lock, Package, Check, ArrowRight, Sparkles
+  Shield, ChevronDown, Plus, Minus,
+  Mail, MapPin, Lock, ArrowRight, Sparkles, Package
 } from 'lucide-react'
 import { LanguageProvider, useLanguage } from '@/lib/LanguageContext'
 
@@ -26,6 +26,12 @@ interface Product {
   variants: ProductVariant[]
   isNew?: boolean
   isSale?: boolean
+}
+
+// Newsletter subscribers type
+interface NewsletterSubscriber {
+  email: string
+  date: Date
 }
 
 // Categories with icons
@@ -62,6 +68,14 @@ const products: Product[] = [
   { id: 18, name: 'Skog Sockor', category: 'nature', price: 49, originalPrice: 49, image: '/products/forest-socks.jpg', rating: 4.6, reviews: 112, variants: [{size: '34-36', stock: 10}, {size: '37-39', stock: 12}, {size: '40-42', stock: 11}] },
 ]
 
+// Return FAQ items
+const returnFAQs = [
+  { q: 'Hur returnerar jag?', a: 'Kontakta oss via e-post så hjälper vi dig. Du har 30 dagars öppet köp.' },
+  { q: 'Hur lång tid tar en retur?', a: '5-10 vardagar från att vi mottagit returen.' },
+  { q: 'Måste jag betala för returfrakt?', a: 'Nej! Vi står för returfrakten.' },
+  { q: 'Kan jag byta storlek?', a: 'Ja, kontakta oss så fixar vi det.' },
+]
+
 // Cart type
 interface CartItem {
   product: Product
@@ -74,8 +88,8 @@ interface CartItem {
 const t = {
   sv: {
     freeShipping: 'Fri frakt i hela Sverige',
-    over249: '',
     openPurchase: '30 dagars öppet köp',
+    secure: 'Säker betalning',
     heroTitle: 'Vilda mönster,',
     heroTitle2: 'perfekt passform',
     heroSubtitle: 'Unika strumpor för alla stilar. Från dinosaurier till Harry Potter – hitta din favorit!',
@@ -87,9 +101,7 @@ const t = {
     new: 'Nyhet',
     sale: 'REA',
     reviews: 'recensioner',
-    save: 'Spara',
     bundle: '3-pack',
-    bundleDesc: '3 par för 99 kr',
     trustTitle: 'Varför Rock\'N Socks?',
     freeShipping2: 'Fri frakt i hela Sverige',
     freeShippingText: 'Snabb leverans med PostNord, 2-4 vardagar',
@@ -97,16 +109,14 @@ const t = {
     returnsText: 'Inga frågor, pengarna tillbaka',
     quality: 'Premium kvalitet',
     qualityText: 'Strumpor som håller – testade för komfort',
-    secure: 'Säker betalning',
+    secure2: 'Säker betalning',
     secureText: 'Klarna, kort, Apple Pay & Google Pay',
     footerDesc: 'Vilda mönster för vilda själar.',
     contact: 'Kontakt',
     email: 'info@auroraecom.se',
-    phone: '',
     address: 'Stockholm, Sverige',
     about: 'Om oss',
-    aboutText: 'Vi på Rock\'N Socks letar världen över efter de mest unika och roliga mönstren. Vi tror att livet är för kort för tråkiga strumpor!',
-    followUs: 'Följ oss',
+    aboutText: 'Vi på Rock\'N Socks letar världen över efter de mest unika och roliga mönstren.',
     legal: 'Legal',
     terms: 'Köpvillkor',
     privacy: 'Integritetspolicy',
@@ -117,21 +127,26 @@ const t = {
     total: 'Totalt',
     checkout: 'Till kassan',
     continueShopping: 'Fortsätt handla',
-    remove: 'Ta bort',
     popular: 'Populärast',
     newest: 'Nyast',
     priceLow: 'Pris: Lågt till högt',
     priceHigh: 'Pris: Högt till lågt',
-    quickView: 'Snabbvy',
-    inStock: 'I lager',
-    lowStock: 'Få kvar',
     featured: 'Utvalda produkter',
-    shopAll: 'Visa alla',
+    newsletter: 'Håll dig uppdaterad!',
+    newsletterText: 'Prenumerera på vårt nyhetsbrev för exklusiva erbjudanden!',
+    emailPlaceholder: 'Din e-postadress',
+    subscribe: 'Prenumerera',
+    thanksSubscribe: 'Tack! Du prenumererar nu! 🎉',
+    returnFAQ: 'Returfrågor',
+    faqTitle: 'Vanliga frågor om returer',
+    instagram: 'Följ oss på Instagram',
+    outOfStock: 'Slut i lager',
+    lowStock: 'Få kvar',
   },
   en: {
     freeShipping: 'Free shipping Sweden',
-    over249: '',
     openPurchase: '30 day open purchase',
+    secure: 'Secure payment',
     heroTitle: 'Wild patterns,',
     heroTitle2: 'perfect fit',
     heroSubtitle: 'Unique socks for all styles. From dinosaurs to Harry Potter – find your favorite!',
@@ -143,9 +158,7 @@ const t = {
     new: 'New',
     sale: 'SALE',
     reviews: 'reviews',
-    save: 'Save',
     bundle: '3-pack',
-    bundleDesc: '3 pairs for 99 kr',
     trustTitle: 'Why Rock\'N Socks?',
     freeShipping2: 'Free shipping Sweden',
     freeShippingText: 'Fast delivery with PostNord, 2-4 business days',
@@ -153,16 +166,14 @@ const t = {
     returnsText: 'No questions, money back',
     quality: 'Premium quality',
     qualityText: 'Socks that last – tested for comfort',
-    secure: 'Secure payment',
+    secure2: 'Secure payment',
     secureText: 'Klarna, card, Apple Pay & Google Pay',
     footerDesc: 'Wild patterns for wild souls.',
     contact: 'Contact',
     email: 'info@auroraecom.se',
-    phone: '',
     address: 'Stockholm, Sweden',
     about: 'About us',
-    aboutText: 'At Rock\'N Socks we search the world for the most unique and fun patterns. We believe life is too short for boring socks!',
-    followUs: 'Follow us',
+    aboutText: 'At Rock\'N Socks we search the world for the most unique and fun patterns.',
     legal: 'Legal',
     terms: 'Terms',
     privacy: 'Privacy',
@@ -173,78 +184,135 @@ const t = {
     total: 'Total',
     checkout: 'Checkout',
     continueShopping: 'Continue shopping',
-    remove: 'Remove',
     popular: 'Most Popular',
     newest: 'Newest',
     priceLow: 'Price: Low to High',
     priceHigh: 'Price: High to Low',
-    quickView: 'Quick view',
-    inStock: 'In stock',
-    lowStock: 'Low stock',
     featured: 'Featured products',
-    shopAll: 'Shop all',
+    newsletter: 'Stay updated!',
+    newsletterText: 'Subscribe to our newsletter for exclusive offers!',
+    emailPlaceholder: 'Your email address',
+    subscribe: 'Subscribe',
+    thanksSubscribe: 'Thanks! You\'re subscribed! 🎉',
+    returnFAQ: 'Return questions',
+    faqTitle: 'Common questions about returns',
+    instagram: 'Follow us on Instagram',
+    outOfStock: 'Out of stock',
+    lowStock: 'Low stock',
   }
 }
 
-// Animation component
-function FadeIn({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
-  return (
-    <div 
-      className={`transition-all duration-700 ease-out ${className}`}
-      style={{ 
-        animationDelay: `${delay}ms`,
-        opacity: 1,
-        transform: 'translateY(0)'
-      }}
-    >
-      {children}
-    </div>
-  )
-}
-
-// Language Switcher - Premium
-function LanguageSwitcher() {
+// Language Switcher
+function LanguageSwitcher({ isDark = false }: { isDark?: boolean }) {
   const { language, setLanguage } = useLanguage()
   return (
-    <div className="flex items-center bg-white/10 backdrop-blur-md rounded-full p-1 border border-white/20">
+    <div className={`flex items-center rounded-full p-1 ${isDark ? 'bg-white/10 backdrop-blur-md border border-white/20' : 'bg-slate-100'}`}>
       <button 
         onClick={() => setLanguage('sv')} 
-        className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+        className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-semibold transition-all duration-300 ${
           language === 'sv' 
-            ? "bg-white text-pink-600 shadow-lg ring-2 ring-pink-300" 
-            : "text-white/90 hover:text-white hover:bg-white/10"
+            ? isDark ? "bg-white text-pink-600 shadow-lg" : "bg-pink-500 text-white shadow-lg"
+            : isDark ? "text-white/80 hover:text-white" : "text-slate-600 hover:text-slate-900"
         }`}
       >
-        <span>🇸🇪</span> <span className="hidden sm:inline">SV</span>
+        <span>🇸🇪</span>
       </button>
       <button 
         onClick={() => setLanguage('en')} 
-        className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+        className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-semibold transition-all duration-300 ${
           language === 'en' 
-            ? "bg-white text-pink-600 shadow-lg ring-2 ring-pink-300" 
-            : "text-white/90 hover:text-white hover:bg-white/10"
+            ? isDark ? "bg-white text-pink-600 shadow-lg" : "bg-pink-500 text-white shadow-lg"
+            : isDark ? "text-white/80 hover:text-white" : "text-slate-600 hover:text-slate-900"
         }`}
       >
-        <span>🇬🇧</span> <span className="hidden sm:inline">EN</span>
+        <span>🇬🇧</span>
       </button>
     </div>
   )
 }
 
 // Star Rating
-function StarRating({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'md' }) {
-  const s = size === 'md' ? 'w-5 h-5' : 'w-4 h-4'
+function StarRating({ rating }: { rating: number }) {
   return (
     <div className="flex gap-0.5">
       {[1, 2, 3, 4, 5].map((star) => (
-        <Star key={star} className={`${s} ${star <= rating ? "fill-amber-400 text-amber-400" : "text-gray-300"}`} />
+        <Star key={star} className={`w-4 h-4 ${star <= rating ? "fill-amber-400 text-amber-400" : "text-slate-300"}`} />
       ))}
     </div>
   )
 }
 
-// Product Card - Premium
-function ProductCard({ product, onAddToCart, txt }: { product: Product; onAddToCart: (product: Product, isBundle: boolean) => void; txt: any }) {
+// FAQ Accordion
+function FAQItem({ question, answer }: { question: string; answer: string }) {
+  const [isOpen, setIsOpen] = useState(false)
+  
+  return (
+    <div className="border-b border-slate-200 last:border-0">
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between py-4 text-left"
+      >
+        <span className="font-semibold text-slate-900 pr-4">{question}</span>
+        <ChevronDown className={`w-5 h-5 text-slate-400 flex-shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      {isOpen && (
+        <div className="pb-4 text-slate-600 leading-relaxed">
+          {answer}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// Newsletter Section
+function NewsletterSection({ txt }: { txt: any }) {
+  const [email, setEmail] = useState('')
+  const [subscribed, setSubscribed] = useState(false)
+  
+  const handleSubscribe = () => {
+    if (email && email.includes('@')) {
+      setSubscribed(true)
+      setEmail('')
+    }
+  }
+  
+  return (
+    <section className="py-16 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-500">
+      <div className="max-w-2xl mx-auto px-4 text-center">
+        <h2 className="text-3xl font-black text-white mb-4">
+          {txt.newsletter}
+        </h2>
+        <p className="text-white/90 text-lg mb-8">
+          {txt.newsletterText}
+        </p>
+        {subscribed ? (
+          <div className="bg-white/20 backdrop-blur rounded-2xl p-6 inline-block">
+            <p className="text-white font-bold text-xl">🎉 {txt.thanksSubscribe}</p>
+          </div>
+        ) : (
+          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={txt.emailPlaceholder}
+              className="flex-1 px-6 py-4 rounded-full text-slate-900 focus:ring-4 focus:ring-white/30 outline-none"
+            />
+            <button 
+              onClick={handleSubscribe}
+              className="bg-slate-900 text-white px-8 py-4 rounded-full font-bold hover:bg-slate-800 transition-colors shadow-lg"
+            >
+              {txt.subscribe}
+            </button>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+// Product Card
+function ProductCard({ product, onAddToCart, txt, index }: { product: Product; onAddToCart: (product: Product, isBundle: boolean) => void; txt: any; index: number }) {
   const [selectedSize, setSelectedSize] = useState(product.variants[0]?.size || '')
   const [showSizes, setShowSizes] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
@@ -259,42 +327,63 @@ function ProductCard({ product, onAddToCart, txt }: { product: Product; onAddToC
   
   const hasDiscount = product.originalPrice > product.price
   const discountPercent = hasDiscount ? Math.round((1 - product.price / product.originalPrice) * 100) : 0
+  const isLowStock = product.variants.every(v => v.stock < 15)
+  const isOutOfStock = product.variants.every(v => v.stock === 0)
   
   return (
     <div 
-      className="group relative bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-pink-500/10 hover:-translate-y-2"
+      className={`group relative bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-pink-500/20 hover:-translate-y-2 ${
+        index < 4 ? 'animate-fade-in-up' : ''
+      }`}
+      style={{ animationDelay: `${index * 100}ms` }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Badges */}
+      <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
+        {product.isNew && (
+          <span className="bg-emerald-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+            {txt.new}
+          </span>
+        )}
+        {product.isSale && (
+          <span className="bg-rose-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+            -{discountPercent}%
+          </span>
+        )}
+        {isLowStock && !isOutOfStock && (
+          <span className="bg-amber-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+            {txt.lowStock}
+          </span>
+        )}
+      </div>
+      
       {/* Image */}
       <div className="relative aspect-square bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center text-[120px] sm:text-[140px] transition-transform duration-700 group-hover:scale-110">
+        <div className="absolute inset-0 flex items-center justify-center text-[100px] sm:text-[120px] transition-transform duration-700 group-hover:scale-110">
           {getCategoryEmoji(product.category)}
         </div>
         
-        {/* Badges */}
-        <div className="absolute top-4 left-4 flex flex-col gap-2">
-          {product.isNew && (
-            <span className="bg-emerald-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
-              {txt.new}
+        {/* Out of stock overlay */}
+        {isOutOfStock && (
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+            <span className="bg-white/90 text-slate-700 px-4 py-2 rounded-full font-bold">
+              {txt.outOfStock}
             </span>
-          )}
-          {product.isSale && (
-            <span className="bg-rose-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
-              -{discountPercent}%
-            </span>
-          )}
-        </div>
+          </div>
+        )}
         
         {/* Quick add overlay */}
-        <div className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-all duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-          <button 
-            onClick={() => onAddToCart(product, false)}
-            className="bg-white text-slate-900 px-6 py-3 rounded-full font-bold shadow-xl hover:bg-pink-500 hover:text-white transition-all duration-300 transform hover:scale-105"
-          >
-            + {txt.addToCart}
-          </button>
-        </div>
+        {!isOutOfStock && (
+          <div className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-all duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+            <button 
+              onClick={() => onAddToCart(product, false)}
+              className="bg-white text-slate-900 px-6 py-3 rounded-full font-bold shadow-xl hover:bg-pink-500 hover:text-white transition-all duration-300 transform hover:scale-105"
+            >
+              + {txt.addToCart}
+            </button>
+          </div>
+        )}
       </div>
       
       {/* Content */}
@@ -303,7 +392,7 @@ function ProductCard({ product, onAddToCart, txt }: { product: Product; onAddToC
         
         <div className="flex items-center gap-3 mb-4">
           <StarRating rating={product.rating} />
-          <span className="text-sm text-slate-500">({product.reviews} {txt.reviews})</span>
+          <span className="text-sm text-slate-500">({product.reviews})</span>
         </div>
         
         {/* Size selector */}
@@ -345,27 +434,31 @@ function ProductCard({ product, onAddToCart, txt }: { product: Product; onAddToC
             )}
           </div>
           
-          <button 
-            onClick={() => onAddToCart(product, false)}
-            className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 group/btn"
-          >
-            <Plus className="w-5 h-5 group-hover/btn:rotate-90 transition-transform duration-300" />
-          </button>
+          {!isOutOfStock && (
+            <button 
+              onClick={() => onAddToCart(product, false)}
+              className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+            >
+              <Plus className="w-5 h-5" />
+            </button>
+          )}
         </div>
         
         {/* Bundle option */}
-        <button 
-          onClick={() => onAddToCart(product, true)}
-          className="w-full mt-3 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-slate-900 to-slate-800 text-white hover:from-pink-600 hover:to-rose-600 transition-all duration-300 shadow-lg hover:shadow-xl"
-        >
-          🧦 {txt.addBundle} – 99 kr
-        </button>
+        {!isOutOfStock && (
+          <button 
+            onClick={() => onAddToCart(product, true)}
+            className="w-full mt-3 py-2.5 rounded-xl font-semibold text-sm bg-slate-900 text-white hover:bg-gradient-to-r hover:from-pink-500 hover:to-rose-500 transition-all duration-300 shadow-lg hover:shadow-xl"
+          >
+            🧦 {txt.addBundle} – 99 kr
+          </button>
+        )}
       </div>
     </div>
   )
 }
 
-// Cart Drawer - Premium
+// Cart Drawer
 function CartDrawer({ isOpen, onClose, cart, onUpdateQuantity, onRemove, txt }: { 
   isOpen: boolean
   onClose: () => void
@@ -390,10 +483,10 @@ function CartDrawer({ isOpen, onClose, cart, onUpdateQuantity, onRemove, txt }: 
   return (
     <>
       <div 
-        className={`fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 transition-all duration-500 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-50 transition-all duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={onClose}
       />
-      <div className={`fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 shadow-2xl transition-transform duration-500 ease-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 shadow-2xl transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-6 border-b border-slate-200">
             <h2 className="text-xl font-bold text-slate-900">{txt.cart}</h2>
@@ -418,10 +511,10 @@ function CartDrawer({ isOpen, onClose, cart, onUpdateQuantity, onRemove, txt }: 
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-slate-900 truncate">{item.product.name}</h3>
                       <p className="text-sm text-slate-500">
-                        {item.isBundle ? `🧦 ${txt.bundle}` : txt.size + ': ' + item.selectedSize}
+                        {item.isBundle ? `🧦 ${txt.bundle}` : `${txt.size}: ${item.selectedSize}`}
                       </p>
                       <p className="font-bold text-pink-600 mt-1">
-                        {item.isBundle ? '99 kr' : item.product.price + ' kr'}
+                        {item.isBundle ? '99 kr' : `${item.product.price} kr`}
                       </p>
                     </div>
                     <div className="flex flex-col items-end justify-between">
@@ -469,9 +562,9 @@ function CategoryCard({ category, isActive, onClick }: { category: typeof catego
   return (
     <button
       onClick={onClick}
-      className={`flex-shrink-0 flex flex-col items-center gap-3 px-6 py-4 rounded-2xl transition-all duration-300 ${
+      className={`flex-shrink-0 flex flex-col items-center gap-2 px-5 py-4 rounded-2xl transition-all duration-300 ${
         isActive 
-          ? 'bg-pink-500 text-white shadow-lg scale-105' 
+          ? 'bg-pink-500 text-white shadow-lg shadow-pink-500/30 scale-105' 
           : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200 hover:border-pink-300 hover:text-pink-600'
       }`}
     >
@@ -481,15 +574,57 @@ function CategoryCard({ category, isActive, onClick }: { category: typeof catego
   )
 }
 
+// Mobile Menu
+function MobileMenu({ isOpen, onClose, txt }: { isOpen: boolean; onClose: () => void; txt: any }) {
+  return (
+    <>
+      <div 
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-50 transition-all duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        onClick={onClose}
+      />
+      <div className={`fixed left-0 top-0 h-full w-80 max-w-[85vw] bg-white z-50 shadow-2xl transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-8">
+            <img src="/logo.svg" alt="Rock'N Socks" className="h-10" />
+            <button onClick={onClose} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          <nav className="space-y-4">
+            <a href="#" className="block py-3 px-4 rounded-xl font-semibold text-slate-900 hover:bg-pink-50 transition-colors" onClick={onClose}>Hem</a>
+            <a href="#products" className="block py-3 px-4 rounded-xl font-semibold text-slate-700 hover:bg-pink-50 hover:text-pink-600 transition-colors" onClick={onClose}>Shoppa</a>
+            <a href="#about" className="block py-3 px-4 rounded-xl font-semibold text-slate-700 hover:bg-pink-50 hover:text-pink-600 transition-colors" onClick={onClose}>Om oss</a>
+          </nav>
+          <div className="mt-8 pt-8 border-t border-slate-200">
+            <p className="text-sm font-semibold text-slate-500 mb-3">Språk</p>
+            <LanguageSwitcher />
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
 // Main Component
 function MainContent() {
   const [cart, setCart] = useState<CartItem[]>([])
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [sortBy, setSortBy] = useState('popular')
+  const [isScrolled, setIsScrolled] = useState(false)
   const { language } = useLanguage()
   
   const txt = t[language]
+  
+  // Scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
   
   const filteredProducts = products
     .filter(p => selectedCategory === 'all' || p.category === selectedCategory)
@@ -537,61 +672,69 @@ function MainContent() {
   
   return (
     <div className="min-h-screen bg-white">
-      {/* Announcement Bar - Marquee */}
+      {/* Announcement Bar */}
       <div className="bg-gradient-to-r from-slate-900 via-pink-600 to-slate-900 py-3 overflow-hidden relative">
-        {/* Sliding marquee */}
         <div className="flex animate-marquee whitespace-nowrap">
           {[1, 2, 3].map((i) => (
             <span key={i} className="mx-8 flex items-center gap-8 text-white text-sm font-medium">
               <span className="flex items-center gap-2">
                 <Truck className="w-4 h-4" /> {txt.freeShipping}
               </span>
-              <span className="text-slate-300">•</span>
+              <span className="text-pink-300">•</span>
               <span className="flex items-center gap-2">
                 <RotateCcw className="w-4 h-4" /> {txt.openPurchase}
               </span>
-              <span className="text-slate-300">•</span>
+              <span className="text-pink-300">•</span>
               <span className="flex items-center gap-2">
                 <Shield className="w-4 h-4" /> {txt.secure}
               </span>
             </span>
           ))}
         </div>
-        {/* Language switcher overlay */}
         <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden md:block">
-          <LanguageSwitcher />
+          <LanguageSwitcher isDark />
         </div>
       </div>
       
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
+      <header className={`sticky top-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white'}`}>
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
-            <div className="flex items-center gap-3">
-              <img src="/logo.svg" alt="Rock'N Socks" className="w-12 h-12" />
-              <div>
-                <span className="text-2xl font-black text-slate-900 tracking-tight">Rock'N</span>
-                <span className="text-2xl font-black text-pink-500"> Socks</span>
-              </div>
+          <div className="flex items-center justify-between h-18 py-4">
+            {/* Mobile Menu Button */}
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="md:hidden p-2 hover:bg-slate-100 rounded-lg transition-colors"
+            >
+              <Menu className="w-6 h-6 text-slate-700" />
+            </button>
+            
+            {/* Logo */}
+            <div className="flex items-center gap-2">
+              <img src="/logo.svg" alt="Rock'N Socks" className="h-10" />
             </div>
             
-            <div className="hidden md:flex items-center gap-6">
-              <a href="#" className="font-semibold text-slate-700 hover:text-pink-600 transition-colors">Hem</a>
+            {/* Desktop Nav */}
+            <nav className="hidden md:flex items-center gap-8">
+              <a href="#" className="font-semibold text-slate-900 hover:text-pink-600 transition-colors">Hem</a>
               <a href="#products" className="font-semibold text-slate-700 hover:text-pink-600 transition-colors">Shoppa</a>
-              <a href="#" className="font-semibold text-slate-700 hover:text-pink-600 transition-colors">Om oss</a>
-            </div>
+              <a href="#about" className="font-semibold text-slate-700 hover:text-pink-600 transition-colors">Om oss</a>
+            </nav>
             
-            <div className="flex items-center gap-3">
-              <button className="hidden md:block p-3 hover:bg-slate-100 rounded-full transition-colors">
+            {/* Icons */}
+            <div className="flex items-center gap-2">
+              <button className="hidden sm:flex p-3 hover:bg-slate-100 rounded-full transition-colors">
                 <Search className="w-5 h-5 text-slate-600" />
               </button>
-              <button className="hidden md:block p-3 hover:bg-slate-100 rounded-full transition-colors">
+              <button className="hidden sm:flex p-3 hover:bg-slate-100 rounded-full transition-colors">
                 <Heart className="w-5 h-5 text-slate-600" />
               </button>
-              <button onClick={() => setIsCartOpen(true)} className="relative p-3 hover:bg-slate-100 rounded-full transition-colors">
+              <button 
+                onClick={() => setIsCartOpen(true)} 
+                className="relative p-3 hover:bg-slate-100 rounded-full transition-colors"
+              >
                 <ShoppingCart className="w-5 h-5 text-slate-600" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-6 h-6 bg-pink-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-6 h-6 bg-pink-500 text-white text-xs font-bold rounded-full flex items-center justify-center animate-bounce">
                     {cartCount}
                   </span>
                 )}
@@ -603,10 +746,9 @@ function MainContent() {
       
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-pink-50/30 to-rose-50/30 py-16 lg:py-24">
-        
-        <div className="relative max-w-7xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
+            <div className="text-center lg:text-left">
               <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-700 px-4 py-2 rounded-full text-sm font-bold mb-6">
                 <Sparkles className="w-4 h-4" /> 60+ mönster för alla stilar!
               </div>
@@ -616,13 +758,13 @@ function MainContent() {
                   {txt.heroTitle2}
                 </span>
               </h1>
-              <p className="text-xl text-slate-600 mb-4 max-w-lg leading-relaxed">
+              <p className="text-xl text-slate-600 mb-4 max-w-lg mx-auto lg:mx-0 leading-relaxed">
                 {txt.heroSubtitle}
               </p>
               <p className="text-lg text-pink-600 font-bold mb-8">
                 ❤️ 5% av vinsten går till Rocka Sockorna
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                 <a href="#products" className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-pink-500/30 hover:shadow-pink-500/50 transition-all duration-300">
                   {txt.shopNow} <ArrowRight className="w-5 h-5" />
                 </a>
@@ -640,13 +782,13 @@ function MainContent() {
       </section>
       
       {/* About Us Section */}
-      <section className="py-16 lg:py-24 bg-slate-900 text-white">
+      <section id="about" className="py-16 lg:py-24 bg-slate-900 text-white scroll-mt-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-pink-500/20 text-pink-400 px-4 py-2 rounded-full text-sm font-bold mb-6">
               Rocka Sockorna Dagen
             </div>
-            <h2 className="text-3xl lg:text-5xl font-black mb-6">
+            <h2 className="text-3xl lg:text-5xl font-black mb-4">
               Välkommen till <span className="bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">Rock'N Socks</span>
             </h2>
             <p className="text-xl text-pink-400 font-bold">
@@ -675,14 +817,14 @@ function MainContent() {
       </section>
       
       {/* Categories */}
-      <section className="py-12 border-b border-slate-200">
+      <section className="py-12 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-bold text-slate-900">{txt.categories}</h2>
             <select 
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-white border border-slate-200 rounded-xl px-4 py-2 font-medium text-slate-700 focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+              className="bg-white border border-slate-200 rounded-xl px-4 py-2 font-medium text-slate-700 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 cursor-pointer"
             >
               <option value="popular">{txt.popular}</option>
               <option value="newest">{txt.newest}</option>
@@ -714,12 +856,13 @@ function MainContent() {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
+            {filteredProducts.map((product, index) => (
               <ProductCard 
                 key={product.id}
                 product={product}
                 onAddToCart={addToCart}
                 txt={txt}
+                index={index}
               />
             ))}
           </div>
@@ -733,7 +876,7 @@ function MainContent() {
           <p className="text-center text-slate-500 mb-12">Allt du behöver veta innan du handlar</p>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-slate-50 to-pink-50/50 border border-slate-100 hover:shadow-xl hover:shadow-pink-500/10 transition-all duration-300">
+            <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-slate-50 to-pink-50/50 border border-slate-100 hover:shadow-xl hover:shadow-pink-500/10 transition-all duration-300 hover:-translate-y-1">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <Truck className="w-8 h-8 text-pink-500" />
               </div>
@@ -741,7 +884,7 @@ function MainContent() {
               <p className="text-slate-500 leading-relaxed">{txt.freeShippingText}</p>
             </div>
             
-            <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-slate-50 to-emerald-50/50 border border-slate-100 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300">
+            <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-slate-50 to-emerald-50/50 border border-slate-100 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-1">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <RotateCcw className="w-8 h-8 text-emerald-500" />
               </div>
@@ -749,30 +892,54 @@ function MainContent() {
               <p className="text-slate-500 leading-relaxed">{txt.returnsText}</p>
             </div>
             
-            <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-slate-50 to-violet-50/50 border border-slate-100 hover:shadow-xl hover:shadow-violet-500/10 transition-all duration-300">
+            <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-slate-50 to-violet-50/50 border border-slate-100 hover:shadow-xl hover:shadow-violet-500/10 transition-all duration-300 hover:-translate-y-1">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <Shield className="w-8 h-8 text-violet-500" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">{txt.secure}</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">{txt.secure2}</h3>
               <p className="text-slate-500 leading-relaxed">{txt.secureText}</p>
             </div>
           </div>
         </div>
       </section>
       
+      {/* Return FAQ Section */}
+      <section className="py-16 bg-slate-50">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
+              ❓ {txt.returnFAQ}
+            </div>
+            <h2 className="text-3xl font-bold text-slate-900">{txt.faqTitle}</h2>
+          </div>
+          
+          <div className="bg-white rounded-3xl p-6 md:p-8 shadow-lg">
+            {returnFAQs.map((faq, i) => (
+              <FAQItem key={i} question={faq.q} answer={faq.a} />
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Newsletter Section */}
+      <NewsletterSection txt={txt} />
+      
       {/* Footer */}
       <footer className="bg-slate-900 text-white py-16">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div>
-              <div className="flex items-center gap-3 mb-6">
-                <img src="/logo.svg" alt="Rock'N Socks" className="w-12 h-12" />
-                <div>
-                  <span className="text-xl font-black text-white">Rock'N</span>
-                  <span className="text-xl font-black text-pink-400"> Socks</span>
-                </div>
-              </div>
-              <p className="text-slate-400 leading-relaxed">{txt.footerDesc}</p>
+              <img src="/logo.svg" alt="Rock'N Socks" className="h-10 mb-6" />
+              <p className="text-slate-400 leading-relaxed mb-4">{txt.footerDesc}</p>
+              <a 
+                href="https://instagram.com/rocknsocks" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-pink-400 hover:text-pink-300 transition-colors"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <span className="text-sm font-medium">{txt.instagram}</span>
+              </a>
             </div>
             
             <div>
@@ -812,6 +979,10 @@ function MainContent() {
         </div>
       </footer>
       
+      {/* Mobile Menu */}
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} txt={txt} />
+      
+      {/* Cart Drawer */}
       <CartDrawer 
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
