@@ -1059,7 +1059,7 @@ function MobileMenu({ isOpen, onClose, txt }: { isOpen: boolean; onClose: () => 
       <div className={`fixed left-0 top-0 bottom-0 h-full w-[85vw] max-w-[320px] bg-white z-50 shadow-2xl transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col h-full p-6">
           <div className="flex items-center justify-between mb-8">
-            <img src="/logo.svg" alt="Strumpmix" className="h-9" />
+            <img src="/logo.svg?v=2" alt="Strumpmix" className="h-9" />
             <button 
               onClick={onClose} 
               className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors touch-manipulation"
@@ -1295,7 +1295,7 @@ function MainContent() {
             
             {/* Logo */}
             <a href="#" className="flex items-center">
-              <img src="/logo.svg" alt="Strumpmix" className="h-8 sm:h-10" />
+              <img src="/logo.svg?v=2" alt="Strumpmix" className="h-8 sm:h-10" />
             </a>
             
             {/* Desktop Nav */}
@@ -1555,43 +1555,6 @@ function MainContent() {
         </div>
       </section>
       
-      {/* Trust Section - Mobile optimized */}
-      <section className="py-12 sm:py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-slate-900 mb-3">{txt.trustTitle}</h2>
-          <p className="text-center text-slate-500 mb-8 sm:mb-12 text-sm sm:text-base">Allt du behöver veta innan du handlar</p>
-          
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            {/* Shipping */}
-            <div className="text-center p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-slate-50 to-pink-50/50 border border-slate-100 hover:shadow-xl hover:shadow-pink-500/10 transition-all duration-300">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg">
-                <Truck className="w-7 h-7 sm:w-8 sm:h-8 text-pink-500" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 sm:mb-3">{txt.freeShipping2}</h3>
-              <p className="text-slate-500 text-sm sm:text-base leading-relaxed">{txt.freeShippingText}</p>
-            </div>
-            
-            {/* Returns */}
-            <div className="text-center p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-slate-50 to-emerald-50/50 border border-slate-100 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg">
-                <RotateCcw className="w-7 h-7 sm:w-8 sm:h-8 text-emerald-500" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 sm:mb-3">{txt.returns}</h3>
-              <p className="text-slate-500 text-sm sm:text-base leading-relaxed">{txt.returnsText}</p>
-            </div>
-            
-            {/* Payment */}
-            <div className="text-center p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-slate-50 to-violet-50/50 border border-slate-100 sm:col-span-2 md:col-span-1 hover:shadow-xl hover:shadow-violet-500/10 transition-all duration-300">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg">
-                <Shield className="w-7 h-7 sm:w-8 sm:h-8 text-violet-500" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 sm:mb-3">{txt.secure2}</h3>
-              <p className="text-slate-500 text-sm sm:text-base leading-relaxed">{txt.secureText}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      
       {/* Return FAQ Section - Mobile optimized */}
       <section className="py-12 sm:py-16 bg-slate-50">
         <div className="max-w-3xl mx-auto px-4">
@@ -1706,7 +1669,7 @@ function MainContent() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-12">
             <div className="col-span-2 md:col-span-1">
-              <img src="/logo.svg" alt="Strumpmix" className="h-8 sm:h-10 mb-4 sm:mb-6" />
+              <img src="/logo.svg?v=2" alt="Strumpmix" className="h-8 sm:h-10 mb-4 sm:mb-6" />
               <p className="text-slate-400 text-sm leading-relaxed mb-4">{txt.footerDesc}</p>
               <a 
                 href="https://instagram.com/rocknsocks" 
