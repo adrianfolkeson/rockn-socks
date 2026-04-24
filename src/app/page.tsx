@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { 
-  ShoppingCart, Menu, X, Heart, User, Star, Truck, RotateCcw, Settings, 
-  Shield, ChevronDown, ChevronUp, Plus, Minus, Search,
+  ShoppingCart, Menu, X, Heart, User, Star, RotateCcw, Settings, 
+  ChevronDown, ChevronUp, Plus, Minus, Search,
   Mail, MapPin, Lock, ArrowRight, Sparkles, Package, HeartOff, LogOut, PackageOpen, MessageCircle
 } from 'lucide-react'
 import { LanguageProvider, useLanguage } from '@/lib/LanguageContext'
@@ -332,16 +332,13 @@ function NewsletterSection({ txt }: { txt: any }) {
     setError('')
     
     try {
-      const { error: dbError } = await supabase
+      await supabase
         .from('subscribers')
         .insert([{ email, subscribed: true }])
       
-      if (dbError && dbError.code !== '23505') { // Ignore duplicate email error
-        console.error('Newsletter error:', dbError)
-      }
       setSubscribed(true)
       setEmail('')
-    } catch (err) {
+    } catch {
       // Still show success even if DB fails
       setSubscribed(true)
       setEmail('')
