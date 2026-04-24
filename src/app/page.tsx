@@ -799,16 +799,13 @@ function MainContent() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="bg-slate-800/50 rounded-2xl p-8">
               <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                <strong className="text-white">Vi tror på att göra gott – på riktigt.</strong> På Rock'N Socks startade vi inte bara ett företag. Vi startade en rörelse. En rörelse där varje par strumpor du köper hjälper oss att stödja personer med Downs syndrom och deras familjer.
+                <strong className="text-white">Ja, vi donerar 5% av vår vinst.</strong> Det är inte en grej vi gör för att det låter bra – det är för att vi faktiskt bryr oss. Enkelt och ärligt.
               </p>
               <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                Den <strong className="text-white">21 mars</strong> firar vi <strong className="text-pink-400">Internationella Downs Syndrom-dagen</strong> – men för oss är det här arbetet något vi bär med oss varje dag. Vi vill vara med och skapa en värld där alla känner sig välkomna, sedda och älskade för vilka de är.
+                Den <strong className="text-white">21 mars</strong> är det <strong className="text-pink-400">Internationella Downs Syndrom-dagen</strong>. En dag vi på Rock'N Socks tycker är värd att uppmärksamma. För alla som är annorlunda är det en dag att vara stolt över.
               </p>
               <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                Det finns en liten enhörning inom oss alla. För personer med Downs syndrom är enhörningen en symbol för styrka, mod och att vara annorlunda på ett vackert sätt. Därför har vi valt att ge <strong className="text-pink-400">5% av vår vinst</strong> till organisationer som arbetar för inkludering och mångfald.
-              </p>
-              <p className="text-lg text-slate-300 leading-relaxed">
-                <strong className="text-white">När du köper strumpor från oss</strong> är du inte bara en kund – du är en del av något större. Du är med och gör skillnad. Tack för att du finns. Tack för att du bryr dig. ❤️
+                Köper du strumpor från oss? Då är du med och stödjer saken. Det är allt. Inga mellansteg, ingen drama. Du får grymma strumpor, och någon annan får det lite bättre. ❤️
               </p>
             </div>
             <div className="relative">
