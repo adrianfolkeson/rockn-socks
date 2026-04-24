@@ -1306,27 +1306,30 @@ function MainContent() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16 sm:h-[72px]">
             
-            {/* Mobile Menu Button */}
-            <button 
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="md:hidden p-2.5 hover:bg-slate-100 rounded-xl transition-colors touch-manipulation"
-            >
-              <Menu className="w-6 h-6 text-slate-700" />
-            </button>
+            {/* Left side - Menu + Logo */}
+            <div className="flex items-center gap-3">
+              {/* Mobile Menu Button */}
+              <button 
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="md:hidden p-2.5 hover:bg-slate-100 rounded-xl transition-colors touch-manipulation"
+              >
+                <Menu className="w-6 h-6 text-slate-700" />
+              </button>
+              
+              {/* Logo - Left aligned */}
+              <a href="#" className="flex items-center">
+                <img src="/logo.svg?v=2" alt="Strumpmix" className="h-8 sm:h-10" />
+              </a>
+            </div>
             
-            {/* Logo */}
-            <a href="#" className="flex items-center">
-              <img src="/logo.svg?v=2" alt="Strumpmix" className="h-8 sm:h-10" />
-            </a>
-            
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-6">
+            {/* Desktop Nav - Center */}
+            <nav className="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
               <a href="#" className="font-semibold text-slate-900 hover:text-pink-600 transition-colors">Hem</a>
               <a href="#products" className="font-semibold text-slate-700 hover:text-pink-600 transition-colors">Shoppa</a>
               <a href="#about" className="font-semibold text-slate-700 hover:text-pink-600 transition-colors">Om oss</a>
             </nav>
             
-            {/* Icons */}
+            {/* Icons - Right */}
             <div className="flex items-center gap-2 sm:gap-3">
               {/* Language Switcher - Desktop */}
               <div className="hidden lg:block">
