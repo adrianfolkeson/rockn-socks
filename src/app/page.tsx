@@ -783,25 +783,9 @@ function ProfileDropdown({ isOpen, onClose, showSettings, setShowSettings, setAc
   )
 }
 
-// Profile Modal - Full page view
-function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favorites, orders, returns, tickets, onLogout, notificationsEnabled, setNotificationsEnabled, onRemoveFavorite, products }: { isOpen: boolean; onClose: () => void; activeSection: string; setActiveSection: (s: string) => void; favorites: number[]; orders: Order[]; returns: Return[]; tickets: SupportTicket[]; onLogout: () => void; notificationsEnabled: boolean; setNotificationsEnabled: (v: boolean) => void; onRemoveFavorite: (id: number) => void; products: Product[] }) {
-  const [showNewPassword, setShowNewPassword] = useState(false)
-  const [confirmDelete, setConfirmDelete] = useState(false)
-  const [supportSubject, setSupportSubject] = useState('')
-  const [supportMessage, setSupportMessage] = useState('')
-  const [ticketSent, setTicketSent] = useState(false)
-  const [showTicketForm, setShowTicketForm] = useState(false)
-  
+// Profile Modal - Simple view
+function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favorites, orders, returns, onLogout }: { isOpen: boolean; onClose: () => void; activeSection: string; setActiveSection: (s: string) => void; favorites: number[]; orders: Order[]; returns: Return[]; onLogout: () => void }) {
   if (!isOpen) return null
-  
-  const navItems = [
-    { id: 'favorites', icon: Heart, label: 'Mina favoriter', count: favorites.length },
-    { id: 'orders', icon: Star, label: 'Mina beställningar', count: orders.length },
-    { id: 'returns', icon: RotateCcw, label: 'Mina returer', count: returns.length },
-    { id: 'settings', icon: Settings, label: 'Inställningar', count: 0 },
-  ]
-  
-  const getStatusColor = (status: string) => {
     switch(status) {
       case 'levererad': return 'bg-green-100 text-green-700'
       case 'skickad': return 'bg-blue-100 text-blue-700'
@@ -818,30 +802,22 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
   
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
-      <div className="absolute right-0 top-0 h-full w-full max-w-2xl bg-white shadow-2xl overflow-hidden flex flex-col">
+      <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="p-6 bg-gradient-to-r from-pink-500 to-rose-500">
+        <div className="p-6 border-b border-slate-200">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-black text-white">Min Profil</h2>
-            <button onClick={onClose} className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-              <X className="w-5 h-5 text-white" />
+            <h2 className="text-xl font-bold text-slate-900">Min Profil</h2>
+            <button onClick={onClose} className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600">
+              <X className="w-5 h-5" />
             </button>
           </div>
         </div>
         
         {/* Navigation */}
-        <div className="flex border-b border-slate-200 overflow-x-auto">
-          {navItems.map(item => (
-            <button
-              key={item.id}
-              onClick={() => setActiveSection(item.id)}
-              className={`flex items-center gap-2 px-6 py-4 font-semibold whitespace-nowrap border-b-2 transition-colors ${activeSection === item.id ? 'text-pink-600 border-pink-600' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
-            >
-              <item.icon className="w-5 h-5" />
-              {item.label}
-              {item.count > 0 && <span className="bg-pink-500 text-white text-xs px-2 py-0.5 rounded-full">{item.count}</span>}
-            </button>
-          ))}
+        <div className="flex border-b border-slate-200">
+          <button onClick={() => setActiveSection('favorites')} className={`flex-1 py-3 text-sm font-medium ${activeSection === 'favorites' ? 'text-slate-900 border-b-2 border-slate-900' : 'text-slate-500'}`}>Favoriter</button>
+          <button onClick={() => setActiveSection('orders')} className={`flex-1 py-3 text-sm font-medium ${activeSection === 'orders' ? 'text-slate-900 border-b-2 border-slate-900' : 'text-slate-500'}`}>Beställningar</button>
+          <button onClick={() => setActiveSection('settings')} className={`flex-1 py-3 text-sm font-medium ${activeSection === 'settings' ? 'text-slate-900 border-b-2 border-slate-900' : 'text-slate-500'}`}>Inställningar</button>
         </div>
         
         {/* Content */}
@@ -850,273 +826,28 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
           {/* Favorites */}
           {activeSection === 'favorites' && (
             <div>
-              <h3 className="text-xl font-bold text-slate-900 mb-4">Mina favoriter ({favorites.length})</h3>
-              {favorites.length === 0 ? (
-                <div className="text-center py-12">
-                  <Heart className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-                  <p className="text-slate-500">Du har inga favoriter ännu</p>
-                  <button onClick={() => setActiveSection('orders')} className="mt-4 text-pink-600 font-semibold">Utforska produkter →</button>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {favorites.map(id => {
-                    const product = products.find(p => p.id === id)
-                    if (!product) return null
-                    return (
-                      <div key={id} className="flex items-center gap-4 bg-slate-50 rounded-xl p-4">
-                        <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center text-2xl border">
-                          {getCategoryEmoji(product.category)}
-                        </div>
-                        <div className="flex-1">
-                          <p className="font-semibold text-slate-900">{product.name}</p>
-                          <p className="text-pink-600 font-bold">{product.price} kr</p>
-                        </div>
-                        <button onClick={() => onRemoveFavorite(id)} className="p-2 hover:bg-slate-200 rounded-full transition-colors">
-                          <Heart className="w-5 h-5 text-pink-500 fill-pink-500" />
-                        </button>
-                      </div>
-                    )
-                  })}
-                </div>
-              )}
+              <p className="text-slate-600 mb-4">Du har {favorites.length} favoriter</p>
+              <button onClick={onLogout} className="text-sm text-slate-500 underline">Logga ut</button>
             </div>
           )}
           
           {/* Orders */}
           {activeSection === 'orders' && (
             <div>
-              <h3 className="text-xl font-bold text-slate-900 mb-4">Mina beställningar ({orders.length})</h3>
-              {orders.length === 0 ? (
-                <div className="text-center py-12">
-                  <Package className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-                  <p className="text-slate-500">Inga beställningar ännu</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {orders.map(order => (
-                    <div key={order.id} className="bg-slate-50 rounded-xl p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-bold text-slate-900">{order.id}</span>
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(order.status)}`}>{order.status}</span>
-                      </div>
-                      <p className="text-sm text-slate-500 mb-2">{order.date}</p>
-                      <div className="space-y-1 mb-2">
-                        {order.items.map((item, i) => (
-                          <p key={i} className="text-sm text-slate-600">{item.quantity}x {item.name}</p>
-                        ))}
-                      </div>
-                      <p className="font-bold text-slate-900">Totalt: {order.total} kr</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-          
-          {/* Returns */}
-          {activeSection === 'returns' && (
-            <div>
-              <h3 className="text-xl font-bold text-slate-900 mb-4">Mina returer ({returns.length})</h3>
-              {returns.length === 0 ? (
-                <div className="text-center py-12">
-                  <RotateCcw className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-                  <p className="text-slate-500">Inga returer ännu</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {returns.map(ret => (
-                    <div key={ret.id} className="bg-slate-50 rounded-xl p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-bold text-slate-900">{ret.id}</span>
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(ret.status)}`}>{ret.status}</span>
-                      </div>
-                      <p className="text-sm text-slate-500 mb-1">Order: {ret.orderId}</p>
-                      <p className="text-sm text-slate-600 mb-1">Anledning: {ret.reason}</p>
-                      <p className="text-sm text-slate-500">{ret.date}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <p className="text-slate-600 mb-4">Du har {orders.length} beställningar</p>
+              <button onClick={onLogout} className="text-sm text-slate-500 underline">Logga ut</button>
             </div>
           )}
           
           {/* Settings */}
           {activeSection === 'settings' && (
             <div>
-              <h3 className="text-xl font-bold text-slate-900 mb-4">Inställningar</h3>
-              <div className="space-y-4">
-                <button onClick={() => setActiveSection('password')} className="w-full flex items-center gap-4 p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
-                  <Lock className="w-6 h-6 text-pink-500" />
-                  <div className="flex-1 text-left">
-                    <p className="font-semibold text-slate-900">Byta lösenord</p>
-                    <p className="text-sm text-slate-500">Uppdatera ditt lösenord</p>
-                  </div>
-                  <ArrowRight className="w-5 h-5 text-slate-400" />
-                </button>
-                
-                <button onClick={() => setActiveSection('support')} className="w-full flex items-center gap-4 p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
-                  <Mail className="w-6 h-6 text-pink-500" />
-                  <div className="flex-1 text-left">
-                    <p className="font-semibold text-slate-900">Supportärenden</p>
-                    <p className="text-sm text-slate-500">{tickets.filter(t => t.status === 'öppna').length} öppna</p>
-                  </div>
-                  <ArrowRight className="w-5 h-5 text-slate-400" />
-                </button>
-                
-                <button onClick={() => setActiveSection('delete')} className="w-full flex items-center gap-4 p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">
-                  <X className="w-6 h-6 text-red-500" />
-                  <div className="flex-1 text-left">
-                    <p className="font-semibold text-red-700">Avsluta konto</p>
-                    <p className="text-sm text-red-500">Radera allt innehåll</p>
-                  </div>
-                  <ArrowRight className="w-5 h-5 text-red-400" />
-                </button>
-                
-                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
-                  <div>
-                    <p className="font-semibold text-slate-900">Prenumerera notis</p>
-                    <p className="text-sm text-slate-500">Ta emot notiser om erbjudanden</p>
-                  </div>
-                  <button 
-                    onClick={() => setNotificationsEnabled(!notificationsEnabled)}
-                    className={`w-14 h-7 rounded-full transition-colors relative ${notificationsEnabled ? 'bg-pink-500' : 'bg-slate-300'}`}
-                  >
-                    <div className={`w-6 h-6 bg-white rounded-full shadow absolute top-0.5 transition-transform ${notificationsEnabled ? 'translate-x-7' : 'translate-x-0.5'}`} />
-                  </button>
-                </div>
-                
-                <button onClick={onLogout} className="w-full flex items-center justify-center gap-2 p-4 border-2 border-red-500 rounded-xl text-red-500 font-semibold hover:bg-red-50 transition-colors">
-                  Logga ut
-                </button>
+              <div className="space-y-3">
+                <button className="w-full text-left py-2 text-slate-700 hover:text-slate-900">Byta lösenord</button>
+                <button className="w-full text-left py-2 text-slate-700 hover:text-slate-900">Support</button>
+                <button className="w-full text-left py-2 text-slate-700 hover:text-slate-900">Avsluta konto</button>
               </div>
-            </div>
-          )}
-          
-          {/* Change Password */}
-          {activeSection === 'password' && (
-            <div>
-              <button onClick={() => setActiveSection('settings')} className="flex items-center gap-2 text-pink-600 mb-4">
-                <ArrowRight className="w-4 h-4 rotate-180" /> Tillbaka
-              </button>
-              <h3 className="text-xl font-bold text-slate-900 mb-4">Byta lösenord</h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Nuvarande lösenord</label>
-                  <input type="password" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-pink-500 outline-none" />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Nytt lösenord</label>
-                  <input type="password" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-pink-500 outline-none" />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Bekräfta nytt lösenord</label>
-                  <input type="password" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-pink-500 outline-none" />
-                </div>
-                <button className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-4 rounded-xl font-bold">Spara nytt lösenord</button>
-              </div>
-            </div>
-          )}
-          
-          {/* Support */}
-          {activeSection === 'support' && (
-            <div>
-              <button onClick={() => setActiveSection('settings')} className="flex items-center gap-2 text-pink-600 mb-4">
-                <ArrowRight className="w-4 h-4 rotate-180" /> Tillbaka
-              </button>
-              <h3 className="text-xl font-bold text-slate-900 mb-4">Supportärenden</h3>
-              
-              {!showTicketForm ? (
-                <>
-                  {tickets.length === 0 ? (
-                    <div className="text-center py-8">
-                      <Mail className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-                      <p className="text-slate-500 mb-4">Inga supportärenden</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4 mb-4">
-                      {tickets.map(ticket => (
-                        <div key={ticket.id} className="bg-slate-50 rounded-xl p-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="font-bold text-slate-900">{ticket.subject}</span>
-                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(ticket.status)}`}>{ticket.status}</span>
-                          </div>
-                          <p className="text-sm text-slate-500">{ticket.date}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <button onClick={() => setShowTicketForm(true)} className="w-full bg-pink-500 text-white py-4 rounded-xl font-bold">Skapa nytt ärende</button>
-                </>
-              ) : (
-                <>
-                  {ticketSent ? (
-                    <div className="text-center py-8">
-                      <div className="text-5xl mb-4">✅</div>
-                      <p className="text-lg font-semibold text-slate-900">Ärende skickat!</p>
-                      <p className="text-slate-500">Vi återkommer inom kort.</p>
-                      <button onClick={() => { setShowTicketForm(false); setTicketSent(false); }} className="mt-4 text-pink-600 font-semibold">Stäng</button>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-2">Ämne</label>
-                        <input 
-                          type="text" 
-                          value={supportSubject}
-                          onChange={(e) => setSupportSubject(e.target.value)}
-                          placeholder="Kortfattat ärende"
-                          className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-pink-500 outline-none" 
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-2">Meddelande</label>
-                        <textarea 
-                          rows={5}
-                          value={supportMessage}
-                          onChange={(e) => setSupportMessage(e.target.value)}
-                          placeholder="Beskriv ditt ärende..."
-                          className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-pink-500 outline-none resize-none" 
-                        />
-                      </div>
-                      <button 
-                        onClick={() => { if (supportSubject && supportMessage) setTicketSent(true); }}
-                        className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-4 rounded-xl font-bold"
-                      >
-                        Skicka ärende
-                      </button>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          )}
-          
-          {/* Delete Account */}
-          {activeSection === 'delete' && (
-            <div>
-              <button onClick={() => setActiveSection('settings')} className="flex items-center gap-2 text-pink-600 mb-4">
-                <ArrowRight className="w-4 h-4 rotate-180" /> Tillbaka
-              </button>
-              <h3 className="text-xl font-bold text-red-600 mb-4">Avsluta konto</h3>
-              <div className="bg-red-50 rounded-xl p-6 mb-4">
-                <p className="text-slate-700 mb-4">Att avsluta ditt konto innebär att:</p>
-                <ul className="list-disc list-inside text-slate-600 space-y-2 mb-4">
-                  <li>All din personliga information raderas</li>
-                  <li>Dina beställningshistorik raderas</li>
-                  <li>Dina favoriter raderas</li>
-                  <li>Dina eventuella öppna supportärenden stängs</li>
-                </ul>
-                <p className="font-semibold text-red-700">Den här åtgärden kan inte ångras.</p>
-              </div>
-              {!confirmDelete ? (
-                <button onClick={() => setConfirmDelete(true)} className="w-full bg-red-500 text-white py-4 rounded-xl font-bold">Jag förstår, ta bort mitt konto</button>
-              ) : (
-                <div className="space-y-4">
-                  <p className="text-center font-semibold text-slate-900">Är du verkligen säker? Skriv "RADERA" för att bekräfta:</p>
-                  <input type="text" placeholder="Skriv RADERA" className="w-full px-4 py-3 rounded-xl border border-red-300 focus:ring-2 focus:ring-red-500 outline-none text-center" />
-                  <button onClick={() => { onLogout(); onClose(); }} className="w-full bg-red-600 text-white py-4 rounded-xl font-bold">Bekräfta och ta bort konto</button>
-                </div>
-              )}
+              <button onClick={onLogout} className="mt-6 text-slate-500 underline">Logga ut</button>
             </div>
           )}
           
@@ -1384,12 +1115,7 @@ function MainContent() {
         favorites={favorites}
         orders={mockOrders}
         returns={mockReturns}
-        tickets={mockTickets}
         onLogout={handleLogout}
-        notificationsEnabled={notificationsEnabled}
-        setNotificationsEnabled={setNotificationsEnabled}
-        onRemoveFavorite={removeFromFavorites}
-        products={products}
       />
       
       {/* Hero Section */}
