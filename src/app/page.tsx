@@ -954,7 +954,7 @@ function MainContent() {
         <div className="max-w-3xl mx-auto px-4">
           <div className="text-center mb-8">
             <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mb-2">
-              ❓ {txt.returnFAQ}
+              {txt.returnFAQ}
             </h2>
             <p className="text-lg text-slate-600">{txt.faqTitle}</p>
           </div>
