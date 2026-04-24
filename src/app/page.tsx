@@ -1122,6 +1122,8 @@ function MainContent() {
   const [sortBy, setSortBy] = useState('popular')
   const [isScrolled, setIsScrolled] = useState(false)
   const [showFullAbout, setShowFullAbout] = useState(false)
+  const [showSearch, setShowSearch] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
   const [showComplaintModal, setShowComplaintModal] = useState(false)
   const [complaintSent, setComplaintSent] = useState(false)
   const [complaintOrder, setComplaintOrder] = useState('')
@@ -1241,7 +1243,11 @@ function MainContent() {
   }, [])
   
   const filteredProducts = products
-    .filter(p => selectedCategory === 'all' || p.category === selectedCategory)
+    .filter(p => {
+      const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory
+      const matchesSearch = !searchQuery || p.name.toLowerCase().includes(searchQuery.toLowerCase())
+      return matchesCategory && matchesSearch
+    })
     .sort((a, b) => {
       if (sortBy === 'priceLow') return a.price - b.price
       if (sortBy === 'priceHigh') return b.price - a.price
@@ -1318,7 +1324,7 @@ function MainContent() {
               
               {/* Logo - Left aligned */}
               <a href="#" className="flex items-center">
-                <img src="/logo.svg?v=2" alt="Strumpmix" className="h-8 sm:h-10" />
+                <img src="/logo.svg?v=4" alt="Strumpmix" className="h-9 sm:h-11" />
               </a>
             </div>
             
@@ -1341,9 +1347,10 @@ function MainContent() {
                   onClick={() => {
                     // Search functionality - can expand later
                   }}
+                  onClick={() => setShowSearch(!showSearch)}
                   className="p-3 hover:bg-slate-100 rounded-full transition-colors"
                 >
-                  <Search className="w-5 h-5 text-slate-600" />
+                  {showSearch ? <X className="w-5 h-5 text-slate-600" /> : <Search className="w-5 h-5 text-slate-600" />}
                 </button>
                 <button 
                   onClick={() => {
@@ -1395,6 +1402,25 @@ function MainContent() {
           </div>
         </div>
       </header>
+      
+      {/* Search Bar */}
+      {showSearch && (
+        <div className="bg-white border-b px-4 py-3">
+          <div className="max-w-7xl mx-auto">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Sök produkter..."
+                className="w-full pl-12 pr-4 py-3 rounded-full bg-slate-100 border-0 focus:ring-2 focus:ring-pink-500 outline-none"
+                autoFocus
+              />
+            </div>
+          </div>
+        </div>
+      )}
       
       {/* Login Modal */}
       <LoginModal
