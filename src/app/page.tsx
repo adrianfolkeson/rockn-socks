@@ -70,7 +70,7 @@ const products: Product[] = [
 
 // Return FAQ items
 const returnFAQs = [
-  { q: 'Hur returnerar jag?', a: 'Kontakta oss via e-post så hjälper vi dig. Du har 30 dagars öppet köp.' },
+  { q: 'Reklamation', a: 'Fyll i vårt supportformulär ' },
   { q: 'Hur lång tid tar en retur?', a: 'Upp till 14 arbetsdagar från att vi mottagit returen.' },
   { q: 'Måste jag betala för returfrakt?', a: 'Strumpor omfattas av begränsad returrätt av hygieniska skäl och kan endast returneras om de är oanvända samt har kvar originalförpackning och obruten försegling. Vid reklamation (t.ex. fabriksfel eller felaktig leverans) står vi för returfrakten. Support@strumpmix.se' },
   { q: 'Kan jag byta storlek?', a: 'Av hygieniska skäl tar vi tyvärr inte emot returer eller byten av strumpor vid storleksfel. Vi rekommenderar att du noggrant kontrollerar storleksguiden innan köp.' },
@@ -557,6 +557,85 @@ function CartDrawer({ isOpen, onClose, cart, onUpdateQuantity, onRemove, txt }: 
   )
 }
 
+// Complaint Modal
+function ComplaintModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // In production, send to backend
+    setComplaintSent(true)
+    setTimeout(() => {
+      setShowComplaintModal(false)
+      setComplaintSent(false)
+      setComplaintOrder('')
+      setComplaintName('')
+      setComplaintReason('')
+    }, 2000)
+  }
+  
+  if (!isOpen) return null
+  
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
+        <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+          <X className="w-6 h-6" />
+        </button>
+        <h3 className="text-2xl font-black text-slate-900 mb-6">Reklamation</h3>
+        {complaintSent ? (
+          <div className="text-center py-8">
+            <div className="text-5xl mb-4">✅</div>
+            <p className="text-lg font-semibold text-slate-900">Tack för din anmälan!</p>
+            <p className="text-slate-600">Vi återkommer inom kort.</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">Ordernummer</label>
+              <input
+                type="text"
+                value={complaintOrder}
+                onChange={(e) => setComplaintOrder(e.target.value)}
+                required
+                placeholder="t.ex. #12345"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">Fullständiga namn</label>
+              <input
+                type="text"
+                value={complaintName}
+                onChange={(e) => setComplaintName(e.target.value)}
+                required
+                placeholder="Ditt fullständiga namn"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">Orsak till reklamation</label>
+              <textarea
+                value={complaintReason}
+                onChange={(e) => setComplaintReason(e.target.value)}
+                required
+                rows={4}
+                placeholder="Beskriv problemet..."
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none resize-none"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              Skicka
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  )
+}
+
 // Category Card
 function CategoryCard({ category, isActive, onClick }: { category: typeof categories[0]; isActive: boolean; onClick: () => void }) {
   return (
@@ -614,6 +693,11 @@ function MainContent() {
   const [sortBy, setSortBy] = useState('popular')
   const [isScrolled, setIsScrolled] = useState(false)
   const [showFullAbout, setShowFullAbout] = useState(false)
+  const [showComplaintModal, setShowComplaintModal] = useState(false)
+  const [complaintOrder, setComplaintOrder] = useState('')
+  const [complaintName, setComplaintName] = useState('')
+  const [complaintReason, setComplaintReason] = useState('')
+  const [complaintSent, setComplaintSent] = useState(false)
   const { language } = useLanguage()
   
   const txt = t[language]
@@ -961,11 +1045,24 @@ function MainContent() {
           
           <div className="bg-white rounded-3xl p-6 md:p-8 shadow-lg">
             {returnFAQs.map((faq, i) => (
-              <FAQItem key={i} question={faq.q} answer={faq.a} />
+              <FAQItem 
+                key={i} 
+                question={faq.q} 
+                answer={
+                  faq.q === 'Reklamation' ? (
+                    <>
+                      Fyll i vårt supportformulär <button onClick={() => setShowComplaintModal(true)} className="text-pink-600 underline hover:text-pink-700">HÄR</button>
+                    </>
+                  ) : faq.a
+                } 
+              />
             ))}
           </div>
         </div>
       </section>
+      
+      {/* Complaint Modal */}
+      <ComplaintModal isOpen={showComplaintModal} onClose={() => setShowComplaintModal(false)} />
       
       {/* Newsletter Section */}
       <NewsletterSection txt={txt} />
