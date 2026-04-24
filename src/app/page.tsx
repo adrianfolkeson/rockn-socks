@@ -799,10 +799,13 @@ function MainContent() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="bg-slate-800/50 rounded-2xl p-8">
               <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                Vi älskar strumpor som gör dig glad! På Rock'N Socks hittar du unika och modiga mönster för alla stilar. Våra strumpor är mer än bara ett plagg – de är ett sätt att uttrycka dig själv och visa vem du är.
+                <strong className="text-white">På Rock'N Socks bryr vi oss om mer än bara strumpor.</strong> Vi startade det här för att vi tror att alla förtjänar att känna sig inkluderade och uppskattade för vilka de är.
+              </p>
+              <p className="text-lg text-slate-300 leading-relaxed mb-4">
+                Den <strong className="text-white">21 mars</strong> är det <strong className="text-pink-400">Internationella Downs Syndrom-dagen</strong> – och för oss är det mer än bara en dag. Det är en påminnelse om varför vi gör det vi gör.
               </p>
               <p className="text-lg text-slate-300 leading-relaxed">
-                Den <strong className="text-white">21 mars</strong> är det <strong className="text-pink-400">Internationella Downs Syndrom-dagen</strong>. Tillsammans med Röda Enhörningen-rörelsen vill vi uppmärksamma vikten av inkludering och mångfald. Vi tror att alla förtjänar att känna sig sedda och uppskattade för vilka de är.
+                Tillsammans med <strong className="text-white">Röda Enhörningen-rörelsen</strong> vill vi vara med och göra skillnad. Varje par strumpor du köper bidrar till att fler människor får känna sig sedda och älskade precis som de är. ❤️
               </p>
             </div>
             <div className="relative">
