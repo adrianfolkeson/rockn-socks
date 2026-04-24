@@ -85,46 +85,30 @@ interface CartItem {
   isBundle: boolean
 }
 
-// Order type
+// Order type (matches Supabase schema)
 interface Order {
   id: string
-  date: string
-  status: 'levererad' | 'skickad' | 'behandlas' | 'retur'
+  email: string
+  name: string
+  address: string
+  city: string
+  zip_code: string
+  phone: string
   total: number
-  items: { name: string; quantity: number; price: number }[]
+  stripe_payment_id: string
+  status: 'pending' | 'paid' | 'shipped' | 'delivered' | 'cancelled'
+  created_at: string
+  items?: { name: string; quantity: number; price: number }[]
 }
 
-// Return type
-interface Return {
-  id: string
-  orderId: string
-  date: string
-  status: 'begärd' | 'godkänd' | 'behandlas' | 'avslutad'
-  reason: string
+// Map order status to Swedish
+const statusMap: Record<string, string> = {
+  pending: 'Behandlas',
+  paid: 'Betald',
+  shipped: 'Skickad',
+  delivered: 'Levererad',
+  cancelled: 'Avbruten'
 }
-
-// Mock orders
-const mockOrders: Order[] = [
-  { id: '#12345', date: '2024-03-15', status: 'levererad', total: 147, items: [{ name: 'Dinosaurie Sockor', quantity: 1, price: 49 }, { name: 'Harry Potter Sockor', quantity: 2, price: 118 }] },
-  { id: '#12340', date: '2024-02-28', status: 'retur', total: 49, items: [{ name: 'Enhörning Sockor', quantity: 1, price: 49 }] },
-  { id: '#12335', date: '2024-01-10', status: 'levererad', total: 98, items: [{ name: 'Gaming Sockor', quantity: 2, price: 98 }] },
-]
-
-// Mock returns
-const mockReturns: Return[] = [
-  { id: '#RET001', orderId: '#12340', date: '2024-03-01', status: 'avslutad', reason: 'För liten storlek' },
-]
-
-// Support ticket type
-interface SupportTicket {
-  id: string
-  subject: string
-  status: 'öppna' | 'stängd'
-  date: string
-  messages: { from: 'kund' | 'support'; text: string; date: string }[]
-}
-
-const mockTickets: SupportTicket[] = []
 
 // Translations
 const t = {
@@ -731,7 +715,7 @@ function ComplaintModal({ isOpen, onClose, setShowComplaintModal, setComplaintSe
 }
 
 // Profile Dropdown
-function ProfileDropdown({ isOpen, onClose, showSettings, setShowSettings, setActiveSection, favorites, orders, tickets, onLogout, notificationsEnabled, setNotificationsEnabled, isLoggedIn, onOpenLogin }: { isOpen: boolean; onClose: () => void; showSettings: boolean; setShowSettings: (v: boolean) => void; setActiveSection: (s: string) => void; favorites: number[]; orders: Order[]; tickets: SupportTicket[]; onLogout: () => void; notificationsEnabled: boolean; setNotificationsEnabled: (v: boolean) => void; isLoggedIn: boolean; onOpenLogin: () => void }) {
+function ProfileDropdown({ isOpen, onClose, showSettings, setShowSettings, setActiveSection, favorites, orders, onLogout, notificationsEnabled, setNotificationsEnabled, isLoggedIn, onOpenLogin }: { isOpen: boolean; onClose: () => void; showSettings: boolean; setShowSettings: (v: boolean) => void; setActiveSection: (s: string) => void; favorites: number[]; orders: Order[]; onLogout: () => void; notificationsEnabled: boolean; setNotificationsEnabled: (v: boolean) => void; isLoggedIn: boolean; onOpenLogin: () => void }) {
   if (!isOpen) return null
   
   // Not logged in - show login button
@@ -784,7 +768,7 @@ function ProfileDropdown({ isOpen, onClose, showSettings, setShowSettings, setAc
 }
 
 // Profile Modal - Simple view
-function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favorites, orders, returns, onLogout }: { isOpen: boolean; onClose: () => void; activeSection: string; setActiveSection: (s: string) => void; favorites: number[]; orders: Order[]; returns: Return[]; onLogout: () => void }) {
+function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favorites, orders, onLogout }: { isOpen: boolean; onClose: () => void; activeSection: string; setActiveSection: (s: string) => void; favorites: number[]; orders: Order[]; onLogout: () => void }) {
   if (!isOpen) return null
   
   return (
@@ -923,7 +907,6 @@ function MainContent() {
   const [profileSection, setProfileSection] = useState('favorites')
   const [favorites, setFavorites] = useState<number[]>([])
   const [orders, setOrders] = useState<Order[]>([])
-  const [tickets, setTickets] = useState<SupportTicket[]>([])
   const [notificationsEnabled, setNotificationsEnabled] = useState(true)
   const [user, setUser] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -958,15 +941,14 @@ function MainContent() {
         setUser(null)
         setFavorites([])
         setOrders([])
-        setTickets([])
       }
     })
   }
   
   const loadUserData = async (userId: string) => {
-    // Load favorites
+    // Load wishlists (favorites)
     const { data: favData } = await supabase
-      .from('favorites')
+      .from('wishlists')
       .select('product_id')
       .eq('user_id', userId)
     if (favData) setFavorites(favData.map(f => f.product_id))
@@ -975,17 +957,9 @@ function MainContent() {
     const { data: orderData } = await supabase
       .from('orders')
       .select('*')
-      .eq('user_id', userId)
+      .eq('id', userId)
       .order('created_at', { ascending: false })
     if (orderData) setOrders(orderData)
-    
-    // Load tickets
-    const { data: ticketData } = await supabase
-      .from('support_tickets')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-    if (ticketData) setTickets(ticketData)
   }
   
   const handleLogin = async () => {
@@ -1088,9 +1062,16 @@ function MainContent() {
     setFavorites(prev => prev.includes(productId) ? prev : [...prev, productId])
   }
   
+  const addToFavorites = async (productId: number) => {
+    if (user && !favorites.includes(productId)) {
+      await supabase.from('wishlists').insert({ user_id: user.id, product_id: productId })
+    }
+    setFavorites(prev => prev.includes(productId) ? prev : [...prev, productId])
+  }
+  
   const removeFromFavorites = async (productId: number) => {
     if (user) {
-      await supabase.from('favorites').delete().eq('user_id', user.id).eq('product_id', productId)
+      await supabase.from('wishlists').delete().eq('user_id', user.id).eq('product_id', productId)
     }
     setFavorites(prev => prev.filter(id => id !== productId))
   }
@@ -1169,7 +1150,6 @@ function MainContent() {
                   setActiveSection={(s) => { setProfileSection(s); setShowProfileModal(true); setShowProfileMenu(false); }}
                   favorites={favorites}
                   orders={orders}
-                  tickets={tickets}
                   onLogout={handleLogout}
                   notificationsEnabled={notificationsEnabled}
                   setNotificationsEnabled={setNotificationsEnabled}
@@ -1215,7 +1195,6 @@ function MainContent() {
         setActiveSection={setProfileSection}
         favorites={favorites}
         orders={orders}
-        returns={mockReturns}
         onLogout={handleLogout}
       />
       
