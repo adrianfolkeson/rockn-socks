@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { 
-  ShoppingCart, Menu, X, Search, Heart, Star, Truck, RotateCcw, 
+  ShoppingCart, Menu, X, Search, Heart, User, Star, Truck, RotateCcw, 
   Shield, ChevronDown, ChevronUp, Plus, Minus,
   Mail, MapPin, Lock, ArrowRight, Sparkles, Package
 } from 'lucide-react'
@@ -817,6 +817,9 @@ function MainContent() {
               </button>
               <button className="hidden sm:flex p-3 hover:bg-slate-100 rounded-full transition-colors">
                 <Heart className="w-5 h-5 text-slate-600" />
+              </button>
+              <button className="hidden sm:flex p-3 hover:bg-slate-100 rounded-full transition-colors">
+                <User className="w-5 h-5 text-slate-600" />
               </button>
               <button 
                 onClick={() => setIsCartOpen(true)} 
