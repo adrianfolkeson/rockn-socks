@@ -799,13 +799,13 @@ function MainContent() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="bg-slate-800/50 rounded-2xl p-8">
               <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                <strong className="text-white">Ja, vi donerar 5% av vår vinst.</strong> Det är inte en grej vi gör för att det låter bra – det är för att vi faktiskt bryr oss. Enkelt och ärligt.
+                <strong className="text-white">Så, här är grejen:</strong> Vi tycker det är viktigt att ge tillbaka. Därför går 5% av allt vi tjänar direkt till Downs syndrom-relaterade organisationer. Inget lull lull – det är bara så det är.
               </p>
               <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                Den <strong className="text-white">21 mars</strong> är det <strong className="text-pink-400">Internationella Downs Syndrom-dagen</strong>. En dag vi på Rock'N Socks tycker är värd att uppmärksamma. För alla som är annorlunda är det en dag att vara stolt över.
+                Den <strong className="text-white">21 mars</strong> är det <strong className="text-pink-400">Internationella Downs Syndrom-dagen</strong>. Vi är inga hjältar för det, men vi ville göra något litet som faktiskt spelar roll.
               </p>
               <p className="text-lg text-slate-300 leading-relaxed mb-4">
-                Köper du strumpor från oss? Då är du med och stödjer saken. Det är allt. Inga mellansteg, ingen drama. Du får grymma strumpor, och någon annan får det lite bättre. ❤️
+                Köper du strumpor från oss? Cool. Då får du grymma strumpor, och samtidigt hjälper du till. Win-win typ. 🧦❤️
               </p>
             </div>
             <div className="relative">
