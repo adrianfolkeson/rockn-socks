@@ -1068,7 +1068,7 @@ function CategoryCard({ category, isActive, onClick }: { category: typeof catego
 }
 
 // Mobile Menu - Improved
-function MobileMenu({ isOpen, onClose, txt }: { isOpen: boolean; onClose: () => void; txt: any }) {
+function MobileMenu({ isOpen, onClose, txt, searchQuery, setSearchQuery }: { isOpen: boolean; onClose: () => void; txt: any; searchQuery: string; setSearchQuery: (q: string) => void }) {
   return (
     <>
       <div 
@@ -1077,7 +1077,7 @@ function MobileMenu({ isOpen, onClose, txt }: { isOpen: boolean; onClose: () => 
       />
       <div className={`fixed left-0 top-0 bottom-0 h-full w-[85vw] max-w-[320px] bg-white z-50 shadow-2xl transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col h-full p-6">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-6">
             <Logo className="h-9" />
             <button 
               onClick={onClose} 
@@ -1085,6 +1085,20 @@ function MobileMenu({ isOpen, onClose, txt }: { isOpen: boolean; onClose: () => 
             >
               <X className="w-5 h-5" />
             </button>
+          </div>
+          
+          {/* Search bar in mobile menu */}
+          <div className="mb-6">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Sök produkter..."
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-100 border-0 focus:ring-2 focus:ring-pink-500 outline-none"
+              />
+            </div>
           </div>
           
           <nav className="space-y-2">
@@ -1781,7 +1795,7 @@ function MainContent() {
       </footer>
       
       {/* Mobile Menu */}
-      <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} txt={txt} />
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} txt={txt} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       
       {/* Cart Drawer */}
       <CartDrawer 
