@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Search, X } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { Product } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import { Logo } from '@/components/Logo'
