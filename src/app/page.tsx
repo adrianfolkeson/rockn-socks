@@ -614,6 +614,7 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
 }) {
   const [passwordSuccess, setPasswordSuccess] = useState('')
   const [passwordError, setPasswordError] = useState('')
+  const [passwordLoading, setPasswordLoading] = useState(false)
   const [newPassword, setNewPassword] = useState('')
   const [confirmNewPassword, setConfirmNewPassword] = useState('')
   const [supportSubject, setSupportSubject] = useState('')
@@ -637,8 +638,18 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
     
     setPasswordError('')
     setPasswordSuccess('')
+    setPasswordLoading(true)
     
     try {
+      // Get fresh user session first
+      const { data: { user }, error: userError } = await supabase.auth.getUser()
+      
+      if (userError || !user) {
+        setPasswordError('Du måste vara inloggad för att ändra lösenord')
+        setPasswordLoading(false)
+        return
+      }
+      
       const { error } = await supabase.auth.updateUser({ password: newPassword })
       
       if (error) {
@@ -651,6 +662,8 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
       }
     } catch (err) {
       setPasswordError('Ett fel uppstod. Försök igen.')
+    } finally {
+      setPasswordLoading(false)
     }
   }
   
@@ -865,9 +878,14 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
                   />
                   <button 
                     onClick={handlePasswordChange} 
-                    className="w-full bg-pink-500 text-white py-3.5 rounded-xl font-bold text-base touch-manipulation min-h-[48px]"
+                    disabled={passwordLoading}
+                    className="w-full bg-pink-500 hover:bg-pink-600 disabled:bg-pink-300 text-white py-3.5 rounded-xl font-bold text-base touch-manipulation min-h-[48px] flex items-center justify-center gap-2"
                   >
-                    {txt.save || 'Spara'}
+                    {passwordLoading ? (
+                      <><span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> Ändrar...</>
+                    ) : (
+                      (txt.save || 'Spara')
+                    )}
                   </button>
                   {passwordSuccess && <p className="text-green-500 text-center py-2">{passwordSuccess}</p>}
                   {passwordError && <p className="text-red-500 text-center py-2">{passwordError}</p>}
