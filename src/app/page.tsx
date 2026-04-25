@@ -1416,7 +1416,7 @@ function MainContent() {
                 ❤️ 5% av vinsten går till Rocka Sockorna
               </p>
               <div className="flex flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
-                <a href="#products" className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-lg shadow-xl shadow-pink-500/30 hover:shadow-pink-500/50 transition-all duration-300 touch-manipulation">
+                <a href="/catalog" className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-lg shadow-xl shadow-pink-500/30 hover:shadow-pink-500/50 transition-all duration-300 touch-manipulation">
                   {txt.shopNow} <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                 </a>
               </div>
@@ -1712,9 +1712,9 @@ function MainContent() {
             <div>
               <h4 className="font-bold mb-4 text-sm sm:text-base">{txt.legal}</h4>
               <div className="space-y-2 sm:space-y-3 text-slate-400 text-sm">
-                <span className="block hover:text-white transition-colors cursor-pointer">{txt.terms}</span>
-                <span className="block hover:text-white transition-colors cursor-pointer">{txt.privacy}</span>
-                <span className="block hover:text-white transition-colors cursor-pointer">{txt.cookies}</span>
+                <Link href="/terms" className="block hover:text-white transition-colors">{txt.terms}</Link>
+                <Link href="/privacy" className="block hover:text-white transition-colors">{txt.privacy}</Link>
+                <Link href="/cookies" className="block hover:text-white transition-colors">{txt.cookies}</Link>
               </div>
             </div>
           </div>
