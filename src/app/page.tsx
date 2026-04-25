@@ -1152,7 +1152,7 @@ function MobileMenu({ isOpen, onClose, txt, searchQuery, setSearchQuery }: { isO
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Sök produkter..."
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-100 border-0 focus:ring-2 focus:ring-pink-500 outline-none"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-100 border-0 focus:ring-2 focus:ring-pink-500 outline-none text-slate-900 placeholder-slate-500"
               />
             </div>
           </div>
@@ -1484,7 +1484,7 @@ function MainContent() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Sök produkter..."
-                className="w-full pl-12 pr-4 py-3 rounded-full bg-slate-100 border-0 focus:ring-2 focus:ring-pink-500 outline-none"
+                className="w-full pl-12 pr-4 py-3 rounded-full bg-slate-100 border-0 focus:ring-2 focus:ring-pink-500 outline-none text-slate-900 placeholder-slate-500"
                 autoFocus
               />
             </div>
