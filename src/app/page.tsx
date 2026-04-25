@@ -1553,15 +1553,12 @@ function MainContent() {
       <section className="py-10 sm:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-8 sm:mb-12">
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">{txt.featured}</h2>
-              <p className="text-slate-500 mt-1 sm:mt-2 text-sm sm:text-base">Utvalda favoriter</p>
-            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Utvalda Favoriter</h2>
             <a 
               href="/catalog"
               className="px-5 py-2.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full font-semibold text-sm hover:opacity-90 transition-opacity touch-manipulation"
             >
-              Visa alla ({products.length})
+              Handla nu
             </a>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5">
