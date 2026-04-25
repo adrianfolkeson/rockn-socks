@@ -62,6 +62,48 @@ const products: Product[] = [
   { id: 16, name: 'Basket Sockor', category: 'sports', price: 49, originalPrice: 49, image: '/products/basketball-socks.jpg', rating: 4.5, reviews: 67, variants: [{size: '34-36', stock: 15}, {size: '37-39', stock: 18}, {size: '40-42', stock: 16}, {size: '43-45', stock: 10}] },
   { id: 17, name: 'Regnbåge Sockor', category: 'nature', price: 49, originalPrice: 49, image: '/products/rainbow-socks.jpg', rating: 4.8, reviews: 145, variants: [{size: '34-36', stock: 20}, {size: '37-39', stock: 25}, {size: '40-42', stock: 22}, {size: '43-45', stock: 18}] },
   { id: 18, name: 'Skog Sockor', category: 'nature', price: 49, originalPrice: 49, image: '/products/forest-socks.jpg', rating: 4.6, reviews: 112, variants: [{size: '34-36', stock: 10}, {size: '37-39', stock: 12}, {size: '40-42', stock: 11}] },
+  { id: 19, name: 'Porsche Sockor', category: 'toys', price: 49, originalPrice: 49, image: '/products/porsche-socks.jpg', rating: 4.7, reviews: 78, variants: [{size: '34-36', stock: 15}, {size: '37-39', stock: 18}, {size: '40-42', stock: 16}, {size: '43-45', stock: 12}] },
+  { id: 20, name: 'Space Sockor', category: 'movies', price: 59, originalPrice: 59, image: '/products/space-socks.jpg', rating: 4.8, reviews: 156, variants: [{size: '34-36', stock: 20}, {size: '37-39', stock: 25}, {size: '40-42', stock: 22}, {size: '43-45', stock: 18}], isNew: true },
+  { id: 21, name: 'H\u00e4st Sockor', category: 'animals', price: 49, originalPrice: 49, image: '/products/horse-socks.jpg', rating: 4.6, reviews: 92, variants: [{size: '34-36', stock: 12}, {size: '37-39', stock: 15}, {size: '40-42', stock: 14}] },
+  { id: 22, name: 'Viking Sockor', category: 'movies', price: 59, originalPrice: 79, image: '/products/viking-socks.jpg', rating: 4.7, reviews: 134, variants: [{size: '34-36', stock: 18}, {size: '37-39', stock: 22}, {size: '40-42', stock: 20}, {size: '43-45', stock: 15}], isNew: true },
+  { id: 23, name: 'Robot Sockor', category: 'gaming', price: 49, originalPrice: 49, image: '/products/robot-socks.jpg', rating: 4.5, reviews: 67, variants: [{size: '34-36', stock: 20}, {size: '37-39', stock: 25}, {size: '40-42', stock: 22}, {size: '43-45', stock: 18}] },
+  { id: 24, name: 'Fotbollslag Sockor', category: 'sports', price: 49, originalPrice: 49, image: '/products/team-socks.jpg', rating: 4.8, reviews: 178, variants: [{size: '34-36', stock: 25}, {size: '37-39', stock: 30}, {size: '40-42', stock: 28}, {size: '43-45', stock: 20}] },
+  { id: 25, name: 'Blommor Sockor', category: 'nature', price: 49, originalPrice: 49, image: '/products/flowers-socks.jpg', rating: 4.6, reviews: 89, variants: [{size: '34-36', stock: 15}, {size: '37-39', stock: 18}, {size: '40-42', stock: 16}] },
+  { id: 26, name: 'Superhj\u00e4lte Sockor', category: 'cartoons', price: 49, originalPrice: 79, image: '/products/superhero-socks.jpg', rating: 4.9, reviews: 245, variants: [{size: '34-36', stock: 20}, {size: '37-39', stock: 25}, {size: '40-42', stock: 22}, {size: '43-45', stock: 18}], isSale: true },
+  { id: 27, name: 'Drake Sockor', category: 'animals', price: 49, originalPrice: 49, image: '/products/drake-socks.jpg', rating: 4.7, reviews: 123, variants: [{size: '34-36', stock: 15}, {size: '37-39', stock: 18}, {size: '40-42', stock: 16}] },
+  { id: 28, name: 'Pirater Sockor', category: 'movies', price: 49, originalPrice: 49, image: '/products/pirate-socks.jpg', rating: 4.5, reviews: 78, variants: [{size: '34-36', stock: 12}, {size: '37-39', stock: 15}, {size: '40-42', stock: 14}] },
+  { id: 29, name: 'Musik Sockor', category: 'gaming', price: 59, originalPrice: 59, image: '/products/music-socks.jpg', rating: 4.8, reviews: 167, variants: [{size: '34-36', stock: 18}, {size: '37-39', stock: 22}, {size: '40-42', stock: 20}, {size: '43-45', stock: 15}], isNew: true },
+  { id: 30, name: 'Tennis Sockor', category: 'sports', price: 49, originalPrice: 49, image: '/products/tennis-socks.jpg', rating: 4.6, reviews: 56, variants: [{size: '34-36', stock: 20}, {size: '37-39', stock: 25}, {size: '40-42', stock: 22}, {size: '43-45', stock: 15}] },
+  { id: 31, name: 'Fisk Sockor', category: 'animals', price: 49, originalPrice: 49, image: '/products/fish-socks.jpg', rating: 4.4, reviews: 45, variants: [{size: '34-36', stock: 10}, {size: '37-39', stock: 12}, {size: '40-42', stock: 11}] },
+  { id: 32, name: 'TV-serie Sockor', category: 'cartoons', price: 49, originalPrice: 79, image: '/products/tv-socks.jpg', rating: 4.7, reviews: 189, variants: [{size: '34-36', stock: 20}, {size: '37-39', stock: 25}, {size: '40-42', stock: 22}, {size: '43-45', stock: 18}], isSale: true },
+  { id: 33, name: 'Ninja Sockor', category: 'movies', price: 49, originalPrice: 49, image: '/products/ninja-socks.jpg', rating: 4.8, reviews: 201, variants: [{size: '34-36', stock: 15}, {size: '37-39', stock: 18}, {size: '40-42', stock: 16}] },
+  { id: 34, name: 'Cyberpunk Sockor', category: 'gaming', price: 59, originalPrice: 79, image: '/products/cyber-socks.jpg', rating: 4.9, reviews: 234, variants: [{size: '34-36', stock: 18}, {size: '37-39', stock: 22}, {size: '40-42', stock: 20}, {size: '43-45', stock: 15}], isNew: true },
+  { id: 35, name: 'Golf Sockor', category: 'sports', price: 49, originalPrice: 49, image: '/products/golf-socks.jpg', rating: 4.5, reviews: 67, variants: [{size: '34-36', stock: 15}, {size: '37-39', stock: 18}, {size: '40-42', stock: 16}] },
+  { id: 36, name: 'Vapen Sockor', category: 'movies', price: 49, originalPrice: 49, image: '/products/weapon-socks.jpg', rating: 4.6, reviews: 98, variants: [{size: '34-36', stock: 12}, {size: '37-39', stock: 15}, {size: '40-42', stock: 14}] },
+  { id: 37, name: 'Kanin Sockor', category: 'animals', price: 49, originalPrice: 49, image: '/products/bunny-socks.jpg', rating: 4.8, reviews: 156, variants: [{size: '34-36', stock: 18}, {size: '37-39', stock: 22}, {size: '40-42', stock: 20}] },
+  { id: 38, name: 'Disney Sockor', category: 'cartoons', price: 59, originalPrice: 99, image: '/products/disney-socks.jpg', rating: 4.9, reviews: 312, variants: [{size: '34-36', stock: 25}, {size: '37-39', stock: 30}, {size: '40-42', stock: 28}, {size: '43-45', stock: 20}], isNew: true },
+  { id: 39, name: 'Pokemon Sockor', category: 'gaming', price: 59, originalPrice: 79, image: '/products/pokemon-socks.jpg', rating: 4.9, reviews: 289, variants: [{size: '34-36', stock: 22}, {size: '37-39', stock: 28}, {size: '40-42', stock: 25}, {size: '43-45', stock: 18}], isNew: true },
+  { id: 40, name: 'Glitter Sockor', category: 'nature', price: 59, originalPrice: 59, image: '/products/glitter-socks.jpg', rating: 4.6, reviews: 112, variants: [{size: '34-36', stock: 15}, {size: '37-39', stock: 18}, {size: '40-42', stock: 16}] },
+  { id: 41, name: 'Retro gaming Sockor', category: 'gaming', price: 49, originalPrice: 79, image: '/products/retro-socks.jpg', rating: 4.8, reviews: 178, variants: [{size: '34-36', stock: 20}, {size: '37-39', stock: 25}, {size: '40-42', stock: 22}, {size: '43-45', stock: 18}], isSale: true },
+  { id: 42, name: 'Yoga Sockor', category: 'sports', price: 49, originalPrice: 49, image: '/products/yoga-socks.jpg', rating: 4.5, reviews: 78, variants: [{size: '34-36', stock: 18}, {size: '37-39', stock: 22}, {size: '40-42', stock: 20}] },
+  { id: 43, name: 'Fotbollsproffs Sockor', category: 'sports', price: 59, originalPrice: 79, image: '/products/pro-socks.jpg', rating: 4.9, reviews: 245, variants: [{size: '34-36', stock: 15}, {size: '37-39', stock: 18}, {size: '40-42', stock: 16}, {size: '43-45', stock: 12}], isNew: true },
+  { id: 44, name: 'Memes Sockor', category: 'gaming', price: 49, originalPrice: 49, image: '/products/meme-socks.jpg', rating: 4.7, reviews: 189, variants: [{size: '34-36', stock: 25}, {size: '37-39', stock: 30}, {size: '40-42', stock: 28}] },
+  { id: 45, name: 'Vinter Sockor', category: 'nature', price: 49, originalPrice: 49, image: '/products/winter-socks.jpg', rating: 4.6, reviews: 134, variants: [{size: '34-36', stock: 20}, {size: '37-39', stock: 25}, {size: '40-42', stock: 22}, {size: '43-45', stock: 18}] },
+  { id: 46, name: 'Sommar Sockor', category: 'nature', price: 49, originalPrice: 49, image: '/products/summer-socks.jpg', rating: 4.7, reviews: 156, variants: [{size: '34-36', stock: 18}, {size: '37-39', stock: 22}, {size: '40-42', stock: 20}] },
+  { id: 47, name: 'Natt Sockor', category: 'nature', price: 59, originalPrice: 79, image: '/products/night-socks.jpg', rating: 4.8, reviews: 123, variants: [{size: '34-36', stock: 15}, {size: '37-39', stock: 18}, {size: '40-42', stock: 16}], isNew: true },
+  { id: 48, name: 'Regn Sockor', category: 'nature', price: 49, originalPrice: 49, image: '/products/rain-socks.jpg', rating: 4.6, reviews: 67, variants: [{size: '34-36', stock: 10}, {size: '37-39', stock: 12}, {size: '40-42', stock: 11}] },
+  { id: 49, name: 'Sol Sockor', category: 'nature', price: 49, originalPrice: 49, image: '/products/sun-socks.jpg', rating: 4.7, reviews: 98, variants: [{size: '34-36', stock: 15}, {size: '37-39', stock: 18}, {size: '40-42', stock: 16}] },
+  { id: 50, name: 'M\u00e5ne Sockor', category: 'nature', price: 59, originalPrice: 79, image: '/products/moon-socks.jpg', rating: 4.8, reviews: 145, variants: [{size: '34-36', stock: 18}, {size: '37-39', stock: 22}, {size: '40-42', stock: 20}], isNew: true },
+  { id: 51, name: 'Stj\u00e4rna Sockor', category: 'nature', price: 49, originalPrice: 49, image: '/products/star-socks.jpg', rating: 4.9, reviews: 234, variants: [{size: '34-36', stock: 25}, {size: '37-39', stock: 30}, {size: '40-42', stock: 28}, {size: '43-45', stock: 20}] },
+  { id: 52, name: 'Haj Sockor', category: 'animals', price: 49, originalPrice: 79, image: '/products/shark-socks.jpg', rating: 4.7, reviews: 167, variants: [{size: '34-36', stock: 15}, {size: '37-39', stock: 18}, {size: '40-42', stock: 16}], isSale: true },
+  { id: 53, name: 'Bj\u00f6rn Sockor', category: 'animals', price: 49, originalPrice: 49, image: '/products/bear-socks.jpg', rating: 4.6, reviews: 123, variants: [{size: '34-36', stock: 18}, {size: '37-39', stock: 22}, {size: '40-42', stock: 20}] },
+  { id: 54, name: '\u00d6ken Sockor', category: 'animals', price: 59, originalPrice: 79, image: '/products/ocean-socks.jpg', rating: 4.8, reviews: 189, variants: [{size: '34-36', stock: 20}, {size: '37-39', stock: 25}, {size: '40-42', stock: 22}, {size: '43-45', stock: 18}], isNew: true },
+  { id: 55, name: 'F\u00e5gel Sockor', category: 'animals', price: 49, originalPrice: 49, image: '/products/bird-socks.jpg', rating: 4.5, reviews: 78, variants: [{size: '34-36', stock: 12}, {size: '37-39', stock: 15}, {size: '40-42', stock: 14}] },
+  { id: 56, name: 'Insekter Sockor', category: 'animals', price: 49, originalPrice: 49, image: '/products/bug-socks.jpg', rating: 4.4, reviews: 56, variants: [{size: '34-36', stock: 10}, {size: '37-39', stock: 12}, {size: '40-42', stock: 11}] },
+  { id: 57, name: 'Safari Sockor', category: 'animals', price: 59, originalPrice: 79, image: '/products/safari-socks.jpg', rating: 4.7, reviews: 167, variants: [{size: '34-36', stock: 15}, {size: '37-39', stock: 18}, {size: '40-42', stock: 16}, {size: '43-45', stock: 12}], isNew: true },
+  { id: 58, name: 'Arkad Sockor', category: 'gaming', price: 49, originalPrice: 49, image: '/products/arcade-socks.jpg', rating: 4.8, reviews: 198, variants: [{size: '34-36', stock: 20}, {size: '37-39', stock: 25}, {size: '40-42', stock: 22}, {size: '43-45', stock: 18}] },
+  { id: 59, name: 'Surf Sockor', category: 'sports', price: 49, originalPrice: 49, image: '/products/surf-socks.jpg', rating: 4.6, reviews: 89, variants: [{size: '34-36', stock: 15}, {size: '37-39', stock: 18}, {size: '40-42', stock: 16}] },
+  { id: 60, name: 'Kaktus Sockor', category: 'nature', price: 49, originalPrice: 49, image: '/products/cactus-socks.jpg', rating: 4.5, reviews: 67, variants: [{size: '34-36', stock: 10}, {size: '37-39', stock: 12}, {size: '40-42', stock: 11}] },
 ]
 
 // Return FAQ items
@@ -1268,6 +1310,11 @@ function MainContent() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
   
+  // Featured products - only 10
+  const featuredProducts = products
+    .slice(0, 10)
+    
+  // All products with filters
   const filteredProducts = products
     .filter(p => {
       const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory
@@ -1617,19 +1664,47 @@ function MainContent() {
         </div>
       </section>
       
-      {/* Products - Mobile optimized grid */}
-      <section id="products" className="py-10 sm:py-16 bg-slate-50">
+      {/* Featured Products - Only 10 */}
+      {selectedCategory === 'all' && !searchQuery && (
+        <section className="py-10 sm:py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex items-center justify-between mb-8 sm:mb-12">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">{txt.featured}</h2>
+                <p className="text-slate-500 mt-1 sm:mt-2 text-sm sm:text-base">Utvalda favoriter</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5">
+              {featuredProducts.map((product) => (
+                <ProductCard 
+                  key={product.id}
+                  product={product}
+                  onAddToCart={addToCart}
+                  txt={txt}
+                  onToggleFavorite={toggleFavorite}
+                  isFavorite={favorites.includes(product.id)}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+      
+      {/* All Products - 60 */}
+      <section className="py-10 sm:py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-8 sm:mb-12">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">{txt.featured}</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
+                {searchQuery ? `Sökresultat för "${searchQuery}"` : selectedCategory !== 'all' ? categories.find(c => c.id === selectedCategory)?.name : 'Alla produkter'}
+              </h2>
               <p className="text-slate-500 mt-1 sm:mt-2 text-sm sm:text-base">{filteredProducts.length} produkter</p>
             </div>
           </div>
           
-          {/* Product grid - 1 col mobile, 2 tablet, 3-4 desktop */}
+          {/* Product grid */}
           <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-            {filteredProducts.map((product, index) => (
+            {filteredProducts.map((product) => (
               <ProductCard 
                 key={product.id}
                 product={product}
