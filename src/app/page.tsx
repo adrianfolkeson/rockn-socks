@@ -178,7 +178,7 @@ const t = {
     footerDesc: 'Vilda mönster för vilda själar.',
     contact: 'Kontakt',
     email: 'info@auroraecom.se',
-    address: 'Stockholm, Sverige',
+    address: 'Göteborg, Sverige',
     about: 'Om oss',
     aboutText: 'Vi på Strumpmix letar världen över efter de mest unika och roliga mönstren.',
     legal: 'Legal',
@@ -250,7 +250,7 @@ const t = {
     footerDesc: 'Wild patterns for wild souls.',
     contact: 'Contact',
     email: 'info@auroraecom.se',
-    address: 'Stockholm, Sweden',
+    address: 'Gothenburg, Sweden',
     about: 'About us',
     aboutText: 'At Strumpmix we search the world for the most unique and fun patterns.',
     legal: 'Legal',
@@ -1696,8 +1696,7 @@ function MainContent() {
               <h4 className="font-bold mb-4 text-sm sm:text-base">{txt.contact}</h4>
               <div className="space-y-2 sm:space-y-3 text-slate-400 text-sm">
                 <a href={`mailto:${txt.email}`} className="flex items-center gap-2 hover:text-white transition-colors">
-                  <Mail className="w-4 h-4" /> <span className="hidden xs:inline">{txt.email}</span>
-                  <span className="xs:hidden">Email</span>
+                  <Mail className="w-4 h-4" /> {txt.email}
                 </a>
                 <p className="flex items-center gap-2">
                   <MapPin className="w-4 h-4" /> {txt.address}
