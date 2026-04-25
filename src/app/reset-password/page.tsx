@@ -16,20 +16,22 @@ export default function ResetPasswordPage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Check for token in URL and exchange it for a session
     const checkSession = async () => {
-      const hash = window.location.hash
-      const searchParams = new URLSearchParams(window.location.search)
+      // Get token from query params (passed from callback)
+      const urlParams = new URLSearchParams(window.location.search)
+      const token = urlParams.get('token')
       
-      // Get token from hash or query params
-      let token = searchParams.get('token')
-      if (!token && hash) {
-        const params = new URLSearchParams(hash.substring(1))
-        token = params.get('token')
+      // Also check hash fragment
+      const hash = window.location.hash
+      let hashToken: string | null = null
+      if (hash) {
+        const hashParams = new URLSearchParams(hash.substring(1))
+        hashToken = hashParams.get('access_token')
       }
       
-      if (token) {
-        // Exchange token for session
+      // If we have a token, we need to exchange it for a session
+      if (token || hashToken) {
+        // The token exchange happens automatically with getSession when using the same supabase client
         const { data: { session }, error } = await supabase.auth.getSession()
         if (error || !session) {
           setIsValidToken(false)

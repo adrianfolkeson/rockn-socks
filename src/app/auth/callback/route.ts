@@ -1,23 +1,37 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-
 export async function GET(request: Request) {
-  const { searchParams, hash } = new URL(request.url)
+  const url = new URL(request.url)
   
-  const token = searchParams.get('token') || hash.split('&').find(p => p.startsWith('token='))?.split('=')[1]
-  const type = searchParams.get('type') || 'recovery'
+  // Get all query params and hash
+  const searchParams = url.searchParams
+  const hash = url.hash
   
-  if (token && type === 'recovery') {
-    // Create a client-side safe URL to exchange the token
-    const redirectUrl = new URL('/reset-password', request.url)
-    redirectUrl.searchParams.set('token', token)
-    
-    return NextResponse.redirect(redirectUrl.toString())
+  // Check for token in query params (type=recovery)
+  const token = searchParams.get('token')
+  const type = searchParams.get('type')
+  
+  // Check for token in hash fragment (Supabase often puts it here)
+  let hashToken: string | null = null
+  let hashType: string | null = null
+  if (hash) {
+    const hashParams = new URLSearchParams(hash.substring(1))
+    hashToken = hashParams.get('access_token') || hashParams.get('token')
+    hashType = hashParams.get('type') || searchParams.get('type')
   }
   
-  // Fallback redirect to home
-  return NextResponse.redirect(new URL('/', request.url))
+  // Use token from either source
+  const finalToken = token || hashToken
+  const finalType = type || hashType || 'recovery'
+  
+  // If we have a recovery token, redirect to reset-password page
+  if (finalToken && finalType === 'recovery') {
+    const resetUrl = new URL('/reset-password', url.origin)
+    resetUrl.searchParams.set('token', finalToken)
+    return NextResponse.redirect(resetUrl.toString())
+  }
+  
+  // Fallback: redirect to home
+  return NextResponse.redirect(new URL('/', url.origin))
 }
