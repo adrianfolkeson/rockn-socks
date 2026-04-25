@@ -726,15 +726,29 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
   const [returnSuccess, setReturnSuccess] = useState(false)
   
   const handlePasswordChange = async () => {
+    if (!user) {
+      setPasswordError('Du måste vara inloggad')
+      return
+    }
+    if (!newPassword || newPassword.length < 6) {
+      setPasswordError('Lösenordet måste vara minst 6 tecken')
+      return
+    }
+    
     setPasswordError('')
     setPasswordSuccess('')
-    const { error } = await supabase.auth.updateUser({ password: newPassword })
-    if (error) {
-      setPasswordError(error.message)
-    } else {
-      setPasswordSuccess('Lösenord ändrat!')
-      setNewPassword('')
-      setTimeout(() => setPasswordSuccess(''), 3000)
+    
+    try {
+      const { error } = await supabase.auth.updateUser({ password: newPassword })
+      if (error) {
+        setPasswordError(error.message)
+      } else {
+        setPasswordSuccess('Lösenord ändrat!')
+        setNewPassword('')
+        setTimeout(() => setPasswordSuccess(''), 3000)
+      }
+    } catch (err) {
+      setPasswordError('Ett fel uppstod. Försök igen.')
     }
   }
   
