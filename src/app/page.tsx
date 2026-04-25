@@ -768,10 +768,6 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
   const [returnSuccess, setReturnSuccess] = useState(false)
   
   const handlePasswordChange = async () => {
-    if (!user) {
-      setPasswordError('Du måste vara inloggad')
-      return
-    }
     if (!newPassword || newPassword.length < 6) {
       setPasswordError('Lösenordet måste vara minst 6 tecken')
       return
@@ -781,6 +777,14 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
     setPasswordSuccess('')
     
     try {
+      // Get current user with fresh session
+      const { data: { user: currentUser }, error: userError } = await supabase.auth.getUser()
+      
+      if (userError || !currentUser) {
+        setPasswordError('Du måste vara inloggad. Logga ut och in igen.')
+        return
+      }
+      
       const { error } = await supabase.auth.updateUser({ password: newPassword })
       if (error) {
         setPasswordError(error.message)
