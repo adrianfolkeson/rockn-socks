@@ -185,7 +185,7 @@ const t = {
     terms: 'Köpvillkor',
     privacy: 'Integritetspolicy',
     cookies: 'Cookiepolicy',
-    copyright: '© 2024 Strumpmix AB',
+    copyright: '© 2026 Aurora Ecom AB',
     cart: 'Varukorg',
     emptyCart: 'Din varukorg är tom',
     total: 'Totalt',
@@ -257,7 +257,7 @@ const t = {
     terms: 'Terms',
     privacy: 'Privacy',
     cookies: 'Cookies',
-    copyright: '© 2024 Strumpmix AB',
+    copyright: '© 2026 Aurora Ecom AB',
     cart: 'Cart',
     emptyCart: 'Your cart is empty',
     total: 'Total',
@@ -1712,9 +1712,9 @@ function MainContent() {
             <div>
               <h4 className="font-bold mb-4 text-sm sm:text-base">{txt.legal}</h4>
               <div className="space-y-2 sm:space-y-3 text-slate-400 text-sm">
-                <a href="#" className="block hover:text-white transition-colors">{txt.terms}</a>
-                <a href="#" className="block hover:text-white transition-colors">{txt.privacy}</a>
-                <a href="#" className="block hover:text-white transition-colors">{txt.cookies}</a>
+                <span className="block hover:text-white transition-colors cursor-pointer">{txt.terms}</span>
+                <span className="block hover:text-white transition-colors cursor-pointer">{txt.privacy}</span>
+                <span className="block hover:text-white transition-colors cursor-pointer">{txt.cookies}</span>
               </div>
             </div>
           </div>
