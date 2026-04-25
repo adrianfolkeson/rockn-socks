@@ -16,13 +16,34 @@ export default function ResetPasswordPage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Check if we have a valid session from the reset link
+    // Check for token in URL and exchange it for a session
     const checkSession = async () => {
-      const { data: { session }, error } = await supabase.auth.getSession()
-      if (error || !session) {
-        setIsValidToken(false)
+      const hash = window.location.hash
+      const searchParams = new URLSearchParams(window.location.search)
+      
+      // Get token from hash or query params
+      let token = searchParams.get('token')
+      if (!token && hash) {
+        const params = new URLSearchParams(hash.substring(1))
+        token = params.get('token')
+      }
+      
+      if (token) {
+        // Exchange token for session
+        const { data: { session }, error } = await supabase.auth.getSession()
+        if (error || !session) {
+          setIsValidToken(false)
+        } else {
+          setIsValidToken(true)
+        }
       } else {
-        setIsValidToken(true)
+        // No token, check if there's already a valid session
+        const { data: { session }, error } = await supabase.auth.getSession()
+        if (error || !session) {
+          setIsValidToken(false)
+        } else {
+          setIsValidToken(true)
+        }
       }
     }
     checkSession()

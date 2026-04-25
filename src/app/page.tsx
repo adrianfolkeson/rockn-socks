@@ -778,7 +778,7 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
     
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(passwordEmail, {
-        redirectTo: `${window.location.origin}/reset-password`
+        redirectTo: `${window.location.origin}/auth/callback`
       })
       
       if (error) {
