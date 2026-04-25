@@ -756,9 +756,9 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
   isOpen: boolean; onClose: () => void; activeSection: string; setActiveSection: (s: string) => void; 
   favorites: number[]; orders: Order[]; onLogout: () => void; user: any; txt: any 
 }) {
-  const [newPassword, setNewPassword] = useState('')
   const [passwordSuccess, setPasswordSuccess] = useState('')
   const [passwordError, setPasswordError] = useState('')
+  const [passwordEmail, setPasswordEmail] = useState('')
   const [supportSubject, setSupportSubject] = useState('')
   const [supportMessage, setSupportMessage] = useState('')
   const [supportSuccess, setSupportSuccess] = useState(false)
@@ -768,8 +768,8 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
   const [returnSuccess, setReturnSuccess] = useState(false)
   
   const handlePasswordChange = async () => {
-    if (!newPassword || newPassword.length < 6) {
-      setPasswordError('Lösenordet måste vara minst 6 tecken')
+    if (!passwordEmail) {
+      setPasswordError('Ange din e-postadress')
       return
     }
     
@@ -777,21 +777,16 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
     setPasswordSuccess('')
     
     try {
-      // Get current user with fresh session
-      const { data: { user: currentUser }, error: userError } = await supabase.auth.getUser()
+      const { error } = await supabase.auth.resetPasswordForEmail(passwordEmail, {
+        redirectTo: `${window.location.origin}/reset-password`
+      })
       
-      if (userError || !currentUser) {
-        setPasswordError('Du måste vara inloggad. Logga ut och in igen.')
-        return
-      }
-      
-      const { error } = await supabase.auth.updateUser({ password: newPassword })
       if (error) {
         setPasswordError(error.message)
       } else {
-        setPasswordSuccess('Lösenord ändrat!')
-        setNewPassword('')
-        setTimeout(() => setPasswordSuccess(''), 3000)
+        setPasswordSuccess('Återställningslänk skickad! Kolla din e-post.')
+        setPasswordEmail('')
+        setTimeout(() => setPasswordSuccess(''), 5000)
       }
     } catch (err) {
       setPasswordError('Ett fel uppstod. Försök igen.')
@@ -992,19 +987,20 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
             {activeSection === 'password' && (
               <div>
                 <h3 className="font-bold text-lg mb-4">{txt.changePassword}</h3>
+                <p className="text-sm text-slate-500 mb-4">Ange din e-postadress så skickar vi en länk för att återställa ditt lösenord.</p>
                 <div className="space-y-4">
                   <input 
-                    type="password" 
-                    placeholder="Nytt lösenord" 
-                    value={newPassword} 
-                    onChange={e => setNewPassword(e.target.value)} 
+                    type="email" 
+                    placeholder="Din e-postadress" 
+                    value={passwordEmail} 
+                    onChange={e => setPasswordEmail(e.target.value)} 
                     className="w-full p-4 border border-slate-200 rounded-xl text-base min-h-[48px]"
                   />
                   <button 
                     onClick={handlePasswordChange} 
                     className="w-full bg-pink-500 text-white py-3.5 rounded-xl font-bold text-base touch-manipulation min-h-[48px]"
                   >
-                    {txt.save}
+                    Skicka återställningslänk
                   </button>
                   {passwordSuccess && <p className="text-green-500 text-center py-2">{passwordSuccess}</p>}
                   {passwordError && <p className="text-red-500 text-center py-2">{passwordError}</p>}
