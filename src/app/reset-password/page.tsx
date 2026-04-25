@@ -77,7 +77,7 @@ export default function ResetPasswordPage() {
         // Redirect to home after 2 seconds
         setTimeout(() => router.push('/'), 2000)
       }
-    } catch (err) {
+    } catch (_err) {
       setError('Ett fel uppstod. Försök igen.')
     } finally {
       setIsLoading(false)

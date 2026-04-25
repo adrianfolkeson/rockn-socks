@@ -39,7 +39,7 @@ function StarRating({ rating }: { rating: number }) {
 interface ProductCardProps {
   product: Product
   onAddToCart: (product: Product, isBundle: boolean) => void
-  txt: any
+  txt: { [key: string]: string }
   onToggleFavorite?: (id: number) => void
   isFavorite?: boolean
 }

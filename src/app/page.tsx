@@ -12,6 +12,17 @@ import Link from 'next/link'
 import { Logo, LogoWhite } from '@/components/Logo'
 import ProductCard from '@/components/ProductCard'
 
+// Translations type
+interface Translations {
+  [key: string]: string
+}
+
+// User type
+interface User {
+  id: string
+  email?: string
+}
+
 // Product types
 interface ProductVariant {
   size: string
@@ -351,7 +362,7 @@ function FAQItem({ question, answer }: { question: string; answer: React.ReactNo
 }
 
 // Newsletter Section
-function NewsletterSection({ txt }: { txt: any }) {
+function NewsletterSection({ txt }: { txt: Translations }) {
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
   const [error, setError] = useState('')
@@ -422,7 +433,7 @@ function CartDrawer({ isOpen, onClose, cart, onUpdateQuantity, onRemove, txt }: 
   cart: CartItem[]
   onUpdateQuantity: (productId: number, size: string, isBundle: boolean, delta: number) => void
   onRemove: (productId: number, size: string, isBundle: boolean) => void
-  txt: any 
+  txt: Translations 
 }) {
   const total = cart.reduce((sum, item) => {
     const price = item.isBundle ? 99 : item.product.price
@@ -542,7 +553,7 @@ function CartDrawer({ isOpen, onClose, cart, onUpdateQuantity, onRemove, txt }: 
 // Login Modal - Mobile optimized
 function LoginModal({ isOpen, onClose, onLogin, isSignUp, setIsSignUp, email, setEmail, password, setPassword, error, txt, isLoading }: { 
   isOpen: boolean; onClose: () => void; onLogin: () => void; isSignUp: boolean; setIsSignUp: (v: boolean) => void; 
-  email: string; setEmail: (v: string) => void; password: string; setPassword: (v: string) => void; error: string; txt: any; isLoading?: boolean 
+  email: string; setEmail: (v: string) => void; password: string; setPassword: (v: string) => void; error: string; txt: Translations; isLoading?: boolean 
 }) {
   if (!isOpen) return null
   
@@ -599,7 +610,7 @@ function LoginModal({ isOpen, onClose, onLogin, isSignUp, setIsSignUp, email, se
 // Profile Modal - Full mobile optimization with bottom sheet on mobile
 function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favorites, orders, onLogout, user, txt }: { 
   isOpen: boolean; onClose: () => void; activeSection: string; setActiveSection: (s: string) => void; 
-  favorites: number[]; orders: Order[]; onLogout: () => void; user: any; txt: any 
+  favorites: number[]; orders: Order[]; onLogout: () => void; user: User | null; txt: Translations 
 }) {
   const [passwordSuccess, setPasswordSuccess] = useState('')
   const [passwordError, setPasswordError] = useState('')
@@ -649,7 +660,7 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
         setConfirmNewPassword('')
         setTimeout(() => setPasswordSuccess(''), 5000)
       }
-    } catch (err) {
+    } catch (_err) {
       setPasswordError('Ett fel uppstod. Försök igen.')
     } finally {
       setPasswordLoading(false)
@@ -670,7 +681,7 @@ function ProfileModal({ isOpen, onClose, activeSection, setActiveSection, favori
   }
   
   const handleDeleteAccount = async () => {
-    if (deleteConfirm !== 'RADERA') return
+    if (!user || deleteConfirm !== 'RADERA') return
     await supabase.from('wishlists').delete().eq('user_id', user.id)
     await supabase.from('profiles').delete().eq('id', user.id)
     onLogout()
@@ -998,7 +1009,7 @@ function CategoryCard({ category, isActive, onClick }: { category: typeof catego
 }
 
 // Mobile Menu - Improved
-function MobileMenu({ isOpen, onClose, txt, searchQuery, setSearchQuery }: { isOpen: boolean; onClose: () => void; txt: any; searchQuery: string; setSearchQuery: (q: string) => void }) {
+function MobileMenu({ isOpen, onClose, txt, searchQuery, setSearchQuery }: { isOpen: boolean; onClose: () => void; txt: Translations; searchQuery: string; setSearchQuery: (q: string) => void }) {
   return (
     <>
       <div 
@@ -1077,7 +1088,7 @@ function MainContent() {
   const [profileSection, setProfileSection] = useState('favorites')
   const [favorites, setFavorites] = useState<number[]>([])
   const [orders, setOrders] = useState<Order[]>([])
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<User | null>(null)
   
   // Login state
   const [showLoginModal, setShowLoginModal] = useState(false)
@@ -1095,7 +1106,7 @@ function MainContent() {
         .select('product_id')
         .eq('user_id', userId)
       if (favData) setFavorites(favData.map(f => f.product_id))
-    } catch (e) {
+    } catch (_e) {
       // Ignore errors
     }
   }
@@ -1158,8 +1169,9 @@ function MainContent() {
           setLoginPassword('')
         }
       }
-    } catch (err: any) {
-      setLoginError(err.message || 'Ett fel uppstod')
+    } catch (err: unknown) {
+      const error = err as Error
+      setLoginError(error.message || 'Ett fel uppstod')
     }
     
     setIsAuthLoading(false)
@@ -1187,20 +1199,6 @@ function MainContent() {
   // Featured products - only 10
   const featuredProducts = products
     .slice(0, 10)
-    
-  // All products with filters
-  const filteredProducts = products
-    .filter(p => {
-      const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory
-      const matchesSearch = !searchQuery || p.name.toLowerCase().includes(searchQuery.toLowerCase())
-      return matchesCategory && matchesSearch
-    })
-    .sort((a, b) => {
-      if (sortBy === 'priceLow') return a.price - b.price
-      if (sortBy === 'priceHigh') return b.price - a.price
-      if (sortBy === 'newest') return b.isNew ? 1 : -1
-      return b.reviews - a.reviews
-    })
   
   const addToCart = (product: Product, isBundle: boolean) => {
     const size = product.variants[0]?.size || ''

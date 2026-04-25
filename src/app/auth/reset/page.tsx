@@ -80,7 +80,7 @@ export default function AuthResetPage() {
         setSuccess(true)
         setTimeout(() => router.push('/'), 2000)
       }
-    } catch (err) {
+    } catch (_err) {
       setError('Ett fel uppstod. Försök igen.')
     } finally {
       setIsLoading(false)
