@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useState, ReactNode } from 'react'
 import { Language } from './translations'
 
 type LanguageContextType = {
@@ -11,19 +11,24 @@ type LanguageContextType = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>('sv')
-  
-  // Load saved language from localStorage on mount
-  useEffect(() => {
-    const saved = localStorage.getItem('strumpmix-lang') as Language
-    if (saved === 'sv' || saved === 'en') {
-      setLanguage(saved)
+  // Lazy initializer - runs only once on initialization
+  const getInitialLanguage = (): Language => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('strumpmix-lang')
+      if (saved === 'sv' || saved === 'en') {
+        return saved
+      }
     }
-  }, [])
+    return 'sv'
+  }
+  
+  const [language, setLanguage] = useState<Language>(getInitialLanguage)
   
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang)
-    localStorage.setItem('strumpmix-lang', lang)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('strumpmix-lang', lang)
+    }
   }
   
   return (
