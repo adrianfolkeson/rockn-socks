@@ -1588,6 +1588,8 @@ function MainContent() {
                       >
                         HÄR
                       </button>
+                      <br />
+                      <span className="text-xs text-slate-500">(Reklamation sker endast vid fabrikationsfel eller felaktig leverans)</span>
                     </>
                   ) : faq.a
                 } 
