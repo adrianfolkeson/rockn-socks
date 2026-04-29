@@ -1407,7 +1407,7 @@ function MainContent() {
                 {txt.heroSubtitle}
               </p>
               <p className="text-base text-pink-600 font-semibold mb-8">
-                För varje köp donerar vi 5% till arbetet för ett mer inkluderande samhälle
+                5% av varje köp går till ett mer inkluderande samhälle ❤️
               </p>
               <a href="/catalog" className="inline-flex items-center gap-3 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-xl shadow-pink-500/25 hover:shadow-pink-500/40 transition-all duration-300 touch-manipulation">
                 {txt.shopNow} <ArrowRight className="w-5 h-5" />
@@ -1434,7 +1434,7 @@ function MainContent() {
                   VI ROCKAR FÖR ALLA
                 </h2>
                 <p className="text-lg text-pink-400 font-medium">
-                  För varje köp donerar vi 5% till arbetet för ett mer inkluderande samhälle
+                  5% av varje köp går till ett mer inkluderande samhälle ❤️
                 </p>
               </div>
               
@@ -1457,7 +1457,7 @@ function MainContent() {
                       Visste du att den 21 mars är det internationella Rocksockdagen? En dag då vi uppmärksammar och stödjer personer med Downs syndrom och andra funktionsnedsättningar över hela världen.
                     </p>
                     <p className="text-base text-slate-300 leading-relaxed mb-4">
-                      Strumpmix föddes ur en enkel idé: att kombinera moderiktiga strumpor med ett viktigt budskap. Varje par strumpor du köper bidrar direkt till att stödja organisationer som arbetar för ett mer inkluderande samhälle.
+                      Strumpmix föddes ur en enkel idé: att kombinera moderiktiga strumpor med ett viktigt budskap. Varje par strumpor du köper bidrar till att stötta ett mer inkluderande samhälle och sprida glädje.
                     </p>
                     <p className="text-base text-slate-300 leading-relaxed mb-4">
                       Vi tror att alla förtjänar att känna sig inkluderade och sedda. Genom att 'rocka' udda och vilda strumpor visar vi att vi står upp för mångfald och acceptans.
