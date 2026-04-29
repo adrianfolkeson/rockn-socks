@@ -165,8 +165,8 @@ const t = {
   sv: {
     freeShipping: 'Fri frakt i hela Sverige',
     secure: 'Säker betalning',
-    heroTitle: 'Vilda mönster,',
-    heroTitle2: 'perfekt passform',
+    heroTitle: 'Rocka sockorna \u2013 varje köp gör skillnad',
+    heroTitle2: '',
     heroSubtitle: 'Unika strumpor för alla stilar. Från dinosaurier till Harry Potter – hitta din favorit!',
     shopNow: 'Handla nu',
     categories: 'Kategorier',
@@ -237,8 +237,8 @@ const t = {
   en: {
     freeShipping: 'Free shipping Sweden',
     secure: 'Secure payment',
-    heroTitle: 'Wild patterns,',
-    heroTitle2: 'perfect fit',
+    heroTitle: 'Every purchase makes a difference',
+    heroTitle2: '',
     heroSubtitle: 'Unique socks for all styles. From dinosaurs to Harry Potter – find your favorite!',
     shopNow: 'Shop now',
     categories: 'Categories',
@@ -1402,10 +1402,7 @@ function MainContent() {
                 <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> 60+ mönster för alla stilar!
               </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-slate-900 tracking-tight leading-[1.1] mb-4 sm:mb-6">
-                {txt.heroTitle}<br/>
-                <span className="bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
-                  {txt.heroTitle2}
-                </span>
+                {txt.heroTitle}{txt.heroTitle2 && <><br/><span className="bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">{txt.heroTitle2}</span></>}
               </h1>
               <p className="text-base sm:text-lg text-slate-600 mb-3 sm:mb-4 max-w-lg mx-auto lg:mx-0 leading-relaxed px-4 lg:px-0">
                 {txt.heroSubtitle}
