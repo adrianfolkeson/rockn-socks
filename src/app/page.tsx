@@ -45,14 +45,14 @@ interface Product {
 
 // Categories with icons
 const categories = [
-  { id: 'all', name: 'Alla', icon: '🎨' },
-  { id: 'toys', name: 'Leksaker', icon: '🧸' },
-  { id: 'animals', name: 'Djur', icon: '🦁' },
-  { id: 'cartoons', name: 'Serier', icon: '📺' },
-  { id: 'movies', name: 'Film', icon: '🎬' },
-  { id: 'gaming', name: 'Gaming', icon: '🎮' },
-  { id: 'sports', name: 'Sport', icon: '⚽' },
-  { id: 'nature', name: 'Natur', icon: '🌿' },
+  { id: 'all', name: 'Alla', icon: '✦' },
+  { id: 'toys', name: 'Leksaker', icon: '✦' },
+  { id: 'animals', name: 'Djur', icon: '✦' },
+  { id: 'cartoons', name: 'Serier', icon: '✦' },
+  { id: 'movies', name: 'Film', icon: '✦' },
+  { id: 'gaming', name: 'Gaming', icon: '✦' },
+  { id: 'sports', name: 'Sport', icon: '✦' },
+  { id: 'nature', name: 'Natur', icon: '✦' },
 ]
 
 // Products
@@ -312,28 +312,28 @@ const t = {
 function LanguageSwitcher({ isDark = false, compact = false }: { isDark?: boolean; compact?: boolean }) {
   const { language, setLanguage } = useLanguage()
   return (
-    <div className={`flex items-center rounded-full p-1 ${isDark ? 'bg-white/10 backdrop-blur-md border border-white/20' : 'bg-slate-100'}`}>
+    <div className={`flex items-center rounded-lg p-0.5 ${isDark ? 'bg-white/10 backdrop-blur-md border border-white/20' : 'bg-slate-100'}`}>
       <button 
         onClick={() => setLanguage('sv')} 
-        className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+        className={`flex items-center px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-300 ${
           language === 'sv' 
-            ? isDark ? "bg-white text-pink-600 shadow-lg" : "bg-pink-500 text-white shadow-lg"
+            ? isDark ? "bg-white text-pink-600" : "bg-slate-900 text-white"
             : isDark ? "text-white/80 hover:text-white" : "text-slate-600 hover:text-slate-900"
         }`}
       >
-        <span className={compact ? 'text-base' : 'text-lg'}>🇸🇪</span>
-        {!compact && <span className="hidden sm:inline">SE</span>}
+        <span className="hidden sm:inline">SE</span>
+        <span className="sm:hidden">S</span>
       </button>
       <button 
         onClick={() => setLanguage('en')} 
-        className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+        className={`flex items-center px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-300 ${
           language === 'en' 
-            ? isDark ? "bg-white text-pink-600 shadow-lg" : "bg-pink-500 text-white shadow-lg"
+            ? isDark ? "bg-white text-pink-600" : "bg-slate-900 text-white"
             : isDark ? "text-white/80 hover:text-white" : "text-slate-600 hover:text-slate-900"
         }`}
       >
-        <span className={compact ? 'text-base' : 'text-lg'}>🇬🇧</span>
-        {!compact && <span className="hidden sm:inline">EN</span>}
+        <span className="hidden sm:inline">EN</span>
+        <span className="sm:hidden">E</span>
       </button>
     </div>
   )
@@ -382,38 +382,37 @@ function NewsletterSection({ txt }: { txt: Translations }) {
       setSubscribed(true)
       setEmail('')
     } catch {
-      // Still show success even if DB fails
       setSubscribed(true)
       setEmail('')
     }
   }
   
   return (
-    <section className="py-12 sm:py-16 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-500">
+    <section className="py-16 lg:py-20 bg-slate-900">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
         <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
           {txt.newsletter}
         </h2>
-        <p className="text-white/90 text-base sm:text-lg mb-6 px-4">
+        <p className="text-slate-400 text-base sm:text-lg mb-6">
           {txt.newsletterText}
         </p>
         {subscribed ? (
-          <div className="bg-white/20 backdrop-blur rounded-2xl p-5 sm:p-6 inline-block mx-4">
-            <p className="text-white font-bold text-lg sm:text-xl">🎉 {txt.thanksSubscribe}</p>
+          <div className="bg-slate-800 rounded-xl p-6 inline-block">
+            <p className="text-white font-semibold text-lg">Tack för din prenumeration!</p>
           </div>
         ) : (
           <>
-            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto px-4">
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={txt.emailPlaceholder}
-                className="flex-1 min-h-[52px] px-5 sm:px-6 py-3 sm:py-4 rounded-full bg-white text-slate-900 text-base focus:ring-4 focus:ring-white/30 outline-none"
+                className="flex-1 min-h-[48px] px-4 py-3 rounded-lg bg-white text-slate-900 text-base focus:ring-2 focus:ring-pink-500 outline-none"
               />
               <button 
                 onClick={handleSubscribe}
-                className="min-h-[52px] bg-slate-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-base hover:bg-slate-800 transition-colors shadow-lg"
+                className="min-h-[48px] bg-pink-500 text-white px-6 py-3 rounded-lg font-semibold text-sm hover:bg-pink-600 transition-colors"
               >
                 {txt.subscribe}
               </button>
@@ -996,14 +995,14 @@ function CategoryCard({ category, isActive, onClick }: { category: typeof catego
   return (
     <button
       onClick={onClick}
-      className={`flex-shrink-0 flex flex-col items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl transition-all duration-300 touch-manipulation min-w-[80px] sm:min-w-[90px] ${
+      className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 rounded-lg transition-all duration-300 touch-manipulation whitespace-nowrap ${
         isActive 
-          ? 'bg-pink-500 text-white shadow-lg shadow-pink-500/30' 
-          : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200 hover:border-pink-300 hover:text-pink-600'
+          ? 'bg-slate-900 text-white shadow-lg' 
+          : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200 hover:border-slate-300 hover:text-slate-900'
       }`}
     >
-      <span className="text-2xl sm:text-3xl">{category.icon}</span>
-      <span className="font-semibold text-xs sm:text-sm whitespace-nowrap">{category.name}</span>
+      <span className={`font-semibold text-sm ${isActive ? 'text-white' : 'text-slate-400'}`}>✦</span>
+      <span className="font-medium text-sm">{category.name}</span>
     </button>
   )
 }
@@ -1253,31 +1252,31 @@ function MainContent() {
     <div className="min-h-screen bg-white">
       
       {/* Header */}
-      <header className={`sticky top-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg shadow-slate-200/50' : 'bg-white'}`}>
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16 sm:h-[72px]">
+      <header className={`sticky top-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-white'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-16">
             
             {/* Left side - Menu + Logo */}
             <div className="flex items-center gap-3">
               {/* Mobile Menu Button */}
               <button 
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="md:hidden p-2.5 hover:bg-slate-100 rounded-xl transition-colors touch-manipulation"
+                className="md:hidden p-2 hover:bg-slate-100 rounded-lg transition-colors touch-manipulation"
               >
-                <Menu className="w-6 h-6 text-slate-700" />
+                <Menu className="w-5 h-5 text-slate-700" />
               </button>
               
-              {/* Logo - Left aligned */}
+              {/* Logo */}
               <a href="#" className="flex items-center">
-                <Logo className="h-9 sm:h-11" />
+                <Logo className="h-10" />
               </a>
             </div>
             
             {/* Desktop Nav - Center */}
-            <nav className="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
-              <Link href="/" className="font-semibold text-slate-900 hover:text-pink-600 transition-colors">Hem</Link>
-              <Link href="/catalog" className="font-semibold text-slate-700 hover:text-pink-600 transition-colors">Shoppa</Link>
-              <Link href="/#about" className="font-semibold text-slate-700 hover:text-pink-600 transition-colors">Om oss</Link>
+            <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+              <Link href="/" className="font-medium text-slate-700 hover:text-pink-600 transition-colors">Hem</Link>
+              <Link href="/catalog" className="font-medium text-slate-700 hover:text-pink-600 transition-colors">Shoppa</Link>
+              <Link href="/#about" className="font-medium text-slate-700 hover:text-pink-600 transition-colors">Om oss</Link>
             </nav>
             
             {/* Icons - Right */}
@@ -1393,89 +1392,87 @@ function MainContent() {
         txt={txt}
       />
       
-      {/* Hero Section - Mobile optimized */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-pink-50/30 to-rose-50/30 pt-6 pb-12 sm:pt-10 sm:pb-20 lg:pt-12 lg:pb-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-white pt-16 pb-20 lg:pt-20 lg:pb-28">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className="text-center lg:text-left order-2 lg:order-1">
-              <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-700 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-bold mb-4 sm:mb-6">
-                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> 60+ mönster för alla stilar!
+              <div className="inline-flex items-center gap-2 bg-pink-50 text-pink-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                <Sparkles className="w-4 h-4" /> 60+ unika mönster
               </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-slate-900 tracking-tight leading-[1.1] mb-4 sm:mb-6">
-                {txt.heroTitle}{txt.heroTitle2 && <><br/><span className="bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">{txt.heroTitle2}</span></>}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-slate-900 tracking-tight leading-[1.1] mb-6">
+                {txt.heroTitle}
               </h1>
-              <p className="text-base sm:text-lg text-slate-600 mb-3 sm:mb-4 max-w-lg mx-auto lg:mx-0 leading-relaxed px-4 lg:px-0">
+              <p className="text-lg sm:text-xl text-slate-500 mb-6 max-w-lg mx-auto lg:mx-0 leading-relaxed">
                 {txt.heroSubtitle}
               </p>
-              <p className="text-sm sm:text-base text-pink-600 font-bold mb-6 sm:mb-8">
-                För varje köp donerar vi 5% till arbetet för ett mer inkluderande samhälle ❤️
+              <p className="text-base text-pink-600 font-semibold mb-8">
+                För varje köp donerar vi 5% till arbetet för ett mer inkluderande samhälle
               </p>
-              <div className="flex flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
-                <a href="/catalog" className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-lg shadow-xl shadow-pink-500/30 hover:shadow-pink-500/50 transition-all duration-300 touch-manipulation">
-                  {txt.shopNow} <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
-                </a>
-              </div>
+              <a href="/catalog" className="inline-flex items-center gap-3 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-xl shadow-pink-500/25 hover:shadow-pink-500/40 transition-all duration-300 touch-manipulation">
+                {txt.shopNow} <ArrowRight className="w-5 h-5" />
+              </a>
             </div>
             <div className="relative order-1 lg:order-2">
               <img 
                 src="/gruppbild.png" 
                 alt="Svenska Downföreningen gruppbild" 
-                className="w-full max-w-md sm:max-w-lg mx-auto rounded-2xl sm:rounded-3xl shadow-2xl"
+                className="w-full max-w-lg mx-auto rounded-2xl shadow-2xl"
               />
             </div>
           </div>
         </div>
       </section>
       
-      {/* About Us Section - Mobile optimized */}
-      <section id="about" className="py-12 sm:py-16 lg:py-24 bg-slate-900 text-white scroll-mt-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      {/* About Us Section */}
+      <section id="about" className="py-20 lg:py-28 bg-slate-900 text-white scroll-mt-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
-              <div className="text-center lg:text-left mb-6 sm:mb-8">
-                <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black mb-2">
+              <div className="text-center lg:text-left mb-8">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-4">
                   VI ROCKAR FÖR ALLA
                 </h2>
-                <p className="text-base sm:text-lg text-pink-400 font-semibold">
-                  För varje köp donerar vi 5% till arbetet för ett mer inkluderande samhälle ❤️
+                <p className="text-lg text-pink-400 font-medium">
+                  För varje köp donerar vi 5% till arbetet för ett mer inkluderande samhälle
                 </p>
               </div>
               
-              <div className="bg-slate-800/50 rounded-2xl sm:rounded-3xl p-5 sm:p-8">
+              <div className="bg-slate-800/50 rounded-2xl p-6 lg:p-8">
                 {!showFullAbout ? (
                   <>
-                    <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-3 sm:mb-4">
-                      <strong className="text-white">Vår historia</strong>
+                    <p className="text-lg font-semibold text-white mb-4">
+                      Vår historia
                     </p>
-                    <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-3 sm:mb-4">
+                    <p className="text-base text-slate-300 leading-relaxed mb-4">
                       Visste du att den 21 mars är det internationella Rocksockdagen? En dag då vi uppmärksammar och stödjer personer med Downs syndrom och andra funktionsnedsättningar.
                     </p>
-                    <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+                    <p className="text-base text-slate-300 leading-relaxed">
                       Strumpmix föddes ur en enkel idé: att kombinera moderiktiga strumpor med ett viktigt budskap.
                     </p>
                   </>
                 ) : (
                   <>
-                    <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-3 sm:mb-4">
+                    <p className="text-base text-slate-300 leading-relaxed mb-4">
                       Visste du att den 21 mars är det internationella Rocksockdagen? En dag då vi uppmärksammar och stödjer personer med Downs syndrom och andra funktionsnedsättningar över hela världen.
                     </p>
-                    <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-3 sm:mb-4">
+                    <p className="text-base text-slate-300 leading-relaxed mb-4">
                       Strumpmix föddes ur en enkel idé: att kombinera moderiktiga strumpor med ett viktigt budskap. Varje par strumpor du köper bidrar direkt till att stödja organisationer som arbetar för ett mer inkluderande samhälle.
                     </p>
-                    <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-3 sm:mb-4">
-                      Vi tror att alla förtjänar att känna sig inkluderade och sedda. Genom att &apos;rocka&apos; udda och vilda strumpor visar vi att vi står upp för mångfald och acceptans.
+                    <p className="text-base text-slate-300 leading-relaxed mb-4">
+                      Vi tror att alla förtjänar att känna sig inkluderade och sedda. Genom att 'rocka' udda och vilda strumpor visar vi att vi står upp för mångfald och acceptans.
                     </p>
-                    <p className="text-base sm:text-lg text-slate-300 leading-relaxed italic">
+                    <p className="text-base text-slate-300 leading-relaxed italic">
                       &quot;Våra strumpor är mer än bara ett plagg. De är ett statement. En möjlighet att visa ditt stöd och sprida glädje.&quot;
                     </p>
-                    <p className="text-base sm:text-lg text-slate-300 leading-relaxed mt-4">
+                    <p className="text-base text-slate-300 leading-relaxed mt-4">
                       <strong className="text-pink-400">21 mars</strong> – World Down Syndrome Day
                     </p>
                   </>
                 )}
               </div>
               
-              <div className="text-center lg:text-left mt-4 sm:mt-6">
+              <div className="text-center lg:text-left mt-6">
                 <button 
                   onClick={() => setShowFullAbout(!showFullAbout)}
                   className="inline-flex items-center gap-2 text-white hover:text-pink-400 font-semibold transition-colors touch-manipulation py-2"
@@ -1500,15 +1497,15 @@ function MainContent() {
         </div>
       </section>
       
-      {/* Categories - Mobile optimized */}
-      <section className="py-8 sm:py-12 bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between mb-6 sm:mb-8">
+      {/* Categories */}
+      <section className="py-12 lg:py-16 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900">{txt.categories}</h2>
             <select 
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-white border border-slate-200 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 font-medium text-slate-700 text-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 cursor-pointer touch-manipulation"
+              className="bg-white border border-slate-200 rounded-lg px-3 py-2 font-medium text-slate-700 text-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 cursor-pointer touch-manipulation"
             >
               <option value="popular">{txt.popular}</option>
               <option value="newest">{txt.newest}</option>
@@ -1517,35 +1514,33 @@ function MainContent() {
             </select>
           </div>
           
-          {/* Scrollable categories with fade edges */}
-          <div className="relative">
-            <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-3 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible sm:flex-wrap">
-              {categories.map((cat) => (
-                <CategoryCard 
-                  key={cat.id}
-                  category={cat}
-                  isActive={selectedCategory === cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                />
-              ))}
-            </div>
+          {/* Categories grid */}
+          <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-3 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible sm:flex-wrap">
+            {categories.map((cat) => (
+              <CategoryCard 
+                key={cat.id}
+                category={cat}
+                isActive={selectedCategory === cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+              />
+            ))}
           </div>
         </div>
       </section>
       
-      {/* Featured Products - Only 10 */}
-      <section className="py-10 sm:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between mb-8 sm:mb-12">
+      {/* Featured Products */}
+      <section className="py-16 lg:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Utvalda Favoriter</h2>
             <a 
               href="/catalog"
-              className="px-5 py-2.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full font-semibold text-sm hover:opacity-90 transition-opacity touch-manipulation"
+              className="px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold text-sm hover:bg-slate-800 transition-colors touch-manipulation"
             >
               Visa mer
             </a>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5">
             {featuredProducts.map((product) => (
               <ProductCard 
                 key={product.id}
@@ -1560,17 +1555,17 @@ function MainContent() {
         </div>
       </section>
       
-      {/* Return FAQ Section - Mobile optimized */}
-      <section className="py-12 sm:py-16 bg-slate-50">
-        <div className="max-w-3xl mx-auto px-4">
-          <div className="text-center mb-6 sm:mb-8">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 mb-2">
+      {/* Return FAQ Section */}
+      <section className="py-16 lg:py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 mb-3">
               {txt.returnFAQ}
             </h2>
-            <p className="text-base sm:text-lg text-slate-600">{txt.faqTitle}</p>
+            <p className="text-base sm:text-lg text-slate-500">{txt.faqTitle}</p>
           </div>
           
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-lg">
+          <div className="bg-slate-50 rounded-2xl p-6 lg:p-8">
             {returnFAQs.map((faq, i) => (
               <FAQItem 
                 key={i} 
@@ -1600,7 +1595,7 @@ function MainContent() {
       {showComplaintModal && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowComplaintModal(false)} />
-          <div className="relative bg-white rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 w-full max-w-md shadow-2xl">
+          <div className="relative bg-white rounded-t-2xl sm:rounded-2xl p-6 sm:p-8 w-full max-w-md shadow-2xl">
             <button 
               onClick={() => setShowComplaintModal(false)} 
               className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors"
@@ -1610,9 +1605,11 @@ function MainContent() {
             <h3 className="text-xl font-bold text-slate-900 mb-6">Reklamation</h3>
             {complaintSent ? (
               <div className="text-center py-8">
-                <div className="text-5xl mb-4">✅</div>
+                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                </div>
                 <p className="text-lg font-semibold text-slate-900">Tack för din anmälan!</p>
-                <p className="text-slate-600">Vi återkommer inom kort.</p>
+                <p className="text-slate-500">Vi återkommer inom kort.</p>
               </div>
             ) : (
               <form onSubmit={(e) => { 
@@ -1671,18 +1668,18 @@ function MainContent() {
       {/* Newsletter Section */}
       <NewsletterSection txt={txt} />
       
-      {/* Footer - Mobile optimized */}
-      <footer className="bg-slate-900 text-white py-12 sm:py-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-12">
+      {/* Footer */}
+      <footer className="bg-slate-900 text-white py-16 lg:py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-12 mb-12">
             <div className="col-span-2 md:col-span-1">
-              <LogoWhite className="h-8 sm:h-10 mb-4 sm:mb-6" />
-              <p className="text-slate-400 text-sm leading-relaxed mb-4">{txt.footerDesc}</p>
+              <LogoWhite className="h-10 mb-6" />
+              <p className="text-slate-300 text-sm leading-relaxed mb-4">{txt.footerDesc}</p>
             </div>
             
             <div>
-              <h4 className="font-bold mb-4 text-sm sm:text-base">{txt.contact}</h4>
-              <div className="space-y-2 sm:space-y-3 text-slate-400 text-sm">
+              <h4 className="font-bold mb-5 text-sm">{txt.contact}</h4>
+              <div className="space-y-3 text-slate-300 text-sm">
                 <a href={`mailto:${txt.email}`} className="flex items-center gap-2 hover:text-white transition-colors">
                   <Mail className="w-4 h-4" /> {txt.email}
                 </a>
@@ -1693,13 +1690,13 @@ function MainContent() {
             </div>
             
             <div>
-              <h4 className="font-bold mb-4 text-sm sm:text-base">{txt.about}</h4>
-              <p className="text-slate-400 text-sm leading-relaxed">{txt.aboutText}</p>
+              <h4 className="font-bold mb-5 text-sm">{txt.about}</h4>
+              <p className="text-slate-300 text-sm leading-relaxed">{txt.aboutText}</p>
             </div>
             
             <div>
-              <h4 className="font-bold mb-4 text-sm sm:text-base">{txt.legal}</h4>
-              <div className="space-y-2 sm:space-y-3 text-slate-400 text-sm">
+              <h4 className="font-bold mb-5 text-sm">{txt.legal}</h4>
+              <div className="space-y-3 text-slate-300 text-sm">
                 <Link href="/terms" className="block hover:text-white transition-colors">{txt.terms}</Link>
                 <Link href="/privacy" className="block hover:text-white transition-colors">{txt.privacy}</Link>
                 <Link href="/cookies" className="block hover:text-white transition-colors">{txt.cookies}</Link>
@@ -1707,11 +1704,11 @@ function MainContent() {
             </div>
           </div>
           
-          <div className="border-t border-slate-800 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-slate-500 text-sm">{txt.copyright}</p>
+          <div className="border-t border-slate-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-slate-400 text-sm">{txt.copyright}</p>
             <div className="flex items-center gap-2">
-              <Lock className="w-4 h-4 text-slate-500" />
-              <span className="text-sm text-slate-500">Säker & krypterad</span>
+              <Lock className="w-4 h-4 text-slate-400" />
+              <span className="text-sm text-slate-400">Säker & krypterad</span>
             </div>
           </div>
         </div>
