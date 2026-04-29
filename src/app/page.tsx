@@ -309,7 +309,7 @@ const t = {
 }
 
 // Language Switcher
-function LanguageSwitcher({ isDark = false, compact = false }: { isDark?: boolean; compact?: boolean }) {
+function LanguageSwitcher({ isDark = false }: { isDark?: boolean }) {
   const { language, setLanguage } = useLanguage()
   return (
     <div className={`flex items-center rounded-lg p-0.5 ${isDark ? 'bg-white/10 backdrop-blur-md border border-white/20' : 'bg-slate-100'}`}>
