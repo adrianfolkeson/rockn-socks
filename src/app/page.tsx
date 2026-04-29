@@ -1460,7 +1460,7 @@ function MainContent() {
                       Strumpmix föddes ur en enkel idé: att kombinera moderiktiga strumpor med ett viktigt budskap. Varje par strumpor du köper bidrar till att stötta ett mer inkluderande samhälle och sprida glädje.
                     </p>
                     <p className="text-base text-slate-300 leading-relaxed mb-4">
-                      Vi tror att alla förtjänar att känna sig inkluderade och sedda. Genom att 'rocka' udda och vilda strumpor visar vi att vi står upp för mångfald och acceptans.
+                      Vi tror att alla förtjänar att känna sig inkluderade och sedda. Genom att &quot;rocka&quot; udda och vilda strumpor visar vi att vi står upp för mångfald och acceptans.
                     </p>
                     <p className="text-base text-slate-300 leading-relaxed italic">
                       &quot;Våra strumpor är mer än bara ett plagg. De är ett statement. En möjlighet att visa ditt stöd och sprida glädje.&quot;
