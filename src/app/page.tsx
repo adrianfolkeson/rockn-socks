@@ -1434,7 +1434,7 @@ function MainContent() {
                   VI ROCKAR FÖR ALLA
                 </h2>
                 <p className="text-lg text-pink-400 font-medium">
-                  5% av varje köp går till ett mer inkluderande samhälle ❤️
+                  Varje par strumpor du köper bidrar till att stötta ett mer inkluderande samhälle och sprida glädje
                 </p>
               </div>
               
