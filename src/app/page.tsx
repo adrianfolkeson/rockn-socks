@@ -1411,7 +1411,7 @@ function MainContent() {
                 {txt.heroSubtitle}
               </p>
               <p className="text-sm sm:text-base text-pink-600 font-bold mb-6 sm:mb-8">
-                5% av vinsten går till Svenska Downföreningen
+                För varje köp donerar vi 5% till arbetet för ett mer inkluderande samhälle ❤️
               </p>
               <div className="flex flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
                 <a href="/catalog" className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-lg shadow-xl shadow-pink-500/30 hover:shadow-pink-500/50 transition-all duration-300 touch-manipulation">
@@ -1440,7 +1440,7 @@ function MainContent() {
                   VI ROCKAR FÖR ALLA
                 </h2>
                 <p className="text-base sm:text-lg text-pink-400 font-semibold">
-                  5% av vinsten går till Svenska Downföreningen
+                  För varje köp donerar vi 5% till arbetet för ett mer inkluderande samhälle ❤️
                 </p>
               </div>
               
