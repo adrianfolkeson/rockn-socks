@@ -45,14 +45,14 @@ interface Product {
 
 // Categories with icons
 const categories = [
-  { id: 'all', name: 'Alla', icon: '✦' },
-  { id: 'toys', name: 'Leksaker', icon: '✦' },
-  { id: 'animals', name: 'Djur', icon: '✦' },
-  { id: 'cartoons', name: 'Serier', icon: '✦' },
-  { id: 'movies', name: 'Film', icon: '✦' },
-  { id: 'gaming', name: 'Gaming', icon: '✦' },
-  { id: 'sports', name: 'Sport', icon: '✦' },
-  { id: 'nature', name: 'Natur', icon: '✦' },
+  { id: 'all', name: 'Alla', icon: '🎨' },
+  { id: 'toys', name: 'Leksaker', icon: '🧸' },
+  { id: 'animals', name: 'Djur', icon: '🦁' },
+  { id: 'cartoons', name: 'Serier', icon: '📺' },
+  { id: 'movies', name: 'Film', icon: '🎬' },
+  { id: 'gaming', name: 'Gaming', icon: '🎮' },
+  { id: 'sports', name: 'Sport', icon: '⚽' },
+  { id: 'nature', name: 'Natur', icon: '🌿' },
 ]
 
 // Products
@@ -388,17 +388,17 @@ function NewsletterSection({ txt }: { txt: Translations }) {
   }
   
   return (
-    <section className="py-16 lg:py-20 bg-slate-900">
+    <section className="py-16 lg:py-20 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-500">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
         <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
           {txt.newsletter}
         </h2>
-        <p className="text-slate-400 text-base sm:text-lg mb-6">
+        <p className="text-white/90 text-base sm:text-lg mb-6">
           {txt.newsletterText}
         </p>
         {subscribed ? (
-          <div className="bg-slate-800 rounded-xl p-6 inline-block">
-            <p className="text-white font-semibold text-lg">Tack för din prenumeration!</p>
+          <div className="bg-white/20 backdrop-blur rounded-xl p-6 inline-block">
+            <p className="text-white font-bold text-lg">Tack för din prenumeration!</p>
           </div>
         ) : (
           <>
@@ -408,11 +408,11 @@ function NewsletterSection({ txt }: { txt: Translations }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={txt.emailPlaceholder}
-                className="flex-1 min-h-[48px] px-4 py-3 rounded-lg bg-white text-slate-900 text-base focus:ring-2 focus:ring-pink-500 outline-none"
+                className="flex-1 min-h-[48px] px-5 py-3 rounded-lg bg-white text-slate-900 text-base focus:ring-4 focus:ring-white/30 outline-none"
               />
               <button 
                 onClick={handleSubscribe}
-                className="min-h-[48px] bg-pink-500 text-white px-6 py-3 rounded-lg font-semibold text-sm hover:bg-pink-600 transition-colors"
+                className="min-h-[48px] bg-slate-900 text-white px-6 py-3 rounded-lg font-bold text-sm hover:bg-slate-800 transition-colors shadow-lg"
               >
                 {txt.subscribe}
               </button>
@@ -995,13 +995,13 @@ function CategoryCard({ category, isActive, onClick }: { category: typeof catego
   return (
     <button
       onClick={onClick}
-      className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 rounded-lg transition-all duration-300 touch-manipulation whitespace-nowrap ${
+      className={`flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-300 touch-manipulation whitespace-nowrap ${
         isActive 
-          ? 'bg-slate-900 text-white shadow-lg' 
-          : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200 hover:border-slate-300 hover:text-slate-900'
+          ? 'bg-pink-500 text-white shadow-md' 
+          : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200 hover:border-pink-300 hover:text-pink-600'
       }`}
     >
-      <span className={`font-semibold text-sm ${isActive ? 'text-white' : 'text-slate-400'}`}>✦</span>
+      <span>{category.icon}</span>
       <span className="font-medium text-sm">{category.name}</span>
     </button>
   )
